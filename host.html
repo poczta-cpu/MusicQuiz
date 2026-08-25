@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muzyczny Rok — prowadzący</title>
+<link rel="stylesheet" href="css/styl.css">
+</head>
+<body>
+
+<main class="host">
+
+  <!-- ─────────────────────────────── logowanie (dekoracyjne, D7) -->
+  <section id="ekran-logowanie" class="ekran">
+    <h1>Muzyczny Rok</h1>
+    <p class="podtytul" style="color:var(--tekst-cichy)">Ekran prowadzącego</p>
+
+    <form id="form-logowanie" class="karta" autocomplete="off">
+      <div id="blad-logowanie" class="blad ukryte"></div>
+      <label for="login">Login</label>
+      <input type="text" id="login" name="login" autocapitalize="none" autocorrect="off" spellcheck="false">
+      <div style="height:14px"></div>
+      <label for="haslo">Hasło</label>
+      <input type="password" id="haslo" name="haslo">
+      <div style="height:20px"></div>
+      <button type="submit" class="glowny duzy" style="width:100%">Wejdź</button>
+      <p class="podpowiedz">
+        Logowanie jest wyłącznie dekoracyjne — hasło stoi otwartym tekstem w kodzie strony.
+        Chroni przed przypadkowym kliknięciem, nie przed nikim, kto chce zajrzeć.
+      </p>
+    </form>
+  </section>
+
+  <!-- ─────────────────────────────── konfiguracja rozgrywki (4.1) -->
+  <section id="ekran-konfiguracja" class="ekran ukryte">
+    <h1>Ustawienia gry</h1>
+
+    <div id="blad-konfiguracja" class="blad ukryte"></div>
+    <div id="wznow-info" class="info ukryte">
+      <strong>Niedokończona gra.</strong> Poprzednia rozgrywka nie została zakończona.
+      <div style="height:10px"></div>
+      <div class="rzad">
+        <button type="button" id="btn-wznow" class="glowny">Wróć do niej</button>
+        <button type="button" id="btn-porzuc">Zacznij od nowa</button>
+      </div>
+    </div>
+
+    <form id="form-konfiguracja" class="karta" autocomplete="off">
+      <label for="liczba-utworow">Liczba utworów</label>
+      <select id="liczba-utworow"></select>
+
+      <div style="height:18px"></div>
+
+      <div class="rzad">
+        <div>
+          <label for="rok-od">Rok początkowy</label>
+          <input type="number" id="rok-od" min="1975" max="2026" step="1" inputmode="numeric">
+        </div>
+        <div>
+          <label for="rok-do">Rok końcowy</label>
+          <input type="number" id="rok-do" min="1975" max="2026" step="1" inputmode="numeric">
+        </div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <label for="repertuar">Repertuar</label>
+      <select id="repertuar">
+        <option value="swiat">Świat</option>
+        <option value="mix" selected>Mix</option>
+        <option value="pl">Polska</option>
+      </select>
+
+      <div style="height:20px"></div>
+      <div id="licznik-rocznikow" class="info" aria-live="polite"></div>
+
+      <button type="submit" id="btn-losuj" class="glowny duzy" style="width:100%">Losuj utwory i otwórz pokój</button>
+    </form>
+  </section>
+
+  <!-- ─────────────────────────────── zaproszenie graczy (4.3) -->
+  <section id="ekran-zaproszenie" class="ekran ukryte">
+    <h1>Dołączcie do gry</h1>
+
+    <div class="karta">
+      <div class="zaproszenie">
+        <div class="pudlo-qr"><div id="qr-pokoj"></div></div>
+        <div>
+          <p style="margin-bottom:6px;color:var(--tekst-cichy)">Kod pokoju do przepisania:</p>
+          <div class="kod-duzy" id="kod-pokoju"></div>
+          <div style="height:18px"></div>
+          <p style="margin-bottom:6px;color:var(--tekst-cichy)">Albo wpiszcie w przeglądarce:</p>
+          <div class="adres-gry" id="adres-gry"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju.
+      Ja też gram — mój telefon dołącza tak samo jak wasze.
+    </div>
+
+    <div class="rzad">
+      <button type="button" id="btn-wroc-konfiguracja">Zmień ustawienia</button>
+      <button type="button" id="btn-zacznij" class="glowny duzy">Wszyscy gotowi — zaczynamy</button>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── rozgrywka (7.1) -->
+  <!-- Uwaga: ta sekcja NIE MOŻE zawierać tytułu, wykonawcy ani roku.        -->
+  <!-- Prowadzący gra na równi z resztą, więc nie może niczego tu zobaczyć.  -->
+  <section id="ekran-gra" class="ekran ukryte">
+    <div class="naglowek-gry">
+      <div class="licznik-utworow">
+        <span id="numer-utworu">1</span><span class="z"> / <span id="wszystkich-utworow">10</span></span>
+      </div>
+      <div class="licznik-odtworzen">
+        Odtworzenia: <strong id="licznik-odtworzen">0 / 2</strong>
+      </div>
+    </div>
+
+    <div class="pasek-postepu"><i id="pasek" style="width:0%"></i></div>
+
+    <div id="blad-gra" class="blad ukryte"></div>
+
+    <div class="sterowanie">
+      <button type="button" id="btn-odtworz" class="glowny duzy">Odtwórz</button>
+      <button type="button" id="btn-nastepny" class="duzy">Następny utwór</button>
+    </div>
+
+    <div style="height:36px"></div>
+    <div class="rzad">
+      <button type="button" id="btn-zakoncz">Zakończ grę</button>
+    </div>
+
+    <div class="info" style="margin-top:28px">
+      Powiedzcie na głos, gdy wszyscy zatwierdzą. Nie widzę waszych telefonów —
+      pilnujcie, żeby numer utworu na telefonie zgadzał się z tym na ekranie.
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── koniec gry (4.5) -->
+  <section id="ekran-koniec" class="ekran ukryte">
+    <h1>Koniec gry</h1>
+
+    <div class="karta">
+      <h2 style="font-size:1.2rem">Klucz odpowiedzi</h2>
+      <p style="color:var(--tekst-cichy)">Zeskanujcie telefonami, żeby policzyć wyniki.</p>
+      <div class="zaproszenie">
+        <div class="pudlo-qr"><div id="qr-klucz"></div></div>
+        <div>
+          <p style="margin-bottom:6px;color:var(--tekst-cichy)">Gdyby aparat odmówił — kod do wklejenia:</p>
+          <textarea id="kod-klucza" class="kod-tekstowy" readonly rows="5"
+            style="width:100%;padding:10px;border-radius:12px;border:2px solid var(--obwodka);background:var(--tlo-karta-jasniej);color:var(--tekst);font-size:.85rem;word-break:break-all"></textarea>
+          <div style="height:10px"></div>
+          <button type="button" id="btn-kopiuj-klucz">Skopiuj kod</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="karta">
+      <h2 style="font-size:1.2rem">Co leciało</h2>
+      <div class="przewijana">
+        <table class="tabela-koncowa">
+          <thead>
+            <tr><th>#</th><th>Rok</th><th>Utwór</th><th>Wykonawca</th></tr>
+          </thead>
+          <tbody id="tabela-utworow"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="rzad">
+      <button type="button" id="btn-nowa-gra" class="glowny">Nowa gra</button>
+    </div>
+  </section>
+
+  <p class="stopka">
+    Muzyczny Rok · gra działa bez serwera i bez kont ·
+    <a href="index.html">strona główna</a>
+  </p>
+</main>
+
+<script src="vendor/qrcode.js"></script>
+<script type="module" src="js/host.js"></script>
+</body>
+</html>

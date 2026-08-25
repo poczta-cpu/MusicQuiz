@@ -1,0 +1,12 @@
+{
+  "name": "muzyczny-rok",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Impreza muzyczna: przypisz utwor do roku wydania. Statyczna strona, bez zaleznosci w runtime.",
+  "scripts": {
+    "enrich": "node scripts/enrich.mjs",
+    "test": "node tests/test.mjs",
+    "serve": "node scripts/serwer.mjs"
+  }
+}
