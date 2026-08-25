@@ -160,6 +160,52 @@ button.duzy { font-size: 1.3rem; min-height: 64px; padding: 16px 32px; }
 .host .sterowanie { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
 .host .sterowanie button { flex: 1 1 200px; max-width: 320px; }
 
+/* przełączniki podglądu w konfiguracji */
+.przelaczniki {
+  border: 1px solid var(--obwodka);
+  border-radius: var(--promien);
+  padding: 14px 16px 16px;
+  margin: 0;
+}
+.przelaczniki legend {
+  padding: 0 8px;
+  font-size: .9rem;
+  color: var(--tekst-cichy);
+}
+.przelacznik {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--cel-dotyku);
+  margin: 0;
+  color: var(--tekst);
+  font-size: 1.02rem;
+  cursor: pointer;
+}
+.przelacznik input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  accent-color: var(--akcent);
+  cursor: pointer;
+}
+
+/* ujawnienie tytułu/wykonawcy na ekranie gry — puste, dopóki podgląd wyłączony */
+.ujawnienie {
+  margin: 20px auto 0;
+  padding: 16px 20px;
+  max-width: 720px;
+  text-align: center;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--akcent);
+  background: rgba(255, 194, 61, .10);
+  border: 2px solid var(--akcent-ciemny);
+  border-radius: var(--promien);
+  overflow-wrap: anywhere;
+}
+
 .pasek-postepu {
   height: 6px;
   background: var(--tlo-karta-jasniej);

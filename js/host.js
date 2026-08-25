@@ -1,12 +1,23 @@
 /**
  * host.js — ekran prowadzącego (M2).
  *
- * Prowadzący gra na równi z innymi (sekcja 1), więc ten ekran nie może pokazać
- * ani tytułu, ani wykonawcy, ani roku aż do końca gry. Klucz odpowiedzi żyje
- * w pamięci JS i w localStorage, ale nie trafia do DOM przed ekranem końcowym.
+ * Domyślnie prowadzący gra na równi z innymi (sekcja 1), więc ten ekran nie
+ * pokazuje ani tytułu, ani wykonawcy, ani roku aż do końca gry — metadane nie
+ * trafiają nawet do DOM.
+ *
+ * Wyjątkiem jest podgląd włączany świadomie w konfiguracji: dwa przełączniki
+ * ujawniają tytuł i/lub wykonawcę po kliknięciu „Odtwórz". Prowadzący przestaje
+ * wtedy być graczem i jest o tym ostrzegany przy włączaniu. Rok nie jest
+ * pokazywany nawet wtedy — to odpowiedź, nie podpowiedź.
+ *
+ * Klucz odpowiedzi żyje w pamięci JS i w localStorage, ale nie trafia do DOM
+ * przed ekranem końcowym niezależnie od ustawień podglądu.
  */
 
-import { wczytajBaze, sprawdzKonfiguracje, dostepneRoczniki, LICZBY_UTWOROW, REPERTUARY } from './dane.js';
+import {
+  wczytajBaze, sprawdzKonfiguracje, dostepneRoczniki, opisUtworu,
+  LICZBY_UTWOROW, REPERTUARY,
+} from './dane.js';
 import { przygotujGre } from './losowanie.js';
 import { publishRoom, publishKey } from './transport.js';
 import { Odtwarzacz, LIMIT_ODTWORZEN } from './odtwarzacz.js';
@@ -95,7 +106,19 @@ function czytajKonfiguracje() {
     od: Number($('rok-od').value),
     doRoku: Number($('rok-do').value),
     repertuar: $('repertuar').value,
+    pokazTytul: $('pokaz-tytul').checked,
+    pokazWykonawce: $('pokaz-wykonawce').checked,
   };
+}
+
+/** Ostrzeżenie widoczne tylko wtedy, gdy podgląd faktycznie wyklucza hosta z gry. */
+function odswiezOstrzezeniePodgladu() {
+  const podglad = $('pokaz-tytul').checked || $('pokaz-wykonawce').checked;
+  $('ostrzezenie-podgladu').classList.toggle('ukryte', !podglad);
+}
+
+for (const id of ['pokaz-tytul', 'pokaz-wykonawce']) {
+  $(id).addEventListener('change', odswiezOstrzezeniePodgladu);
 }
 
 /** Licznik „dostępne roczniki: 34" — host ma na żywo widzieć, co robi (4.1). */
@@ -179,6 +202,17 @@ function pokazZaproszenie() {
 
   $('kod-pokoju').textContent = kod;
   $('adres-gry').textContent = url.split('#')[0];
+
+  // Przy włączonym podglądzie prowadzący nie jest już jednym z graczy —
+  // ekran zaproszenia nie może twierdzić inaczej.
+  const k = stan.konfiguracja || {};
+  const podglad = k.pokazTytul || k.pokazWykonawce;
+  $('info-zaproszenie').textContent = podglad
+    ? 'Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju. '
+      + 'Ja tylko prowadzę — widzę tytuły, więc nie gram razem z wami.'
+    : 'Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju. '
+      + 'Ja też gram — mój telefon dołącza tak samo jak wasze.';
+
   pokazEkran('zaproszenie');
 }
 
@@ -212,7 +246,35 @@ function zaladujBiezacy() {
   // więc przywracamy go ze stanu.
   odtwarzacz.odtworzenia = stan.odtworzeniaBiezacego || 0;
   pokazBlad($('blad-gra'), '');
+  odswiezUjawnienie();
   odswiezEkranGry();
+}
+
+/**
+ * Wypełnia blok z tytułem/wykonawcą — ale wyłącznie po pierwszym odtworzeniu
+ * i tylko przy włączonym podglądzie. Przy domyślnych ustawieniach opisUtworu()
+ * zwraca null i ta funkcja nie dotyka treści elementu, więc do DOM-u nie trafia
+ * ani tytuł, ani wykonawca (7.1).
+ */
+function odswiezUjawnienie() {
+  const el = $('ujawnienie');
+  const opcje = stan.konfiguracja || {};
+  const juzGrano = (stan.odtworzeniaBiezacego || 0) > 0;
+
+  if (!juzGrano) {
+    el.textContent = '';
+    el.classList.add('ukryte');
+    return;
+  }
+
+  const opis = opisUtworu(odtworzUtworZBazy(stan.kolejnosc[stan.biezacy]), opcje);
+  if (!opis) {
+    el.textContent = '';
+    el.classList.add('ukryte');
+    return;
+  }
+  el.textContent = opis;
+  el.classList.remove('ukryte');
 }
 
 function odswiezEkranGry() {
@@ -239,6 +301,7 @@ $('btn-odtworz').addEventListener('click', async () => {
     await odtwarzacz.odtworz();
     stan.odtworzeniaBiezacego = odtwarzacz.odtworzenia;
     zapiszStan();
+    odswiezUjawnienie();       // tytuł/wykonawca dopiero teraz, nigdy przed kliknięciem
   } catch (e) {
     pokazBlad($('blad-gra'), e.message);
   }

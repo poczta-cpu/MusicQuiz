@@ -32,14 +32,29 @@ Potem, dla każdego utworu:
 Po ostatnim utworze prowadzący pokazuje kod QR z kluczem odpowiedzi. Telefony liczą
 wyniki same i pokazują je razem z tytułami. **Wyniki odczytujecie na głos.**
 
-**Prowadzący gra na równi z resztą.** Jego ekran nie pokazuje ani tytułu, ani wykonawcy,
-ani roku — odpala fragment z laptopa i odpowiada na własnym telefonie jak każdy.
+**Domyślnie prowadzący gra na równi z resztą.** Jego ekran nie pokazuje ani tytułu,
+ani wykonawcy, ani roku — odpala fragment z laptopa i odpowiada na własnym telefonie
+jak każdy. Można to zmienić — patrz „Tryb konferansjera” niżej.
 
 ### Przy remisie
 
 Telefon zapisuje godzinę zegarową w momencie zatwierdzenia ostatniego utworu.
 Przy tej samej liczbie punktów wygrywa wcześniejsza godzina. Zegary telefonów są
 synchronizowane przez sieć, więc porównanie co do sekundy jest wiarygodne.
+
+### Tryb konferansjera — podgląd tytułu i wykonawcy
+
+W ustawieniach gry są dwa przełączniki: **Pokazuj tytuł utworu** i **Pokazuj wykonawcę**.
+Domyślnie oba są wyłączone. Po włączeniu wybrane dane pojawiają się na ekranie
+prowadzącego **po kliknięciu `Odtwórz`** — nigdy wcześniej.
+
+**Rok nie jest pokazywany nawet wtedy.** To odpowiedź, nie podpowiedź.
+
+Włączenie któregokolwiek przełącznika oznacza, że **prowadzący przestaje być graczem** —
+widzi utwór, zanim reszta zdąży wybrać rocznik. Gra ostrzega o tym przy włączaniu,
+a ekran zaproszenia przestaje twierdzić, że prowadzący gra razem z wszystkimi.
+Przy wyłączonych przełącznikach zachowanie jest dokładnie takie jak wcześniej:
+żadne metadane nie trafiają nawet do kodu strony.
 
 ### Można pominąć utwór
 
@@ -78,10 +93,12 @@ ograniczenia, które są **wybrane**, nie przeoczone:
    nie da się wybrać.
 5. **Adresy fragmentów mogą z czasem wygasnąć.** Wtedy: `npm run enrich -- --refresh`.
 6. **Hasło prowadzącego jest jawne** — patrz wyżej.
-7. **Prowadzący ma klucz odpowiedzi w przeglądarce** od początku gry. Nie jest renderowany
+7. **Podgląd tytułu i wykonawcy wyklucza prowadzącego z gry.** To świadomy wybór
+   w ustawieniach, domyślnie wyłączony — patrz „Tryb konferansjera” wyżej.
+8. **Prowadzący ma klucz odpowiedzi w przeglądarce** od początku gry. Nie jest renderowany
    na ekranie, ale zdeterminowany prowadzący znajdzie go w konsoli. Klucz trafia też do
    `localStorage`, żeby odświeżenie strony na laptopie nie skasowało rozgrywki w połowie.
-8. **Baza pokrywa lata 1980–2019.** Pola roku przyjmują 1975–2026 zgodnie ze specyfikacją,
+9. **Baza pokrywa lata 1980–2019.** Pola roku przyjmują 1975–2026 zgodnie ze specyfikacją,
    ale poza tym zakresem nie ma utworów. Licznik „dostępne roczniki" pokazuje to na żywo,
    a walidacja odrzuci taki wybór z konkretnym komunikatem.
 
@@ -109,9 +126,9 @@ pod które wejdziesz telefonem.
 npm test
 ```
 
-47 testów logiki: kodowanie kodów, walidacja konfiguracji, losowanie, reguły układanki
-gracza, punktacja i pełny obieg prowadzący → gracz. Nie obejmują DOM ani kamery — to idzie
-ręcznie.
+55 testów logiki: kodowanie kodów, walidacja konfiguracji, losowanie, reguły układanki
+gracza, podgląd u prowadzącego, punktacja i pełny obieg prowadzący → gracz.
+Nie obejmują DOM ani kamery — to idzie ręcznie.
 
 ---
 

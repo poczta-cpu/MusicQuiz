@@ -71,6 +71,32 @@
         <option value="pl">Polska</option>
       </select>
 
+      <div style="height:22px"></div>
+
+      <fieldset class="przelaczniki">
+        <legend>Podgląd na ekranie prowadzącego</legend>
+
+        <label class="przelacznik">
+          <input type="checkbox" id="pokaz-tytul">
+          <span>Pokazuj tytuł utworu</span>
+        </label>
+
+        <label class="przelacznik">
+          <input type="checkbox" id="pokaz-wykonawce">
+          <span>Pokazuj wykonawcę</span>
+        </label>
+
+        <p class="podpowiedz">
+          Dane pojawiają się po kliknięciu <strong>Odtwórz</strong>. Rok nie jest pokazywany nigdy.
+        </p>
+
+        <div id="ostrzezenie-podgladu" class="blad ukryte" style="margin:12px 0 0">
+          Przy włączonym podglądzie <strong>przestajesz grać na równi z resztą</strong> —
+          zobaczysz odpowiedź, zanim inni zdążą wybrać rocznik. Włącz to tylko, jeśli
+          prowadzisz grę, a sam nie bierzesz w niej udziału.
+        </div>
+      </fieldset>
+
       <div style="height:20px"></div>
       <div id="licznik-rocznikow" class="info" aria-live="polite"></div>
 
@@ -95,10 +121,7 @@
       </div>
     </div>
 
-    <div class="info">
-      Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju.
-      Ja też gram — mój telefon dołącza tak samo jak wasze.
-    </div>
+    <div class="info" id="info-zaproszenie"></div>
 
     <div class="rzad">
       <button type="button" id="btn-wroc-konfiguracja">Zmień ustawienia</button>
@@ -107,8 +130,10 @@
   </section>
 
   <!-- ─────────────────────────────── rozgrywka (7.1) -->
-  <!-- Uwaga: ta sekcja NIE MOŻE zawierać tytułu, wykonawcy ani roku.        -->
-  <!-- Prowadzący gra na równi z resztą, więc nie może niczego tu zobaczyć.  -->
+  <!-- Uwaga: rok NIE MOŻE pojawić się w tej sekcji nigdy — to odpowiedź.       -->
+  <!-- Tytuł i wykonawca trafiają tu wyłącznie przez #ujawnienie i tylko wtedy, -->
+  <!-- gdy prowadzący sam włączył podgląd i kliknął Odtwórz. Przy domyślnych    -->
+  <!-- ustawieniach sekcja nie zawiera żadnych metadanych, bo prowadzący gra.   -->
   <section id="ekran-gra" class="ekran ukryte">
     <div class="naglowek-gry">
       <div class="licznik-utworow">
@@ -120,6 +145,11 @@
     </div>
 
     <div class="pasek-postepu"><i id="pasek" style="width:0%"></i></div>
+
+    <!-- Ujawnienie tytułu/wykonawcy. Pozostaje PUSTE, dopóki prowadzący nie
+         włączy podglądu w konfiguracji i nie kliknie Odtwórz — przy domyślnych
+         ustawieniach żadne metadane nie trafiają tu do DOM (7.1). -->
+    <div id="ujawnienie" class="ujawnienie ukryte" aria-live="polite"></div>
 
     <div id="blad-gra" class="blad ukryte"></div>
 

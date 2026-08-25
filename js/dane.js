@@ -18,6 +18,24 @@ export const REPERTUARY = {
 
 export const LICZBY_UTWOROW = [10, 15, 20, 25, 30, 35, 40];
 
+/**
+ * Podpis utworu dla ekranu prowadzącego — używany tylko wtedy, gdy prowadzący
+ * świadomie włączył podgląd w konfiguracji.
+ *
+ * Zwraca `null`, gdy oba przełączniki są wyłączone. To celowe: wywołujący ma
+ * wtedy nie dotykać DOM-u w ogóle, żeby przy domyślnych ustawieniach żadne
+ * metadane nie trafiły do dokumentu (7.1).
+ *
+ * Rok NIE jest pokazywany nigdy — to jest odpowiedź, a nie podpowiedź.
+ */
+export function opisUtworu(utwor, { pokazTytul = false, pokazWykonawce = false } = {}) {
+  if (!utwor || (!pokazTytul && !pokazWykonawce)) return null;
+  const czesci = [];
+  if (pokazTytul) czesci.push(utwor.tytul);
+  if (pokazWykonawce) czesci.push(utwor.wykonawca);
+  return czesci.filter(Boolean).join(' — ') || null;
+}
+
 let bazaWPamieci = null;
 
 /** Wczytuje data/songs.json. Wynik jest zapamiętywany na czas życia strony. */

@@ -14,7 +14,7 @@ import {
   zakodujKodPokoju, odkodujKodPokoju, zakodujKlucz, odkodujKlucz,
   odciskBazy, oczysc, ROK_MIN, ROK_MAX,
 } from '../js/kody.js';
-import { ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj } from '../js/dane.js';
+import { ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj, opisUtworu } from '../js/dane.js';
 import { przygotujGre, wylosujRoczniki, liczbaDekad, potasuj } from '../js/losowanie.js';
 import { policzWynik } from '../js/punktacja.js';
 import { Arkusz } from '../js/arkusz.js';
@@ -260,6 +260,56 @@ test('potasuj zachowuje wszystkie elementy', () => {
   const wejscie = [1, 2, 3, 4, 5, 6, 7, 8];
   const wynik = potasuj(wejscie, rngZiarno(5));
   assert.deepEqual([...wynik].sort((a, b) => a - b), wejscie);
+});
+
+// ---------------------------------------------------------------- podglad u hosta
+
+grupa('Podgląd tytułu i wykonawcy u prowadzącego (7.1)');
+
+const UTWOR = { rok: 1985, tytul: 'Take On Me', wykonawca: 'a-ha', tag: 'swiat' };
+
+test('domyślnie nie zwraca niczego — host nie może zobaczyć metadanych', () => {
+  assert.equal(opisUtworu(UTWOR), null);
+  assert.equal(opisUtworu(UTWOR, {}), null);
+  assert.equal(opisUtworu(UTWOR, { pokazTytul: false, pokazWykonawce: false }), null);
+});
+
+test('sam tytuł', () => {
+  assert.equal(opisUtworu(UTWOR, { pokazTytul: true }), 'Take On Me');
+});
+
+test('sam wykonawca', () => {
+  assert.equal(opisUtworu(UTWOR, { pokazWykonawce: true }), 'a-ha');
+});
+
+test('oba przełączniki', () => {
+  assert.equal(opisUtworu(UTWOR, { pokazTytul: true, pokazWykonawce: true }), 'Take On Me — a-ha');
+});
+
+test('rok nie pojawia się nigdy — to odpowiedź, nie podpowiedź', () => {
+  for (const opcje of [{ pokazTytul: true }, { pokazWykonawce: true }, { pokazTytul: true, pokazWykonawce: true }]) {
+    const opis = opisUtworu(UTWOR, opcje);
+    assert.ok(!opis.includes('1985'), `rok wyciekł w opisie: ${opis}`);
+  }
+});
+
+test('brak utworu nie wywraca funkcji', () => {
+  assert.equal(opisUtworu(null, { pokazTytul: true }), null);
+  assert.equal(opisUtworu(undefined, { pokazTytul: true, pokazWykonawce: true }), null);
+});
+
+test('utwór bez wykonawcy nie zostawia wiszącego myślnika', () => {
+  const bezWykonawcy = { rok: 1990, tytul: 'Bez nazwiska', wykonawca: '', tag: 'pl' };
+  assert.equal(opisUtworu(bezWykonawcy, { pokazTytul: true, pokazWykonawce: true }), 'Bez nazwiska');
+});
+
+test('podgląd nie wpływa na losowanie ani walidację', () => {
+  const zPodgladem = { od: ROK_MIN, doRoku: ROK_MAX, repertuar: 'mix', liczbaUtworow: 10, pokazTytul: true, pokazWykonawce: true };
+  const bez = { od: ROK_MIN, doRoku: ROK_MAX, repertuar: 'mix', liczbaUtworow: 10 };
+  assert.equal(sprawdzKonfiguracje(bazaPelna.songs, zPodgladem).ok, true);
+  const a = przygotujGre(bazaPelna, zPodgladem, rngZiarno(21));
+  const b = przygotujGre(bazaPelna, bez, rngZiarno(21));
+  assert.deepEqual(a.lata, b.lata, 'te same ziarna muszą dać tę samą grę');
 });
 
 // ---------------------------------------------------------------- arkusz gracza
