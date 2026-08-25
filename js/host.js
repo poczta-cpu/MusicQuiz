@@ -104,8 +104,15 @@ function odswiezLicznikRocznikow() {
   const k = czytajKonfiguracje();
   const el = $('licznik-rocznikow');
 
-  if (!Number.isInteger(k.od) || !Number.isInteger(k.doRoku) || k.doRoku < k.od) {
-    el.textContent = 'Podaj poprawny zakres lat.';
+  // Walidacja idzie zawsze i jako pierwsza — od niej zależy stan przycisku.
+  // Wcześniejsze wyjście przy złym zakresie zostawiało przycisk aktywny.
+  const kontrola = sprawdzKonfiguracje(baza.songs, k);
+  $('btn-losuj').disabled = !kontrola.ok;
+  pokazBlad($('blad-konfiguracja'), kontrola.ok ? '' : kontrola.komunikat);
+
+  const zakresSensowny = Number.isInteger(k.od) && Number.isInteger(k.doRoku) && k.doRoku >= k.od;
+  if (!zakresSensowny) {
+    el.innerHTML = 'Dostępne roczniki: <strong>—</strong>';
     return;
   }
 
@@ -113,10 +120,6 @@ function odswiezLicznikRocznikow() {
   const etykieta = REPERTUARY[k.repertuar].etykieta;
   el.innerHTML = `Dostępne roczniki: <strong>${roczniki.length}</strong> `
     + `<span style="color:var(--tekst-cichy)">(${etykieta}, ${k.od}–${k.doRoku}; wybrano ${k.liczbaUtworow} utworów)</span>`;
-
-  const kontrola = sprawdzKonfiguracje(baza.songs, k);
-  $('btn-losuj').disabled = !kontrola.ok;
-  pokazBlad($('blad-konfiguracja'), kontrola.ok ? '' : kontrola.komunikat);
 }
 
 for (const id of ['liczba-utworow', 'rok-od', 'rok-do', 'repertuar']) {

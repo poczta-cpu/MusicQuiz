@@ -181,9 +181,10 @@ function pokazEkranKlucza() {
   $('btn-skanuj').classList.toggle('ukryte', !obslugujeSkanowanie());
   pokazEkran('klucz');
 
-  // Jeśli klucz był już raz wczytany, od razu pokazujemy wynik.
+  // Jeśli klucz był już raz wczytany, od razu pokazujemy wynik. Błąd musi być
+  // widoczny — po przeładowaniu strony gracz nie ma jak zgadnąć, co poszło nie tak.
   if (stan.kodKlucza) {
-    policzIPokaz(stan.kodKlucza).catch(() => { /* zostajemy na ekranie klucza */ });
+    policzIPokaz(stan.kodKlucza).catch((e) => pokazBlad($('blad-klucz'), e.message));
   }
 }
 
@@ -305,6 +306,8 @@ function pokazWynik(wynik) {
     wiersz.append(numer, srodek, lata);
     kontener.appendChild(wiersz);
   }
+
+  pokazEkran('wynik');
 }
 
 $('btn-nowa-gra').addEventListener('click', () => {

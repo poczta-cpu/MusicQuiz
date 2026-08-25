@@ -9,9 +9,11 @@
 import { ROK_MIN, ROK_MAX } from './kody.js';
 
 export const REPERTUARY = {
-  swiat: { etykieta: 'Świat', tagi: ['swiat'] },
-  mix: { etykieta: 'Mix', tagi: ['swiat', 'pl'] },
-  pl: { etykieta: 'Polska', tagi: ['pl'] },
+  // `opis` to forma do wstawienia w zdanie „dla repertuaru ..." — sama etykieta
+  // z listy rozwijanej brzmiałaby w komunikacie o błędzie nienaturalnie.
+  swiat: { etykieta: 'Świat', opis: 'światowego', tagi: ['swiat'] },
+  mix: { etykieta: 'Mix', opis: 'mieszanego', tagi: ['swiat', 'pl'] },
+  pl: { etykieta: 'Polska', opis: 'polskiego', tagi: ['pl'] },
 };
 
 export const LICZBY_UTWOROW = [10, 15, 20, 25, 30, 35, 40];
@@ -94,12 +96,12 @@ export function sprawdzKonfiguracje(songs, { od, doRoku, repertuar, liczbaUtworo
   }
 
   const roczniki = dostepneRoczniki(songs, { od, doRoku, repertuar });
-  const nazwa = (REPERTUARY[repertuar] || REPERTUARY.mix).etykieta.toLowerCase();
+  const nazwa = (REPERTUARY[repertuar] || REPERTUARY.mix).opis;
 
   if (roczniki.length === 0) {
     return {
       ok: false,
-      komunikat: `Dla repertuaru „${nazwa}" w latach ${od}–${doRoku} nie mam ani jednego utworu. Poszerz zakres lat albo zmień repertuar.`,
+      komunikat: `Dla repertuaru ${nazwa} w latach ${od}–${doRoku} nie mam ani jednego utworu. Poszerz zakres lat albo zmień repertuar.`,
       roczniki,
     };
   }
@@ -113,7 +115,7 @@ export function sprawdzKonfiguracje(songs, { od, doRoku, repertuar, liczbaUtworo
       : `Gra wymaga co najmniej ${LICZBY_UTWOROW[0]} roczników. Poszerz zakres lat albo zmień repertuar.`;
     return {
       ok: false,
-      komunikat: `Dla repertuaru „${nazwa}" w latach ${od}–${doRoku} mam utwory z ${roczniki.length} roczników. ${wyjscie}`,
+      komunikat: `Dla repertuaru ${nazwa} w latach ${od}–${doRoku} mam utwory z ${roczniki.length} roczników. ${wyjscie}`,
       roczniki,
     };
   }
