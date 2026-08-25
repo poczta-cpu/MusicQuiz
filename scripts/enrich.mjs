@@ -39,7 +39,7 @@ const ZAKRES_DO = 2026;
 // ---------------------------------------------------------------- argumenty
 
 const HELP = [
-  'Muzyczny Rok — wzbogacanie bazy utworów',
+  'Kalendarz muzyczny — wzbogacanie bazy utworów',
   '',
   '  node scripts/enrich.mjs [--refresh] [--verify-years] [--limit N] [--concurrency N]',
   '',

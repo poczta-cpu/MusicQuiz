@@ -57,7 +57,7 @@ const serwer = createServer(async (zadanie, odpowiedz) => {
 });
 
 serwer.listen(PORT, () => {
-  console.log(`\nMuzyczny Rok — serwer testowy\n`);
+  console.log(`\nKalendarz muzyczny — serwer testowy\n`);
   console.log(`  laptop:  http://localhost:${PORT}/`);
   for (const [nazwa, adresy] of Object.entries(networkInterfaces())) {
     for (const a of adresy || []) {

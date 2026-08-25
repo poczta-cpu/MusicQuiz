@@ -1,4 +1,4 @@
-# Muzyczny Rok
+# Kalendarz muzyczny
 
 Impreza w jednym pokoju. Prowadzący puszcza z głośnika 30-sekundowe fragmenty utworów,
 gracze na swoich telefonach przypisują każdy utwór do roku wydania.
