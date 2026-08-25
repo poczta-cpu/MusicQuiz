@@ -15,8 +15,8 @@
  */
 
 import {
-  wczytajBaze, sprawdzKonfiguracje, dostepneRoczniki, opisUtworu,
-  LICZBY_UTWOROW, REPERTUARY,
+  wczytajBaze, sprawdzKonfiguracje, dostepneRoczniki, opisUtworu, odmienUtwory,
+  LICZBY_UTWOROW, LICZBY_TESTOWE, REPERTUARY,
 } from './dane.js';
 import { przygotujGre } from './losowanie.js';
 import { publishRoom, publishKey } from './transport.js';
@@ -132,7 +132,7 @@ function odswiezLicznikRocznikow() {
   const roczniki = dostepneRoczniki(baza.songs, k);
   const etykieta = REPERTUARY[k.repertuar].etykieta;
   el.innerHTML = `Dostępne roczniki: <strong>${roczniki.length}</strong> `
-    + `<span style="color:var(--tekst-cichy)">(${etykieta}, ${k.od}–${k.doRoku}; wybrano ${k.liczbaUtworow} utworów)</span>`;
+    + `<span style="color:var(--tekst-cichy)">(${etykieta}, ${k.od}–${k.doRoku}; wybrano ${odmienUtwory(k.liczbaUtworow)})</span>`;
 }
 
 for (const id of ['liczba-utworow', 'rok-od', 'rok-do', 'repertuar']) {
@@ -370,9 +370,21 @@ async function start() {
   for (const n of LICZBY_UTWOROW) {
     const opt = document.createElement('option');
     opt.value = String(n);
-    opt.textContent = `${n} utworów`;
+    opt.textContent = odmienUtwory(n);
     wybor.appendChild(opt);
   }
+
+  // Krótkie rozgrywki na samym dole i wyraźnie opisane — służą do sprawdzenia
+  // gry na żywo, nie do grania.
+  const grupaTestowa = document.createElement('optgroup');
+  grupaTestowa.label = 'Do testów — krótka rozgrywka';
+  for (const n of LICZBY_TESTOWE) {
+    const opt = document.createElement('option');
+    opt.value = String(n);
+    opt.textContent = `${odmienUtwory(n)} (test)`;
+    grupaTestowa.appendChild(opt);
+  }
+  wybor.appendChild(grupaTestowa);
   $('rok-od').value = ROK_MIN;
   $('rok-do').value = ROK_MAX;
 

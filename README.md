@@ -41,6 +41,15 @@ Telefon zapisuje godzinę zegarową w momencie zatwierdzenia ostatniego utworu.
 Przy tej samej liczbie punktów wygrywa wcześniejsza godzina. Zegary telefonów są
 synchronizowane przez sieć, więc porównanie co do sekundy jest wiarygodne.
 
+### Krótka rozgrywka do testów
+
+Na dole listy „Liczba utworów" jest grupa **Do testów — krótka rozgrywka** z opcjami
+**3** i **5 utworów**. Służą do sprawdzenia gry od początku do końca w dwie minuty,
+zamiast rozgrywać pełny kwadrans. Przydają się też, gdy baza pokrywa mało roczników —
+właściwa gra wymaga co najmniej dziesięciu.
+
+Do grania wybieraj wartości z góry listy: 10–40 co 5.
+
 ### Łatwiejszy wariant — tytuł i wykonawca na ekranie
 
 W ustawieniach gry są dwa przełączniki: **Pokazuj tytuł utworu** i **Pokazuj wykonawcę**.
@@ -122,7 +131,7 @@ pod które wejdziesz telefonem.
 npm test
 ```
 
-55 testów logiki: kodowanie kodów, walidacja konfiguracji, losowanie, reguły układanki
+57 testów logiki: kodowanie kodów, walidacja konfiguracji, losowanie, reguły układanki
 gracza, podgląd u prowadzącego, punktacja i pełny obieg prowadzący → gracz.
 Nie obejmują DOM ani kamery — to idzie ręcznie.
 

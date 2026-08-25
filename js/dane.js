@@ -16,7 +16,26 @@ export const REPERTUARY = {
   pl: { etykieta: 'Polska', opis: 'polskiego', tagi: ['pl'] },
 };
 
+/** Właściwe długości rozgrywki (4.1): 10–40, krok 5. */
 export const LICZBY_UTWOROW = [10, 15, 20, 25, 30, 35, 40];
+
+/**
+ * Krótkie rozgrywki do sprawdzenia gry na żywo — pełna partia to kwadrans,
+ * a przy ubogiej bazie (mało roczników) w ogóle nie da się jej uruchomić.
+ * Oznaczone w interfejsie jako testowe, żeby nikt nie wybrał ich przez pomyłkę.
+ */
+export const LICZBY_TESTOWE = [3, 5];
+
+/** Wszystkie dopuszczalne długości, rosnąco — używane przy podpowiadaniu maksimum. */
+export const WSZYSTKIE_DLUGOSCI = [...LICZBY_TESTOWE, ...LICZBY_UTWOROW];
+
+/** Polska odmiana: 3 utwory, ale 10 utworów. */
+export function odmienUtwory(n) {
+  const ostatnia = n % 10;
+  const przedostatnie = n % 100;
+  const mnoga = ostatnia >= 2 && ostatnia <= 4 && !(przedostatnie >= 12 && przedostatnie <= 14);
+  return `${n} ${mnoga ? 'utwory' : 'utworów'}`;
+}
 
 /**
  * Podpis utworu na dużym ekranie — używany tylko wtedy, gdy podgląd został
@@ -125,12 +144,12 @@ export function sprawdzKonfiguracje(songs, { od, doRoku, repertuar, liczbaUtworo
   }
 
   if (liczbaUtworow > roczniki.length) {
-    // Podpowiadamy największą wartość, którą host faktycznie może wybrać
-    // z listy 10–40 co 5 — sam licznik roczników bywa nieosiągalny.
-    const osiagalne = LICZBY_UTWOROW.filter((n) => n <= roczniki.length);
+    // Podpowiadamy największą wartość, którą host faktycznie może wybrać z listy —
+    // sam licznik roczników bywa nieosiągalny, bo lista ma skoki.
+    const osiagalne = WSZYSTKIE_DLUGOSCI.filter((n) => n <= roczniki.length);
     const wyjscie = osiagalne.length
-      ? `Wybierz maksymalnie ${osiagalne[osiagalne.length - 1]} utworów albo poszerz zakres lat.`
-      : `Gra wymaga co najmniej ${LICZBY_UTWOROW[0]} roczników. Poszerz zakres lat albo zmień repertuar.`;
+      ? `Wybierz maksymalnie ${odmienUtwory(osiagalne[osiagalne.length - 1])} albo poszerz zakres lat.`
+      : `Gra wymaga co najmniej ${WSZYSTKIE_DLUGOSCI[0]} roczników. Poszerz zakres lat albo zmień repertuar.`;
     return {
       ok: false,
       komunikat: `Dla repertuaru ${nazwa} w latach ${od}–${doRoku} mam utwory z ${roczniki.length} roczników. ${wyjscie}`,

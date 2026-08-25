@@ -14,7 +14,9 @@ import {
   zakodujKodPokoju, odkodujKodPokoju, zakodujKlucz, odkodujKlucz,
   odciskBazy, oczysc, ROK_MIN, ROK_MAX,
 } from '../js/kody.js';
-import { ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj, opisUtworu } from '../js/dane.js';
+import {
+  ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj, opisUtworu, odmienUtwory,
+} from '../js/dane.js';
 import { przygotujGre, wylosujRoczniki, liczbaDekad, potasuj } from '../js/losowanie.js';
 import { policzWynik } from '../js/punktacja.js';
 import { Arkusz } from '../js/arkusz.js';
@@ -167,7 +169,28 @@ test('zakres 2024–2026 przy 10 utworach jest odrzucany z czytelnym komunikatem
   const w = sprawdzKonfiguracje(bazaPelna.songs, { od: 2024, doRoku: 2026, repertuar: 'mix', liczbaUtworow: 10 });
   assert.equal(w.ok, false);
   assert.match(w.komunikat, /3 roczników/);
-  assert.match(w.komunikat, /Poszerz zakres lat/);
+  // Komunikat ma podpowiadać wyjście: albo mniej utworów, albo szerszy zakres.
+  assert.match(w.komunikat, /poszerz zakres lat/i);
+  assert.match(w.komunikat, /maksymalnie 3 utwory/);
+});
+
+test('odmiana liczebnika w komunikatach jest poprawna', () => {
+  assert.equal(odmienUtwory(3), '3 utwory');
+  assert.equal(odmienUtwory(5), '5 utworów');
+  assert.equal(odmienUtwory(10), '10 utworów');
+  assert.equal(odmienUtwory(22), '22 utwory');
+  assert.equal(odmienUtwory(40), '40 utworów');
+});
+
+test('krótka rozgrywka testowa przechodzi walidację przy ubogiej bazie', () => {
+  // Dokładnie sytuacja z żywej bazy: trzy roczniki, 1980–1982.
+  const uboga = bazaSyntetyczna({ odRoku: 1980, doRoku: 1982 });
+  const w = sprawdzKonfiguracje(uboga.songs, { od: 1975, doRoku: 2026, repertuar: 'mix', liczbaUtworow: 3 });
+  assert.equal(w.ok, true);
+  assert.equal(w.roczniki.length, 3);
+  const gra = przygotujGre(uboga, { od: 1975, doRoku: 2026, repertuar: 'mix', liczbaUtworow: 3 }, rngZiarno(1));
+  assert.deepEqual(gra.lata, [1980, 1981, 1982]);
+  assert.equal(gra.kolejnosc.length, 3);
 });
 
 test('walidacja liczy roczniki z utworami, a nie szerokość przedziału', () => {
