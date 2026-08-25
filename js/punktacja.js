@@ -52,6 +52,24 @@ export function policzWynik(odpowiedzi, klucz, baza, lata = null) {
   return { trafienia, pudla, pominiete, liczbaUtworow, zBazy, wiersze };
 }
 
+/**
+ * Porządkuje wiersze wyniku rosnąco po poprawnym roku.
+ *
+ * Kolejność odtwarzania jest potasowana, więc lista w porządku utworów skacze
+ * po epokach. Ułożona chronologicznie czyta się jak oś czasu i od razu widać,
+ * gdzie gracz przesunął przypisania. Numer utworu zostaje przy każdym wierszu.
+ *
+ * Zwraca nową tablicę; wejściowa pozostaje nietknięta.
+ */
+export function wgRoku(wiersze) {
+  return [...wiersze].sort((a, b) => {
+    const rokA = a.rokPoprawny ?? Infinity;
+    const rokB = b.rokPoprawny ?? Infinity;
+    // Bez poprawnego roku (brak kolumny lat) zostaje kolejność odtwarzania.
+    return rokA - rokB || a.numer - b.numer;
+  });
+}
+
 /** Godzina zegarowa HH:MM:SS — moment oddania arkusza, rozstrzyga remisy (4.5 pkt 5). */
 export function godzinaTeraz(data = new Date()) {
   const dwie = (n) => String(n).padStart(2, '0');

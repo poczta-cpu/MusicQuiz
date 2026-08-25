@@ -11,7 +11,7 @@
 
 import { joinRoom, fetchKey, uruchomSkaner, obslugujeSkanowanie } from './transport.js';
 import { Arkusz } from './arkusz.js';
-import { policzWynik, godzinaTeraz } from './punktacja.js';
+import { policzWynik, godzinaTeraz, wgRoku } from './punktacja.js';
 import { wczytajBaze } from './dane.js';
 import {
   pustyStanGracza, wczytajStanGracza, zapiszStanGracza, magazynDostepny,
@@ -63,7 +63,7 @@ $('form-dolaczanie').addEventListener('submit', (e) => {
   const wpisany = $('kod-pokoju').value.trim();
 
   if (!imie) {
-    pokazBlad($('blad-dolaczanie'), 'Podaj imię — wyniki odczytujemy na głos.');
+    pokazBlad($('blad-dolaczanie'), 'Podaj imię.');
     return;
   }
 
@@ -161,7 +161,7 @@ $('btn-zatwierdz').addEventListener('click', () => {
     // Pominiecie to swiadoma decyzja strategiczna, nie blad - ale pytamy (4.4).
     const zgoda = confirm(
       `Zostawiasz Utwór ${arkusz.numerUtworu} bez odpowiedzi. Na pewno?\n\n`
-      + 'Tracisz punkt, ale zachowujesz wszystkie wolne roczniki na później.'
+      + 'Tracisz punkt, rocznik zostaje wolny.'
     );
     if (!zgoda) return;
   }
@@ -259,8 +259,7 @@ function pokazWynik(wynik) {
   const ostrzezenie = $('wynik-ostrzezenie');
   if (!wynik.zBazy) {
     ostrzezenie.textContent =
-      'Twój telefon ma inną wersję bazy utworów niż laptop prowadzącego, więc tytuły zostają ukryte. '
-      + 'Punktacja jest poprawna — opiera się wyłącznie na rocznikach.';
+      'Inna wersja bazy utworów niż u prowadzącego — tytuły ukryte. Punktacja jest poprawna.';
     ostrzezenie.classList.remove('ukryte');
   } else {
     ostrzezenie.classList.add('ukryte');
@@ -269,7 +268,8 @@ function pokazWynik(wynik) {
   const kontener = $('tabela-wyniku');
   kontener.innerHTML = '';
 
-  for (const w of wynik.wiersze) {
+  // Chronologicznie, nie w kolejnosci odtwarzania - lista czyta sie jak os czasu.
+  for (const w of wgRoku(wynik.wiersze)) {
     const wiersz = document.createElement('div');
     wiersz.className = `wiersz-wyniku ${w.trafione ? 'trafiony' : w.pominiety ? '' : 'pudlo'}`;
 

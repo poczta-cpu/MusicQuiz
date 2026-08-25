@@ -18,7 +18,7 @@ import {
   ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj, opisUtworu, odmienUtwory,
 } from '../js/dane.js';
 import { przygotujGre, wylosujRoczniki, liczbaDekad, potasuj } from '../js/losowanie.js';
-import { policzWynik } from '../js/punktacja.js';
+import { policzWynik, wgRoku } from '../js/punktacja.js';
 import { Arkusz } from '../js/arkusz.js';
 import { pustyStanGracza } from '../js/magazyn.js';
 
@@ -518,6 +518,54 @@ test('pominięcie utworu kosztuje punkt, ale nie blokuje rocznika', () => {
   assert.equal(wynik.trafienia, 0);
   assert.equal(wynik.pominiete, 10);
   assert.equal(wynik.pudla, 0);
+});
+
+grupa('Kolejność na ekranie wyniku (4.5)');
+
+test('wiersze ustawiają się rosnąco po poprawnym roku', () => {
+  const wiersze = [
+    { numer: 1, rokPoprawny: 2013 },
+    { numer: 2, rokPoprawny: 1985 },
+    { numer: 3, rokPoprawny: 1996 },
+    { numer: 4, rokPoprawny: 1979 },
+  ];
+  assert.deepEqual(wgRoku(wiersze).map((w) => w.rokPoprawny), [1979, 1985, 1996, 2013]);
+});
+
+test('numer utworu wędruje razem z wierszem', () => {
+  const wiersze = [
+    { numer: 1, rokPoprawny: 2013 },
+    { numer: 2, rokPoprawny: 1985 },
+    { numer: 3, rokPoprawny: 1996 },
+  ];
+  assert.deepEqual(wgRoku(wiersze).map((w) => w.numer), [2, 3, 1]);
+});
+
+test('sortowanie nie rusza tablicy wejściowej', () => {
+  const wiersze = [{ numer: 1, rokPoprawny: 2000 }, { numer: 2, rokPoprawny: 1980 }];
+  wgRoku(wiersze);
+  assert.deepEqual(wiersze.map((w) => w.numer), [1, 2]);
+});
+
+test('bez kolumny lat zostaje kolejność odtwarzania', () => {
+  // rokPoprawny bywa null, gdy klucz wczytano bez kodu pokoju.
+  const wiersze = [
+    { numer: 3, rokPoprawny: null },
+    { numer: 1, rokPoprawny: null },
+    { numer: 2, rokPoprawny: null },
+  ];
+  assert.deepEqual(wgRoku(wiersze).map((w) => w.numer), [1, 2, 3]);
+});
+
+test('pełny wynik z prawdziwej rozgrywki wychodzi chronologicznie', () => {
+  const gra = przygotujGre(bazaPelna, { od: ROK_MIN, doRoku: ROK_MAX, repertuar: 'mix', liczbaUtworow: 10 }, rngZiarno(77));
+  const klucz = odkodujKlucz(zakodujKlucz(gra.kolejnosc, odciskBazy(bazaPelna)));
+  const odpowiedzi = gra.kolejnosc.map((p, i) => (i % 3 === 0 ? null : p.indeksRoku));
+  const wynik = policzWynik(odpowiedzi, klucz, bazaPelna, gra.lata);
+
+  const lata = wgRoku(wynik.wiersze).map((w) => w.rokPoprawny);
+  assert.deepEqual(lata, [...lata].sort((a, b) => a - b));
+  assert.deepEqual(lata, gra.lata, 'każdy rocznik pojawia się dokładnie raz, po kolei');
 });
 
 // ---------------------------------------------------------------- prawdziwa baza

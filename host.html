@@ -24,10 +24,7 @@
       <input type="password" id="haslo" name="haslo">
       <div style="height:20px"></div>
       <button type="submit" class="glowny duzy" style="width:100%">Wejdź</button>
-      <p class="podpowiedz">
-        Logowanie jest wyłącznie dekoracyjne — hasło stoi otwartym tekstem w kodzie strony.
-        Chroni przed przypadkowym kliknięciem, nie przed nikim, kto chce zajrzeć.
-      </p>
+      <p class="podpowiedz">Hasło jest jawne w kodzie strony.</p>
     </form>
   </section>
 
@@ -74,7 +71,7 @@
       <div style="height:22px"></div>
 
       <fieldset class="przelaczniki">
-        <legend>Co pokazywać na dużym ekranie</legend>
+        <legend>Opcje dodatkowe</legend>
 
         <label class="przelacznik">
           <input type="checkbox" id="pokaz-tytul">
@@ -86,10 +83,7 @@
           <span>Pokazuj wykonawcę</span>
         </label>
 
-        <p class="podpowiedz">
-          Dane pojawiają się po kliknięciu <strong>Odtwórz</strong> i są dla całej sali —
-          zostaje zgadywanie samego rocznika. <strong>Rok nie jest pokazywany nigdy.</strong>
-        </p>
+        <p class="podpowiedz">Widoczne po kliknięciu <strong>Odtwórz</strong>.</p>
       </fieldset>
 
       <div style="height:20px"></div>
@@ -116,10 +110,7 @@
       </div>
     </div>
 
-    <div class="info">
-      Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju.
-      Ja też gram — mój telefon dołącza tak samo jak wasze.
-    </div>
+    <div class="info">Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju.</div>
 
     <div class="rzad">
       <button type="button" id="btn-wroc-konfiguracja">Zmień ustawienia</button>
@@ -162,8 +153,7 @@
     </div>
 
     <div class="info" style="margin-top:28px">
-      Powiedzcie na głos, gdy wszyscy zatwierdzą. Nie widzę waszych telefonów —
-      pilnujcie, żeby numer utworu na telefonie zgadzał się z tym na ekranie.
+      Numer utworu na telefonach musi zgadzać się z numerem na ekranie.
     </div>
   </section>
 
@@ -173,11 +163,11 @@
 
     <div class="karta">
       <h2 style="font-size:1.2rem">Klucz odpowiedzi</h2>
-      <p style="color:var(--tekst-cichy)">Zeskanujcie telefonami, żeby policzyć wyniki.</p>
+      <p style="color:var(--tekst-cichy)">Zeskanujcie telefonami.</p>
       <div class="zaproszenie">
         <div class="pudlo-qr"><div id="qr-klucz"></div></div>
         <div>
-          <p style="margin-bottom:6px;color:var(--tekst-cichy)">Gdyby aparat odmówił — kod do wklejenia:</p>
+          <p style="margin-bottom:6px;color:var(--tekst-cichy)">Kod do wklejenia:</p>
           <textarea id="kod-klucza" class="kod-tekstowy" readonly rows="5"
             style="width:100%;padding:10px;border-radius:12px;border:2px solid var(--obwodka);background:var(--tlo-karta-jasniej);color:var(--tekst);font-size:.85rem;word-break:break-all"></textarea>
           <div style="height:10px"></div>
