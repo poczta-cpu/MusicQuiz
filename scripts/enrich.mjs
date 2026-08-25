@@ -47,13 +47,15 @@ const HELP = [
   '  --verify-years   zweryfikuj roczniki w MusicBrainz (sekwencyjnie, 1 zap./s)',
   '  --limit N        przetwórz tylko N pierwszych wpisów (test)',
   '  --concurrency N  równoległość zapytań do iTunes (domyślnie 2)',
+  '  --offline        zbuduj bazę z samego cache, bez ani jednego zapytania do iTunes',
 ].join('\n');
 
 function parseArgs(argv) {
-  const a = { refresh: false, verifyYears: false, limit: 0, concurrency: 2 };
+  const a = { refresh: false, verifyYears: false, limit: 0, concurrency: 2, offline: false };
   for (let i = 0; i < argv.length; i++) {
     const v = argv[i];
     if (v === '--refresh') a.refresh = true;
+    else if (v === '--offline') a.offline = true;
     else if (v === '--verify-years') a.verifyYears = true;
     else if (v === '--limit') a.limit = Number(argv[++i]) || 0;
     else if (v === '--concurrency') a.concurrency = Math.max(1, Number(argv[++i]) || 4);
@@ -275,6 +277,9 @@ async function pobierzItunes(url) {
 const cache = new Map();
 let cacheDoZapisu = 0;
 
+/** Ustawiany w main; szukajWSklepie musi go widziec, a nie dostaje argumentow. */
+const TRYB_OFFLINE = { wlaczony: false };
+
 async function wczytajCache() {
   if (!existsSync(FILE_CACHE)) return;
   try {
@@ -311,6 +316,11 @@ async function szukajWSklepie(wpis, kraj, pomijajCache = false) {
   const fraza = `${wpis.wykonawca} ${wpis.tytul}`;
   const kluczCache = `${kraj}|${normalizuj(fraza)}`;
   let wyniki = pomijajCache ? null : cache.get(kluczCache);
+
+  if (!wyniki && TRYB_OFFLINE.wlaczony) {
+    // Bez sieci: czego nie ma w cache, tego nie ma w ogole.
+    return { blad: 'brak w cache (tryb offline)' };
+  }
 
   if (!wyniki) {
     const url = `https://itunes.apple.com/search?term=${encodeURIComponent(fraza)}&entity=song&limit=5&country=${kraj}`;
@@ -676,6 +686,9 @@ async function trybPelny(args) {
 const args = parseArgs(process.argv.slice(2));
 try {
   await wczytajCache();
+  TRYB_OFFLINE.wlaczony = args.offline;
+  if (args.offline) console.log(`Tryb offline: buduję bazę z ${cache.size} zapamiętanych odpowiedzi, bez odpytywania iTunes.
+`);
   if (args.refresh) await trybRefresh(args);
   else await trybPelny(args);
   await zapiszCache(true);

@@ -32,6 +32,10 @@ Potem, dla każdego utworu:
 Po ostatnim utworze prowadzący pokazuje kod QR z kluczem odpowiedzi. Telefony liczą
 wyniki same i pokazują je razem z tytułami. **Wyniki odczytujecie na głos.**
 
+Listy na końcu — i u gracza, i u prowadzącego — mają przełącznik porządku:
+**po roku** albo **po kolejności odtwarzania**. Numer utworu zostaje przy wierszu
+niezależnie od wyboru.
+
 **Prowadzący gra na równi z resztą.** Jego ekran nie pokazuje roku — odpala fragment
 z laptopa i odpowiada na własnym telefonie jak każdy.
 
@@ -115,8 +119,8 @@ ograniczenia, które są **wybrane**, nie przeoczone:
 7. **Prowadzący ma klucz odpowiedzi w przeglądarce** od początku gry. Nie jest renderowany
    na ekranie, ale zdeterminowany prowadzący znajdzie go w konsoli. Klucz trafia też do
    `localStorage`, żeby odświeżenie strony na laptopie nie skasowało rozgrywki w połowie.
-8. **Baza pokrywa lata 1980–2019.** Pola roku przyjmują 1975–2026 zgodnie ze specyfikacją,
-   ale poza tym zakresem nie ma utworów. Licznik „dostępne roczniki" pokazuje to na żywo,
+8. **Baza pokrywa lata 1980–2003** (228 utworów, 24 roczniki). Pola roku przyjmują
+   1975–2026 zgodnie ze specyfikacją, ale poza tym zakresem nie ma utworów. Licznik „dostępne roczniki" pokazuje to na żywo,
    a walidacja odrzuci taki wybór z konkretnym komunikatem.
 
 ---
@@ -158,6 +162,7 @@ i wzbogacenia ich o adresy fragmentów z iTunes:
 npm run enrich                  # pełne przetworzenie
 npm run enrich -- --refresh     # odśwież same adresy fragmentów
 npm run enrich -- --verify-years # sprawdź roczniki w MusicBrainz
+npm run enrich -- --offline      # zbuduj bazę z samego cache, bez ruchu sieciowego
 ```
 
 **Rok pochodzi z ręcznie skuratorowanych list kandydatów, nigdy z iTunes.** Pole

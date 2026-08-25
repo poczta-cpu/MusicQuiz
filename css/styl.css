@@ -160,6 +160,40 @@ button.duzy { font-size: 1.3rem; min-height: 64px; padding: 16px 32px; }
 .host .sterowanie { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
 .host .sterowanie button { flex: 1 1 200px; max-width: 320px; }
 
+/* przelacznik sortowania na ekranach z wynikami */
+.naglowek-sekcji {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.naglowek-sekcji h2 { margin: 0; }
+
+.przelacz-sortowanie {
+  display: inline-flex;
+  border: 1px solid var(--obwodka);
+  border-radius: var(--promien);
+  overflow: hidden;
+}
+.przelacz-sortowanie button {
+  min-height: 44px;
+  padding: 8px 14px;
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--tekst-cichy);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+.przelacz-sortowanie button + button { border-left: 1px solid var(--obwodka); }
+.przelacz-sortowanie button:hover:not(.aktywny) { background: var(--tlo-karta-jasniej); color: var(--tekst); }
+.przelacz-sortowanie button.aktywny {
+  color: var(--akcent-tekst);
+  background: var(--akcent);
+}
+
 /* przełączniki podglądu w konfiguracji */
 .przelaczniki {
   border: 1px solid var(--obwodka);

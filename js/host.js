@@ -47,6 +47,9 @@ let odtwarzacz = null;
  */
 let stan = null;
 
+/** Porządek listy na ekranie końcowym: kolejność odtwarzania albo rocznik. */
+let sortowanieKoncowe = 'kolejnosc';
+
 // ---------------------------------------------------------------- narzędzia UI
 
 function pokazEkran(nazwa) {
@@ -326,12 +329,26 @@ function pokazKoniec() {
 
   $('kod-klucza').value = formatujKod(kod);
 
+  rysujTabeleKoncowa();
+  pokazEkran('koniec');
+}
+
+/** Odrysowuje listę „Co leciało" w wybranym porządku. Numer utworu zostaje przy wierszu. */
+function rysujTabeleKoncowa() {
+  if (!stan) return;
+
+  for (const przycisk of $('sort-host').querySelectorAll('button')) {
+    przycisk.classList.toggle('aktywny', przycisk.dataset.sort === sortowanieKoncowe);
+  }
+
+  const wiersze = stan.kolejnosc.map((p, i) => ({ numer: i + 1, rok: p.rok, utwor: odtworzUtworZBazy(p) }));
+  if (sortowanieKoncowe === 'rok') wiersze.sort((a, b) => a.rok - b.rok);
+
   const tbody = $('tabela-utworow');
   tbody.innerHTML = '';
-  stan.kolejnosc.forEach((p, i) => {
-    const utwor = odtworzUtworZBazy(p);
+  for (const w of wiersze) {
     const tr = document.createElement('tr');
-    const komorki = [String(i + 1), String(p.rok), utwor.tytul, utwor.wykonawca];
+    const komorki = [String(w.numer), String(w.rok), w.utwor.tytul, w.utwor.wykonawca];
     komorki.forEach((tekst, k) => {
       const td = document.createElement('td');
       if (k === 1) td.className = 'rok';
@@ -339,9 +356,14 @@ function pokazKoniec() {
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
-  });
+  }
+}
 
-  pokazEkran('koniec');
+for (const przycisk of $('sort-host').querySelectorAll('button')) {
+  przycisk.addEventListener('click', () => {
+    sortowanieKoncowe = przycisk.dataset.sort;
+    rysujTabeleKoncowa();
+  });
 }
 
 $('btn-kopiuj-klucz').addEventListener('click', async () => {

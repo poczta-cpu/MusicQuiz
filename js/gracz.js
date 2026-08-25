@@ -29,6 +29,8 @@ const ekrany = {
 let pokoj = null;          // { lata, liczbaUtworow, kod }
 let stan = null;           // arkusz gracza z localStorage
 let arkusz = null;         // reguly ukladanki (js/arkusz.js) - cala logika wyboru
+let ostatniWynik = null;   // zapamiętany, żeby przełącznik sortowania nie liczył go od nowa
+let sortowanieWyniku = 'rok';
 let zatrzymajSkaner = null;
 
 // ---------------------------------------------------------------- narzędzia UI
@@ -252,6 +254,7 @@ async function policzIPokaz(kodKlucza) {
 // ---------------------------------------------------------------- wynik
 
 function pokazWynik(wynik) {
+  ostatniWynik = wynik;
   $('wynik-imie').textContent = stan.imie;
   $('wynik-liczba').textContent = `${wynik.trafienia} / ${wynik.liczbaUtworow}`;
   $('wynik-godzina').textContent = stan.zakonczonoO || '—';
@@ -265,11 +268,24 @@ function pokazWynik(wynik) {
     ostrzezenie.classList.add('ukryte');
   }
 
+  rysujSzczegoly();
+  pokazEkran('wynik');
+}
+
+/** Odrysowuje listę szczegółów w wybranym porządku. */
+function rysujSzczegoly() {
+  const wynik = ostatniWynik;
+  if (!wynik) return;
+
+  for (const przycisk of $('sort-gracz').querySelectorAll('button')) {
+    przycisk.classList.toggle('aktywny', przycisk.dataset.sort === sortowanieWyniku);
+  }
+
   const kontener = $('tabela-wyniku');
   kontener.innerHTML = '';
 
-  // Chronologicznie, nie w kolejnosci odtwarzania - lista czyta sie jak os czasu.
-  for (const w of wgRoku(wynik.wiersze)) {
+  const wiersze = sortowanieWyniku === 'rok' ? wgRoku(wynik.wiersze) : wynik.wiersze;
+  for (const w of wiersze) {
     const wiersz = document.createElement('div');
     wiersz.className = `wiersz-wyniku ${w.trafione ? 'trafiony' : w.pominiety ? '' : 'pudlo'}`;
 
@@ -306,8 +322,13 @@ function pokazWynik(wynik) {
     wiersz.append(numer, srodek, lata);
     kontener.appendChild(wiersz);
   }
+}
 
-  pokazEkran('wynik');
+for (const przycisk of $('sort-gracz').querySelectorAll('button')) {
+  przycisk.addEventListener('click', () => {
+    sortowanieWyniku = przycisk.dataset.sort;
+    rysujSzczegoly();
+  });
 }
 
 $('btn-nowa-gra').addEventListener('click', () => {

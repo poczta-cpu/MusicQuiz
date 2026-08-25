@@ -94,7 +94,13 @@
     <div id="wynik-ostrzezenie" class="info ukryte" style="margin-top:20px"></div>
 
     <div class="karta" style="margin-top:24px">
-      <h2 style="font-size:1.1rem">Szczegóły</h2>
+      <div class="naglowek-sekcji">
+        <h2 style="font-size:1.1rem">Szczegóły</h2>
+        <div class="przelacz-sortowanie" id="sort-gracz" role="group" aria-label="Sortowanie listy">
+          <button type="button" data-sort="rok" class="aktywny">Po roku</button>
+          <button type="button" data-sort="kolejnosc">Po kolejności</button>
+        </div>
+      </div>
       <div id="tabela-wyniku"></div>
     </div>
 
