@@ -1,14 +1,14 @@
 /**
  * host.js — ekran prowadzącego (M2).
  *
- * Domyślnie prowadzący gra na równi z innymi (sekcja 1), więc ten ekran nie
+ * Prowadzący gra na równi z innymi (sekcja 1), więc domyślnie ten ekran nie
  * pokazuje ani tytułu, ani wykonawcy, ani roku aż do końca gry — metadane nie
  * trafiają nawet do DOM.
  *
- * Wyjątkiem jest podgląd włączany świadomie w konfiguracji: dwa przełączniki
- * ujawniają tytuł i/lub wykonawcę po kliknięciu „Odtwórz". Prowadzący przestaje
- * wtedy być graczem i jest o tym ostrzegany przy włączaniu. Rok nie jest
- * pokazywany nawet wtedy — to odpowiedź, nie podpowiedź.
+ * Wyjątkiem są dwa przełączniki w konfiguracji, które ujawniają tytuł i/lub
+ * wykonawcę po kliknięciu „Odtwórz". To ułatwienie dla całej sali — duży ekran
+ * widzą wszyscy — więc nie psuje równych szans. Rok nie jest pokazywany nawet
+ * wtedy: to odpowiedź, nie podpowiedź.
  *
  * Klucz odpowiedzi żyje w pamięci JS i w localStorage, ale nie trafia do DOM
  * przed ekranem końcowym niezależnie od ustawień podglądu.
@@ -111,16 +111,6 @@ function czytajKonfiguracje() {
   };
 }
 
-/** Ostrzeżenie widoczne tylko wtedy, gdy podgląd faktycznie wyklucza hosta z gry. */
-function odswiezOstrzezeniePodgladu() {
-  const podglad = $('pokaz-tytul').checked || $('pokaz-wykonawce').checked;
-  $('ostrzezenie-podgladu').classList.toggle('ukryte', !podglad);
-}
-
-for (const id of ['pokaz-tytul', 'pokaz-wykonawce']) {
-  $(id).addEventListener('change', odswiezOstrzezeniePodgladu);
-}
-
 /** Licznik „dostępne roczniki: 34" — host ma na żywo widzieć, co robi (4.1). */
 function odswiezLicznikRocznikow() {
   if (!baza) return;
@@ -202,17 +192,6 @@ function pokazZaproszenie() {
 
   $('kod-pokoju').textContent = kod;
   $('adres-gry').textContent = url.split('#')[0];
-
-  // Przy włączonym podglądzie prowadzący nie jest już jednym z graczy —
-  // ekran zaproszenia nie może twierdzić inaczej.
-  const k = stan.konfiguracja || {};
-  const podglad = k.pokazTytul || k.pokazWykonawce;
-  $('info-zaproszenie').textContent = podglad
-    ? 'Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju. '
-      + 'Ja tylko prowadzę — widzę tytuły, więc nie gram razem z wami.'
-    : 'Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju. '
-      + 'Ja też gram — mój telefon dołącza tak samo jak wasze.';
-
   pokazEkran('zaproszenie');
 }
 

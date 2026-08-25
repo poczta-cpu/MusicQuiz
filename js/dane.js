@@ -19,8 +19,8 @@ export const REPERTUARY = {
 export const LICZBY_UTWOROW = [10, 15, 20, 25, 30, 35, 40];
 
 /**
- * Podpis utworu dla ekranu prowadzącego — używany tylko wtedy, gdy prowadzący
- * świadomie włączył podgląd w konfiguracji.
+ * Podpis utworu na dużym ekranie — używany tylko wtedy, gdy podgląd został
+ * włączony w konfiguracji gry.
  *
  * Zwraca `null`, gdy oba przełączniki są wyłączone. To celowe: wywołujący ma
  * wtedy nie dotykać DOM-u w ogóle, żeby przy domyślnych ustawieniach żadne
