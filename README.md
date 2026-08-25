@@ -17,8 +17,8 @@ który mógł się przydać przy następnym.
 i loguje się (dane niżej). Ustawia liczbę utworów, zakres lat i repertuar, po czym gra
 losuje utwory i pokazuje kod QR z kodem pokoju.
 
-**Gracze** skanują kod telefonami albo wpisują adres ręcznie i przepisują 11-znakowy
-kod pokoju. Podają imię i dostają kolumnę roczników.
+**Gracze** skanują kod telefonami albo wpisują adres ręcznie i przepisują kod pokoju.
+Podają imię i dostają kolumnę roczników.
 
 Potem, dla każdego utworu:
 
@@ -40,6 +40,18 @@ z laptopa i odpowiada na własnym telefonie jak każdy.
 Telefon zapisuje godzinę zegarową w momencie zatwierdzenia ostatniego utworu.
 Przy tej samej liczbie punktów wygrywa wcześniejsza godzina. Zegary telefonów są
 synchronizowane przez sieć, więc porównanie co do sekundy jest wiarygodne.
+
+### Kody
+
+Kod pokoju jest wyświetlany w grupach po cztery znaki i jego długość zależy od rozmiaru
+gry — od czterech znaków przy trzech utworach do jedenastu w najgorszym przypadku.
+Wielkość liter, spacje i myślniki nie mają znaczenia przy przepisywaniu; alfabet pomija
+`I`, `L`, `O` i `U`, żeby nie myliły się z cyframi.
+
+Krótszy kod nie jest możliwy. Kod pokoju musi unieść zbiór N roczników wybranych z 52,
+a dla dziesięciu utworów to prawie 16 miliardów możliwości — czterocyfrowy kod ma ich
+dziesięć tysięcy. Bez serwera nie ma gdzie wymienić krótkiego kodu na dane, więc musi
+być samowystarczalny.
 
 ### Krótka rozgrywka do testów
 
@@ -131,7 +143,7 @@ pod które wejdziesz telefonem.
 npm test
 ```
 
-57 testów logiki: kodowanie kodów, walidacja konfiguracji, losowanie, reguły układanki
+68 testów logiki: kodowanie kodów, walidacja konfiguracji, losowanie, reguły układanki
 gracza, podgląd u prowadzącego, punktacja i pełny obieg prowadzący → gracz.
 Nie obejmują DOM ani kamery — to idzie ręcznie.
 

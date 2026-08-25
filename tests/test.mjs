@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 
 import {
   zakodujKodPokoju, odkodujKodPokoju, zakodujKlucz, odkodujKlucz,
-  odciskBazy, oczysc, ROK_MIN, ROK_MAX,
+  odciskBazy, oczysc, formatujKod, dlugoscKoduPokoju, ROK_MIN, ROK_MAX,
 } from '../js/kody.js';
 import {
   ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj, opisUtworu, odmienUtwory,
@@ -70,9 +70,25 @@ function bazaSyntetyczna({ odRoku = ROK_MIN, doRoku = ROK_MAX, plCoIleLat = 1 } 
 
 grupa('Kod pokoju (sekcja 8)');
 
-test('kod pokoju ma 11 znaków, jak zakłada specyfikacja', () => {
-  const kod = zakodujKodPokoju([1980, 1991, 2004, 2015]);
-  assert.equal(kod.length, 11);
+test('długość kodu pokoju zależy od rozmiaru gry', () => {
+  // Krótka gra testowa mieści się w czterech znakach, dziesięć utworów w ośmiu.
+  const trzy = zakodujKodPokoju([1980, 1995, 2010]);
+  assert.equal(trzy.length, 4);
+
+  const dziesiec = Array.from({ length: 10 }, (_, i) => 1980 + i * 4);
+  assert.equal(zakodujKodPokoju(dziesiec).length, 8);
+
+  // Najgorszy przypadek nadal nie przekracza dawnych 11 znaków.
+  for (const n of [3, 5, 10, 15, 20, 25, 30, 35, 40]) {
+    assert.ok(dlugoscKoduPokoju(n) <= 11, `N=${n} daje ${dlugoscKoduPokoju(n)} znaków`);
+  }
+});
+
+test('zapowiadana długość zgadza się z faktyczną dla każdego rozmiaru gry', () => {
+  for (const n of [3, 5, 10, 15, 20, 25, 30, 35, 40]) {
+    const lata = Array.from({ length: n }, (_, i) => ROK_MIN + i);
+    assert.equal(zakodujKodPokoju(lata).length, dlugoscKoduPokoju(n), `N=${n}`);
+  }
 });
 
 test('kod pokoju wraca do tych samych roczników', () => {
@@ -82,20 +98,48 @@ test('kod pokoju wraca do tych samych roczników', () => {
   assert.equal(wynik.liczbaUtworow, lata.length);
 });
 
-test('liczba utworów wynika z maski, nie jest kodowana osobno', () => {
-  const lata = Array.from({ length: 40 }, (_, i) => 1980 + i);
-  assert.equal(odkodujKodPokoju(zakodujKodPokoju(lata)).liczbaUtworow, 40);
+test('nietypowa liczba utworów też się koduje', () => {
+  // Spoza listy w nagłówku — format dokłada drugi znak z jawnym N.
+  for (const n of [1, 2, 4, 7, 13, 52]) {
+    const lata = Array.from({ length: n }, (_, i) => ROK_MIN + i * Math.floor(52 / n));
+    const wynik = odkodujKodPokoju(zakodujKodPokoju(lata));
+    assert.equal(wynik.liczbaUtworow, n, `N=${n}`);
+    assert.deepEqual(wynik.lata, lata);
+  }
+});
+
+test('każdy zbiór roczników daje inny kod', () => {
+  // C(14,3) = 364 różnych zbiorów musi dać 364 różne kody — żadnych kolizji.
+  const kody = new Set();
+  let zbiorow = 0;
+  for (let a = 0; a < 14; a++) {
+    for (let b = a + 1; b < 14; b++) {
+      for (let c = b + 1; c < 14; c++) {
+        zbiorow++;
+        kody.add(zakodujKodPokoju([ROK_MIN + a, ROK_MIN + b, ROK_MIN + c]));
+      }
+    }
+  }
+  assert.equal(zbiorow, 364);
+  assert.equal(kody.size, 364, 'kolizja kodów pokoju');
 });
 
 test('kod pokoju nie zawiera odpowiedzi — te same lata dają ten sam kod', () => {
   // Dwie różne rozgrywki na tych samych rocznikach są nieodróżnialne po kodzie.
-  assert.equal(zakodujKodPokoju([1990, 2000]), zakodujKodPokoju([2000, 1990]));
+  assert.equal(zakodujKodPokoju([1990, 2000, 2010]), zakodujKodPokoju([2010, 1990, 2000]));
 });
 
 test('kod pokoju toleruje spacje, myślniki i małe litery przy przepisywaniu', () => {
-  const kod = zakodujKodPokoju([1981, 1995, 2011]);
-  const zSzumem = kod.slice(0, 4).toLowerCase() + '-' + kod.slice(4, 8) + ' ' + kod.slice(8);
-  assert.deepEqual(odkodujKodPokoju(zSzumem).lata, [1981, 1995, 2011]);
+  const kod = zakodujKodPokoju([1981, 1995, 2011, 2020, 2024]);
+  const zSzumem = formatujKod(kod).toLowerCase();
+  assert.deepEqual(odkodujKodPokoju(zSzumem).lata, [1981, 1995, 2011, 2020, 2024]);
+});
+
+test('formatujKod grupuje po cztery znaki', () => {
+  assert.equal(formatujKod('ABCDEFGH'), 'ABCD EFGH');
+  assert.equal(formatujKod('ABCDEFGHJ'), 'ABCD EFGH J');
+  assert.equal(formatujKod('ABC'), 'ABC');
+  assert.equal(oczysc(formatujKod('ABCDEFGH')), 'ABCDEFGH', 'formatowanie musi dać się cofnąć');
 });
 
 test('kod pokoju odrzuca rocznik spoza zakresu', () => {
@@ -108,7 +152,14 @@ test('kod pokoju odrzuca powtórzony rocznik', () => {
 });
 
 test('kod złej długości daje czytelny komunikat', () => {
-  assert.throws(() => odkodujKodPokoju('ABC'), /11 znaków/);
+  const kod = zakodujKodPokoju([1980, 1995, 2010]);      // cztery znaki
+  assert.throws(() => odkodujKodPokoju(kod + '0'), /3 utworów ma 4 znaków/);
+  assert.throws(() => odkodujKodPokoju('A'), /za krótki/);
+});
+
+test('literowka w kodzie nie przechodzi po cichu', () => {
+  // Ranga poza zakresem kombinacji musi zostać wyłapana.
+  assert.throws(() => odkodujKodPokoju('ZZZZ'), /uszkodzony|wersji gry/);
 });
 
 grupa('Klucz odpowiedzi (sekcja 8)');
@@ -129,6 +180,22 @@ test('klucz dla 40 utworów mieści się w QR (poniżej 300 znaków)', () => {
   const przypisania = Array.from({ length: 40 }, (_, i) => ({ indeksRoku: i, indeksWBazie: i * 7 }));
   const kod = zakodujKlucz(przypisania, 1234);
   assert.ok(kod.length < 300, `klucz ma ${kod.length} znaków`);
+});
+
+test('klucz jest wyraźnie krótszy niż pakowanie po bajcie', () => {
+  // Dawny format zajmował 4 + 3N bajtów, czyli 55 znaków dla dziesięciu utworów.
+  const przypisania = Array.from({ length: 10 }, (_, i) => ({ indeksRoku: (i + 3) % 10, indeksWBazie: i * 37 }));
+  const kod = zakodujKlucz(przypisania, 0x1234);
+  assert.ok(kod.length <= 30, `klucz ma ${kod.length} znaków, oczekiwano najwyżej 30`);
+  assert.deepEqual(odkodujKlucz(kod).przypisania, przypisania);
+});
+
+test('klucz odrzuca przypisania, które nie są permutacją', () => {
+  // Dwa utwory na tym samym roczniku to niemożliwy stan gry.
+  assert.throws(
+    () => zakodujKlucz([{ indeksRoku: 0, indeksWBazie: 1 }, { indeksRoku: 0, indeksWBazie: 2 }], 0),
+    /permutacją/
+  );
 });
 
 test('klucz odrzuca indeks roku spoza zakresu', () => {

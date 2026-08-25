@@ -3,13 +3,18 @@
  *
  * Dwa kody:
  *   1. KOD POKOJU — host -> gracze, na starcie. Ludzie go przepisują z ekranu,
- *      więc musi być krótki. Zawiera wyłącznie wersję formatu i zbiór roczników;
- *      NIE zawiera odpowiedzi (4.3).
+ *      więc musi być krótki. Zawiera wyłącznie wersję formatu, liczbę utworów
+ *      i zbiór roczników; NIE zawiera odpowiedzi (4.3).
  *   2. KLUCZ ODPOWIEDZI — host -> gracze, po ostatnim utworze. Idzie przez QR,
- *      więc może być długi.
+ *      więc może być dłuższy.
+ *
+ * Oba kody upakowane są bitowo, bez marnowania miejsca na granice bajtów.
+ * Kod pokoju nie zapisuje maski 52 roczników, tylko numer kombinacji wybranych
+ * lat — dzięki temu jego długość zależy od rozmiaru gry: 4 znaki przy trzech
+ * utworach, 8 przy dziesięciu, 11 w najgorszym przypadku.
  *
  * Alfabet base32 w wariancie Crockforda: bez I, L, O i U, żeby nie mylić znaków
- * przy przepisywaniu z ekranu.
+ * przy przepisywaniu.
  */
 
 const ALFABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
@@ -26,117 +31,261 @@ const WARTOSCI = (() => {
 
 export const ROK_MIN = 1975;
 export const ROK_MAX = 2026;
-export const LICZBA_ROCZNIKOW = ROK_MAX - ROK_MIN + 1;   // 52 bity maski
+export const LICZBA_ROCZNIKOW = ROK_MAX - ROK_MIN + 1;   // 52 możliwe roczniki
 export const WERSJA_FORMATU = 1;
 
-const DLUGOSC_KODU_POKOJU = 11;   // 3 bity wersji + 52 bity maski = 55 bitów = 11 znaków
+/**
+ * Typowe długości gry mieszczą się w 4 bitach nagłówka kodu pokoju, co pozwala
+ * zamknąć nagłówek w jednym znaku. Kolejność jest częścią formatu — dopisywać
+ * na końcu, nigdy nie przestawiać. Indeks 15 jest zarezerwowany na ucieczkę
+ * dla nietypowej liczby utworów.
+ */
+const DLUGOSCI_W_NAGLOWKU = [3, 5, 10, 15, 20, 25, 30, 35, 40];
+const UCIECZKA_DLUGOSCI = 15;
 
 /** Usuwa spacje i myślniki, ujednolica wielkość liter. */
 export function oczysc(tekst) {
   return String(tekst || '').toUpperCase().replace(/[\s-]+/g, '');
 }
 
-// ---------------------------------------------------------------- base32
-
-/** BigInt -> base32 o zadanej liczbie znaków (uzupełnia zerami z lewej). */
-function bigIntNaBase32(wartosc, znakow) {
-  let v = wartosc;
-  let out = '';
-  for (let i = 0; i < znakow; i++) {
-    out = ALFABET[Number(v & 31n)] + out;
-    v >>= 5n;
-  }
-  return out;
+/** Rozbija kod na grupy po `ile` znaków — łatwiej przepisać z ekranu. */
+export function formatujKod(kod, ile = 4, rozdzielacz = ' ') {
+  const czysty = oczysc(kod);
+  const grupy = [];
+  for (let i = 0; i < czysty.length; i += ile) grupy.push(czysty.slice(i, i + ile));
+  return grupy.join(rozdzielacz);
 }
 
-/** base32 -> BigInt. Rzuca, jeśli trafi na znak spoza alfabetu. */
-function base32NaBigInt(tekst) {
-  let v = 0n;
-  for (const znak of tekst) {
-    if (!WARTOSCI.has(znak)) throw new Error(`Nieznany znak w kodzie: "${znak}"`);
-    v = (v << 5n) | BigInt(WARTOSCI.get(znak));
-  }
-  return v;
-}
+// ---------------------------------------------------------------- bity
 
-/** Bajty -> base32 (5 bitów na znak, dopełnienie zerami na końcu). */
-function bajtyNaBase32(bajty) {
-  let bufor = 0;
-  let bitow = 0;
-  let out = '';
-  for (const b of bajty) {
-    bufor = (bufor << 8) | b;
-    bitow += 8;
-    while (bitow >= 5) {
-      out += ALFABET[(bufor >> (bitow - 5)) & 31];
-      bitow -= 5;
+/** Zapisuje kolejne pola bitowe i zamyka je w base32. */
+class Zapis {
+  constructor() {
+    this.bity = [];
+  }
+
+  dopisz(wartosc, ile) {
+    const v = BigInt(wartosc);
+    if (v < 0n || (ile < 64 && v >= 1n << BigInt(ile))) {
+      throw new Error(`Wartość ${v} nie mieści się w ${ile} bitach.`);
     }
+    for (let i = ile - 1; i >= 0; i--) this.bity.push(Number((v >> BigInt(i)) & 1n));
   }
-  if (bitow > 0) out += ALFABET[(bufor << (5 - bitow)) & 31];
-  return out;
+
+  naBase32() {
+    let out = '';
+    for (let i = 0; i < this.bity.length; i += 5) {
+      let v = 0;
+      for (let j = 0; j < 5; j++) v = (v << 1) | (this.bity[i + j] || 0);
+      out += ALFABET[v];
+    }
+    return out;
+  }
 }
 
-/** base32 -> bajty. Bity dopełnienia z końca są odrzucane. */
-function base32NaBajty(tekst) {
-  let bufor = 0;
-  let bitow = 0;
-  const out = [];
-  for (const znak of tekst) {
-    if (!WARTOSCI.has(znak)) throw new Error(`Nieznany znak w kodzie: "${znak}"`);
-    bufor = (bufor << 5) | WARTOSCI.get(znak);
-    bitow += 5;
-    if (bitow >= 8) {
-      out.push((bufor >> (bitow - 8)) & 255);
-      bitow -= 8;
+/** Czyta kolejne pola bitowe z base32. */
+class Odczyt {
+  constructor(tekst) {
+    this.bity = [];
+    for (const znak of tekst) {
+      if (!WARTOSCI.has(znak)) throw new Error(`Nieznany znak w kodzie: „${znak}".`);
+      const v = WARTOSCI.get(znak);
+      for (let i = 4; i >= 0; i--) this.bity.push((v >> i) & 1);
     }
+    this.pozycja = 0;
   }
-  return Uint8Array.from(out);
+
+  czytaj(ile) {
+    if (this.pozycja + ile > this.bity.length) throw new Error('Kod jest niekompletny.');
+    let v = 0n;
+    for (let i = 0; i < ile; i++) v = (v << 1n) | BigInt(this.bity[this.pozycja++]);
+    return v;
+  }
+}
+
+/** Ile bitów potrzeba, żeby zapisać wartości 0…liczbaWartosci-1. */
+function bitowNa(liczbaWartosci) {
+  let bitow = 0;
+  let granica = 1n;
+  while (granica < liczbaWartosci) { granica <<= 1n; bitow++; }
+  return bitow;
+}
+
+// ---------------------------------------------------------------- kombinatoryka
+
+const pamiecDwumian = new Map();
+
+/** Symbol Newtona C(n, k) na liczbach dowolnej wielkości. */
+function dwumian(n, k) {
+  if (k < 0 || n < 0 || k > n) return 0n;
+  const klucz = `${n}|${k}`;
+  if (pamiecDwumian.has(klucz)) return pamiecDwumian.get(klucz);
+  const m = Math.min(k, n - k);
+  let wynik = 1n;
+  for (let i = 0; i < m; i++) wynik = (wynik * BigInt(n - i)) / BigInt(i + 1);
+  pamiecDwumian.set(klucz, wynik);
+  return wynik;
+}
+
+/**
+ * Numer kombinacji w porządku kolejnościowym (colex): Σ C(element, pozycja).
+ * Zbiór musi być posortowany rosnąco, elementy z zakresu 0…LICZBA_ROCZNIKOW-1.
+ */
+function rangaKombinacji(elementy) {
+  let ranga = 0n;
+  elementy.forEach((element, i) => { ranga += dwumian(element, i + 1); });
+  return ranga;
+}
+
+/** Odwrotność rangaKombinacji: numer -> posortowany zbiór k elementów. */
+function kombinacjaZRangi(ranga, k) {
+  const wynik = [];
+  let reszta = ranga;
+  for (let i = k; i >= 1; i--) {
+    let element = i - 1;
+    while (dwumian(element + 1, i) <= reszta) element++;
+    wynik.push(element);
+    reszta -= dwumian(element, i);
+  }
+  return wynik.reverse();
+}
+
+const pamiecSilnia = [1n];
+
+function silnia(n) {
+  for (let i = pamiecSilnia.length; i <= n; i++) pamiecSilnia[i] = pamiecSilnia[i - 1] * BigInt(i);
+  return pamiecSilnia[n];
+}
+
+/** Numer permutacji w porządku leksykograficznym (kod Lehmera). */
+function rangaPermutacji(permutacja) {
+  const n = permutacja.length;
+  const dostepne = Array.from({ length: n }, (_, i) => i);
+  let ranga = 0n;
+  for (let i = 0; i < n; i++) {
+    const pozycja = dostepne.indexOf(permutacja[i]);
+    if (pozycja < 0) throw new Error('Klucz odpowiedzi nie jest permutacją roczników.');
+    dostepne.splice(pozycja, 1);
+    ranga += BigInt(pozycja) * silnia(n - 1 - i);
+  }
+  return ranga;
+}
+
+/** Odwrotność rangaPermutacji. */
+function permutacjaZRangi(ranga, n) {
+  const dostepne = Array.from({ length: n }, (_, i) => i);
+  const wynik = [];
+  let reszta = ranga;
+  for (let i = 0; i < n; i++) {
+    const podstawa = silnia(n - 1 - i);
+    const pozycja = Number(reszta / podstawa);
+    reszta %= podstawa;
+    wynik.push(dostepne[pozycja]);
+    dostepne.splice(pozycja, 1);
+  }
+  return wynik;
 }
 
 // ---------------------------------------------------------------- kod pokoju
 
+const BITY_NAGLOWKA = 1 + 4;        // wersja + indeks długości
+const BITY_UCIECZKI = 6;            // jawne N, gdy długość jest nietypowa
+
 /**
- * Koduje zbiór roczników jako 52-bitową maskę nad zakresem 1975–2026.
+ * Ile znaków zajmie kod pokoju dla danej liczby utworów.
+ * Liczone na bitach, nie na znakach — nagłówek z ucieczką ma 11 bitów, więc
+ * zaokrąglanie go osobno do dwóch znaków gubiło jeden bit i zaniżało wynik.
+ */
+export function dlugoscKoduPokoju(n) {
+  const naglowek = BITY_NAGLOWKA + (DLUGOSCI_W_NAGLOWKU.includes(n) ? 0 : BITY_UCIECZKI);
+  return Math.ceil((naglowek + bitowNa(dwumian(LICZBA_ROCZNIKOW, n))) / 5);
+}
+
+/**
+ * Koduje zbiór roczników jako numer kombinacji nad zakresem 1975–2026.
  *
- * Liczba utworów NIE jest zapisywana osobno — w tej grze każdy rok jest użyty
- * dokładnie raz, więc liczba zapalonych bitów maski jest liczbą utworów.
+ * Nagłówek to jeden znak: bit wersji + indeks długości gry. Nietypowa liczba
+ * utworów (spoza listy w nagłówku) dokłada drugi znak z jawnym N.
  */
 export function zakodujKodPokoju(lata, wersja = WERSJA_FORMATU) {
   if (!Array.isArray(lata) || lata.length === 0) throw new Error('Pusta lista roczników.');
-  let maska = 0n;
+  if (lata.length > LICZBA_ROCZNIKOW) throw new Error('Za dużo roczników.');
+
+  const widziane = new Set();
+  const indeksy = [];
   for (const rok of lata) {
     if (!Number.isInteger(rok) || rok < ROK_MIN || rok > ROK_MAX) {
       throw new Error(`Rocznik ${rok} jest poza zakresem ${ROK_MIN}–${ROK_MAX}.`);
     }
-    const bit = 1n << BigInt(rok - ROK_MIN);
-    if (maska & bit) throw new Error(`Rocznik ${rok} powtarza się — każdy rok może wystąpić raz.`);
-    maska |= bit;
+    if (widziane.has(rok)) throw new Error(`Rocznik ${rok} powtarza się — każdy rok może wystąpić raz.`);
+    widziane.add(rok);
+    indeksy.push(rok - ROK_MIN);
   }
-  const wartosc = (BigInt(wersja) << BigInt(LICZBA_ROCZNIKOW)) | maska;
-  return bigIntNaBase32(wartosc, DLUGOSC_KODU_POKOJU);
+  indeksy.sort((a, b) => a - b);
+
+  const n = indeksy.length;
+  const indeksDlugosci = DLUGOSCI_W_NAGLOWKU.indexOf(n);
+  const zapis = new Zapis();
+  zapis.dopisz(wersja, 1);
+  if (indeksDlugosci >= 0) {
+    zapis.dopisz(indeksDlugosci, 4);
+  } else {
+    zapis.dopisz(UCIECZKA_DLUGOSCI, 4);
+    zapis.dopisz(n, 6);
+  }
+  zapis.dopisz(rangaKombinacji(indeksy), bitowNa(dwumian(LICZBA_ROCZNIKOW, n)));
+  return zapis.naBase32();
 }
 
 /** Dekoduje kod pokoju do { wersja, lata, liczbaUtworow }. Lata posortowane rosnąco. */
 export function odkodujKodPokoju(kod) {
   const czysty = oczysc(kod);
-  if (czysty.length !== DLUGOSC_KODU_POKOJU) {
-    throw new Error(`Kod pokoju ma ${DLUGOSC_KODU_POKOJU} znaków, a ten ma ${czysty.length}.`);
+  if (czysty.length < 2) throw new Error('Kod pokoju jest za krótki.');
+
+  const odczyt = new Odczyt(czysty);
+  let wersja;
+  let n;
+  try {
+    wersja = Number(odczyt.czytaj(1));
+    const indeksDlugosci = Number(odczyt.czytaj(4));
+    if (indeksDlugosci === UCIECZKA_DLUGOSCI) {
+      n = Number(odczyt.czytaj(6));
+    } else {
+      n = DLUGOSCI_W_NAGLOWKU[indeksDlugosci];
+      if (n === undefined) throw new Error('Kod pokoju jest uszkodzony — sprawdź, czy nie ma literówki.');
+    }
+  } catch (e) {
+    throw new Error(e.message === 'Kod jest niekompletny.' ? 'Kod pokoju jest za krótki.' : e.message);
   }
-  const wartosc = base32NaBigInt(czysty);
-  const maska = wartosc & ((1n << BigInt(LICZBA_ROCZNIKOW)) - 1n);
-  const wersja = Number(wartosc >> BigInt(LICZBA_ROCZNIKOW));
+
   if (wersja !== WERSJA_FORMATU) {
     throw new Error(`Kod pochodzi z innej wersji gry (${wersja}). Odśwież stronę na obu urządzeniach.`);
   }
-  const lata = [];
-  for (let i = 0; i < LICZBA_ROCZNIKOW; i++) {
-    if (maska & (1n << BigInt(i))) lata.push(ROK_MIN + i);
+  if (!Number.isInteger(n) || n < 1 || n > LICZBA_ROCZNIKOW) {
+    throw new Error('Kod pokoju jest uszkodzony — sprawdź, czy nie ma literówki.');
   }
-  if (!lata.length) throw new Error('Kod nie zawiera żadnego rocznika.');
-  return { wersja, lata, liczbaUtworow: lata.length };
+
+  const oczekiwana = dlugoscKoduPokoju(n);
+  if (czysty.length !== oczekiwana) {
+    throw new Error(`Kod pokoju dla ${n} utworów ma ${oczekiwana} znaków, a ten ma ${czysty.length}.`);
+  }
+
+  const liczbaKombinacji = dwumian(LICZBA_ROCZNIKOW, n);
+  const ranga = odczyt.czytaj(bitowNa(liczbaKombinacji));
+  if (ranga >= liczbaKombinacji) {
+    throw new Error('Kod pokoju jest uszkodzony — sprawdź, czy nie ma literówki.');
+  }
+
+  const lata = kombinacjaZRangi(ranga, n).map((i) => ROK_MIN + i);
+  return { wersja, lata, liczbaUtworow: n };
 }
 
 // ---------------------------------------------------------------- klucz odpowiedzi
+
+const BITY_WERSJI = 2;
+const BITY_LICZBY = 6;
+const BITY_SZEROKOSCI = 4;
+const BITY_ODCISKU = 16;
 
 /**
  * Klucz odpowiedzi. Sekcja 8 wymaga permutacji „utwór i -> indeks roku"; do tego
@@ -145,59 +294,79 @@ export function odkodujKodPokoju(kod) {
  * inną wersję songs.json niż laptop hosta — punktacja jest wtedy nadal poprawna,
  * a ukrywamy tylko tytuły.
  *
- * Układ bajtów:
- *   0        wersja formatu
- *   1        N (liczba utworów)
- *   2..3     odcisk bazy (uint16)
- *   4..      dla każdego utworu: indeks roku (uint8) + indeks w bazie (uint16 BE)
+ * Permutacja idzie jako jeden numer (kod Lehmera), a indeksy utworów na tylu
+ * bitach, ile naprawdę potrzeba — szerokość zapisana jest w nagłówku, więc
+ * powiększenie bazy w przyszłości nie psuje formatu.
  */
 export function zakodujKlucz(przypisania, odciskBazy, wersja = WERSJA_FORMATU) {
   const n = przypisania.length;
   if (n === 0) throw new Error('Pusty klucz odpowiedzi.');
-  if (n > 255) throw new Error('Klucz obsługuje najwyżej 255 utworów.');
+  if (n >= 1 << BITY_LICZBY) throw new Error(`Klucz obsługuje najwyżej ${(1 << BITY_LICZBY) - 1} utworów.`);
 
-  const bajty = new Uint8Array(4 + n * 3);
-  bajty[0] = wersja;
-  bajty[1] = n;
-  bajty[2] = (odciskBazy >> 8) & 255;
-  bajty[3] = odciskBazy & 255;
-
-  przypisania.forEach((p, i) => {
+  const permutacja = przypisania.map((p, i) => {
     if (!Number.isInteger(p.indeksRoku) || p.indeksRoku < 0 || p.indeksRoku >= n) {
       throw new Error(`Utwór ${i + 1}: indeks roku ${p.indeksRoku} poza zakresem 0–${n - 1}.`);
     }
-    const idx = Number.isInteger(p.indeksWBazie) ? p.indeksWBazie : 0xffff;
-    bajty[4 + i * 3] = p.indeksRoku;
-    bajty[5 + i * 3] = (idx >> 8) & 255;
-    bajty[6 + i * 3] = idx & 255;
+    return p.indeksRoku;
   });
 
-  return bajtyNaBase32(bajty);
+  const indeksy = przypisania.map((p) => (Number.isInteger(p.indeksWBazie) ? p.indeksWBazie : 0));
+  const szerokosc = Math.max(1, bitowNa(BigInt(Math.max(...indeksy) + 1)));
+  // W nagłówku siedzi szerokość pomniejszona o 1, więc 4 bity dają zakres 1–16 bitów
+  // na indeks, czyli bazę do 65 535 utworów.
+  if (szerokosc > (1 << BITY_SZEROKOSCI)) throw new Error('Baza utworów jest za duża dla tego formatu klucza.');
+
+  const zapis = new Zapis();
+  zapis.dopisz(wersja, BITY_WERSJI);
+  zapis.dopisz(n, BITY_LICZBY);
+  zapis.dopisz(szerokosc - 1, BITY_SZEROKOSCI);
+  zapis.dopisz(odciskBazy, BITY_ODCISKU);
+  zapis.dopisz(rangaPermutacji(permutacja), bitowNa(silnia(n)));
+  for (const indeks of indeksy) zapis.dopisz(indeks, szerokosc);
+  return zapis.naBase32();
 }
 
 /** Dekoduje klucz odpowiedzi. */
 export function odkodujKlucz(kod) {
   const czysty = oczysc(kod);
-  if (czysty.length < 8) throw new Error('Klucz odpowiedzi jest za krótki.');
-  const bajty = base32NaBajty(czysty);
-  if (bajty.length < 4) throw new Error('Klucz odpowiedzi jest uszkodzony.');
+  if (czysty.length < 6) throw new Error('Klucz odpowiedzi jest za krótki.');
 
-  const wersja = bajty[0];
+  const odczyt = new Odczyt(czysty);
+  const niekompletny = () => new Error('Klucz odpowiedzi jest niekompletny — zeskanuj go jeszcze raz.');
+
+  let wersja;
+  let n;
+  let szerokosc;
+  let odciskBazy;
+  try {
+    wersja = Number(odczyt.czytaj(BITY_WERSJI));
+    n = Number(odczyt.czytaj(BITY_LICZBY));
+    szerokosc = Number(odczyt.czytaj(BITY_SZEROKOSCI)) + 1;
+    odciskBazy = Number(odczyt.czytaj(BITY_ODCISKU));
+  } catch {
+    throw niekompletny();
+  }
+
   if (wersja !== WERSJA_FORMATU) {
     throw new Error(`Klucz pochodzi z innej wersji gry (${wersja}). Odśwież stronę na obu urządzeniach.`);
   }
-  const n = bajty[1];
-  const odciskBazy = (bajty[2] << 8) | bajty[3];
-  if (bajty.length < 4 + n * 3) throw new Error('Klucz odpowiedzi jest niekompletny — zeskanuj go jeszcze raz.');
+  if (n === 0) throw new Error('Klucz odpowiedzi jest pusty.');
 
-  const przypisania = [];
-  for (let i = 0; i < n; i++) {
-    const indeksWBazie = (bajty[5 + i * 3] << 8) | bajty[6 + i * 3];
-    przypisania.push({
-      indeksRoku: bajty[4 + i * 3],
-      indeksWBazie: indeksWBazie === 0xffff ? null : indeksWBazie,
-    });
+  let permutacja;
+  const indeksy = [];
+  try {
+    const ranga = odczyt.czytaj(bitowNa(silnia(n)));
+    if (ranga >= silnia(n)) throw niekompletny();
+    permutacja = permutacjaZRangi(ranga, n);
+    for (let i = 0; i < n; i++) indeksy.push(Number(odczyt.czytaj(szerokosc)));
+  } catch {
+    throw niekompletny();
   }
+
+  const przypisania = permutacja.map((indeksRoku, i) => ({
+    indeksRoku,
+    indeksWBazie: indeksy[i],
+  }));
   return { wersja, odciskBazy, przypisania };
 }
 

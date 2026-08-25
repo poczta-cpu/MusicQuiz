@@ -21,7 +21,7 @@ import {
 import { przygotujGre } from './losowanie.js';
 import { publishRoom, publishKey } from './transport.js';
 import { Odtwarzacz, LIMIT_ODTWORZEN } from './odtwarzacz.js';
-import { odciskBazy, ROK_MIN, ROK_MAX } from './kody.js';
+import { odciskBazy, formatujKod, ROK_MIN, ROK_MAX } from './kody.js';
 import { wczytajStanHosta, zapiszStanHosta, skasujStanHosta, magazynDostepny } from './magazyn.js';
 
 // Logowanie jest dekoracyjne (D7) — oba te napisy są jawne w kodzie strony.
@@ -190,7 +190,8 @@ function pokazZaproszenie() {
   stan.kodPokoju = kod;
   zapiszStan();
 
-  $('kod-pokoju').textContent = kod;
+  // Grupy po cztery znaki - kod jest przepisywany recznie z drugiego konca pokoju.
+  $('kod-pokoju').textContent = formatujKod(kod);
   $('adres-gry').textContent = url.split('#')[0];
   pokazEkran('zaproszenie');
 }
@@ -323,7 +324,7 @@ function pokazKoniec() {
     odciskBazy: odciskBazy(baza),
   }, $('qr-klucz'));
 
-  $('kod-klucza').value = kod;
+  $('kod-klucza').value = formatujKod(kod);
 
   const tbody = $('tabela-utworow');
   tbody.innerHTML = '';
