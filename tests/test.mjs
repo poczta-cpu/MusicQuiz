@@ -24,6 +24,7 @@ import { policzWynik, wgRoku } from '../js/punktacja.js';
 import { Arkusz } from '../js/arkusz.js';
 import { Odtwarzacz, LIMIT_ODTWORZEN } from '../js/odtwarzacz.js';
 import { pustyStanGracza } from '../js/magazyn.js';
+import { WERSJA_GRY } from '../js/wersja.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -1054,6 +1055,27 @@ await testAsync('każde przejście dalej wraca do pełnego limitu', async () => 
   assert.equal(odtwarzacz.mozeGrac, true);
   await odtwarzacz.odtworz();
   assert.equal(odtwarzacz.odtworzenia, 1);
+});
+
+// ---------------------------------------------------------------- wersja
+
+grupa('Numer wersji');
+
+test('wersja w stopce zgadza się z package.json', () => {
+  const paczka = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  assert.match(WERSJA_GRY, /^v\d+\.\d+$/, 'format to vX.Y');
+
+  // package.json trzyma pełne trzy człony, stopka skrócone dwa.
+  const [glowny, poboczny] = paczka.version.split('.');
+  assert.equal(WERSJA_GRY, `v${glowny}.${poboczny}`,
+    `stopka mówi ${WERSJA_GRY}, a package.json ${paczka.version}`);
+});
+
+test('każda strona ma miejsce na numer wersji', () => {
+  for (const strona of ['index.html', 'host.html', 'gracz.html']) {
+    const tresc = readFileSync(path.join(ROOT, strona), 'utf8');
+    assert.ok(tresc.includes('id="wersja"'), `${strona} nie ma gdzie pokazać wersji`);
+  }
 });
 
 // ---------------------------------------------------------------- podsumowanie

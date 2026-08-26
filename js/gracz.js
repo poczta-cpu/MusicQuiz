@@ -13,6 +13,7 @@ import { joinRoom, fetchKey, uruchomSkaner, obslugujeSkanowanie } from './transp
 import { Arkusz } from './arkusz.js';
 import { policzWynik, godzinaTeraz, wgRoku } from './punktacja.js';
 import { wczytajBaze } from './dane.js';
+import { WERSJA_GRY } from './wersja.js';
 import {
   pustyStanGracza, wczytajStanGracza, zapiszStanGracza, magazynDostepny,
 } from './magazyn.js';
@@ -434,6 +435,7 @@ $('btn-nowa-gra').addEventListener('click', () => {
 // ---------------------------------------------------------------- start
 
 function start() {
+  $('wersja').textContent = WERSJA_GRY;
   wypelnijZAdresu();
 
   if (!magazynDostepny) {

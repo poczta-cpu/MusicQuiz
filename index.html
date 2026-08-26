@@ -36,8 +36,14 @@
     </ol>
   </div>
 
-  <p class="stopka">Bez serwera i bez kont.</p>
+  <p class="stopka">Bez serwera i bez kont. <span class="wersja" id="wersja"></span></p>
 </main>
+
+<script type="module">
+  // index.html nie ma innej logiki - sam napis wersji, z jednego zrodla.
+  import { WERSJA_GRY } from './js/wersja.js';
+  document.getElementById('wersja').textContent = WERSJA_GRY;
+</script>
 
 </body>
 </html>
