@@ -20,6 +20,7 @@ import {
 import { przygotujGre, wylosujRoczniki, liczbaDekad, potasuj } from '../js/losowanie.js';
 import { policzWynik, wgRoku } from '../js/punktacja.js';
 import { Arkusz } from '../js/arkusz.js';
+import { Odtwarzacz, LIMIT_ODTWORZEN } from '../js/odtwarzacz.js';
 import { pustyStanGracza } from '../js/magazyn.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -37,6 +38,19 @@ function test(opis, fn) {
     oblane++;
     oblaneOpisy.push(opis);
     console.log(`  ✗ ${opis}\n      ${e.message}`);
+  }
+}
+
+async function testAsync(opis, fn) {
+  try {
+    await fn();
+    zaliczone++;
+    console.log(`  ✓ ${opis}`);
+  } catch (e) {
+    oblane++;
+    oblaneOpisy.push(opis);
+    console.log(`  ✗ ${opis}
+      ${e.message}`);
   }
 }
 
@@ -671,6 +685,148 @@ if (!existsSync(sciezkaBazy)) {
     }
   });
 }
+
+// ---------------------------------------------------------------- odtwarzacz
+
+grupa('Odtwarzacz u prowadzącego (4.4)');
+
+/**
+ * Podróbka `<audio>` odwzorowująca to, co w prawdziwej przeglądarce wywołało
+ * buga: `pause()` nie wysyła zdarzenia od razu, tylko wstawia je do kolejki,
+ * a `load()` tę kolejkę czyści. Bez tej wierności test przechodziłby także
+ * na wersji z zapamiętaną flagą.
+ */
+function audioPodrobka({ playOdrzuca = null } = {}) {
+  const sluchacze = new Map();
+  let kolejka = [];
+
+  const el = {
+    src: '', preload: '', currentTime: 0, paused: true, ended: false,
+
+    addEventListener(nazwa, fn) {
+      if (!sluchacze.has(nazwa)) sluchacze.set(nazwa, []);
+      sluchacze.get(nazwa).push(fn);
+    },
+    play() {
+      if (playOdrzuca) {
+        el.paused = true;
+        const e = new Error('przerwane'); e.name = playOdrzuca;
+        return Promise.reject(e);
+      }
+      el.paused = false;
+      el.ended = false;
+      kolejka.push('playing');
+      return Promise.resolve();
+    },
+    pause() {
+      if (el.paused) return;
+      el.paused = true;
+      kolejka.push('pause');
+    },
+    load() {
+      kolejka = [];        // sedno sprawy: zaległe zdarzenia przepadają
+    },
+
+    /** Wypuszcza zaległe zdarzenia — odpowiednik oddania sterowania pętli zdarzeń. */
+    przepusc() {
+      const doWyslania = kolejka;
+      kolejka = [];
+      for (const nazwa of doWyslania) for (const fn of sluchacze.get(nazwa) || []) fn();
+    },
+    /** Fragment dobiegł końca. */
+    dograjDoKonca() {
+      el.paused = true;
+      el.ended = true;
+      kolejka.push('ended');
+    },
+  };
+  return el;
+}
+
+function zOdtwarzaczem(opcje = {}) {
+  const audio = audioPodrobka(opcje);
+  const poprzednie = globalThis.Audio;
+  globalThis.Audio = function Audio() { return audio; };
+  try {
+    return { odtwarzacz: new Odtwarzacz(), audio };
+  } finally {
+    globalThis.Audio = poprzednie;
+  }
+}
+
+await testAsync('następny utwór w trakcie grania nie blokuje przycisku Odtwórz', async () => {
+  const { odtwarzacz, audio } = zOdtwarzaczem();
+  odtwarzacz.zaladuj('https://x/a.m4a');
+  await odtwarzacz.odtworz();
+  audio.przepusc();                          // przyszło `playing`, fragment leci
+  assert.equal(odtwarzacz.gra, true, 'fragment powinien lecieć');
+  assert.equal(odtwarzacz.mozeGrac, false, 'w trakcie grania Odtwórz jest wyłączony');
+
+  // Host przerywa w połowie i przechodzi dalej — dokładnie to robi btn-nastepny.
+  odtwarzacz.zatrzymaj();
+  odtwarzacz.zaladuj('https://x/b.m4a');
+
+  // Bez oddania sterowania pętli zdarzeń: zdarzenie `pause` zostało skasowane
+  // przez load() i nigdy nie przyjdzie. Przycisk i tak musi być czynny.
+  assert.equal(odtwarzacz.gra, false, 'po przejściu dalej nic już nie gra');
+  assert.equal(odtwarzacz.mozeGrac, true, 'Odtwórz musi być czynny od razu');
+  assert.equal(odtwarzacz.odtworzenia, 0, 'nowy utwór ma świeży licznik');
+});
+
+await testAsync('samo zatrzymanie w trakcie grania też odblokowuje Odtwórz', async () => {
+  const { odtwarzacz, audio } = zOdtwarzaczem();
+  odtwarzacz.zaladuj('https://x/a.m4a');
+  await odtwarzacz.odtworz();
+  audio.przepusc();
+  odtwarzacz.zatrzymaj();
+  assert.equal(odtwarzacz.gra, false);
+  assert.equal(odtwarzacz.mozeGrac, true);
+});
+
+await testAsync('przerwanie przez hosta nie kosztuje odtworzenia', async () => {
+  const { odtwarzacz } = zOdtwarzaczem({ playOdrzuca: 'AbortError' });
+  odtwarzacz.zaladuj('https://x/a.m4a');
+  await odtwarzacz.odtworz();               // nie wolno rzucić błędem na ekran
+  assert.equal(odtwarzacz.odtworzenia, 0);
+  assert.equal(odtwarzacz.mozeGrac, true);
+});
+
+await testAsync('odmowa przeglądarki idzie do hosta jako czytelny błąd', async () => {
+  const { odtwarzacz } = zOdtwarzaczem({ playOdrzuca: 'NotAllowedError' });
+  odtwarzacz.zaladuj('https://x/a.m4a');
+  await assert.rejects(() => odtwarzacz.odtworz(), /NotAllowedError/);
+  assert.equal(odtwarzacz.odtworzenia, 0, 'odmowa nie może kosztować odtworzenia');
+});
+
+await testAsync('dosłuchanie do końca zwalnia przycisk, a limit dalej obowiązuje', async () => {
+  const { odtwarzacz, audio } = zOdtwarzaczem();
+  odtwarzacz.zaladuj('https://x/a.m4a');
+
+  for (let i = 0; i < LIMIT_ODTWORZEN; i++) {
+    await odtwarzacz.odtworz();
+    audio.dograjDoKonca();
+    audio.przepusc();
+    assert.equal(odtwarzacz.gra, false, 'po końcu fragmentu nic nie gra');
+  }
+
+  assert.equal(odtwarzacz.zostalo, 0);
+  assert.equal(odtwarzacz.mozeGrac, false, 'trzecie odtworzenie jest zablokowane');
+  await assert.rejects(() => odtwarzacz.odtworz(), /już odtworzony/);
+});
+
+await testAsync('każde przejście dalej wraca do pełnego limitu', async () => {
+  const { odtwarzacz, audio } = zOdtwarzaczem();
+  odtwarzacz.zaladuj('https://x/a.m4a');
+  await odtwarzacz.odtworz();
+  audio.przepusc();
+
+  odtwarzacz.zatrzymaj();
+  odtwarzacz.zaladuj('https://x/b.m4a');
+  assert.equal(odtwarzacz.zostalo, LIMIT_ODTWORZEN);
+  assert.equal(odtwarzacz.mozeGrac, true);
+  await odtwarzacz.odtworz();
+  assert.equal(odtwarzacz.odtworzenia, 1);
+});
 
 // ---------------------------------------------------------------- podsumowanie
 

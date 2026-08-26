@@ -4,6 +4,9 @@
  * Fragment przychodzi gotowy spod previewUrl z iTunes; długości ani punktu
  * startowego nie da się wybrać (kompromis nr 4). Limit dwóch odtworzeń na utwór
  * pilnowany jest tutaj, żeby ekran hosta nie musiał o tym pamiętać.
+ *
+ * Fragmentu nie trzeba dosłuchać do końca — host w każdej chwili przechodzi
+ * dalej, a odtwarzacz ma się z tego pozbierać bez śladu.
  */
 
 export const LIMIT_ODTWORZEN = 2;
@@ -13,18 +16,23 @@ export class Odtwarzacz {
     this.audio = new Audio();
     this.audio.preload = 'auto';
     this.odtworzenia = 0;
-    this.gra = false;
     this.przyZmianie = () => {};
 
-    this.audio.addEventListener('ended', () => this._zmiana(false));
-    this.audio.addEventListener('pause', () => this._zmiana(false));
-    this.audio.addEventListener('playing', () => this._zmiana(true));
-    this.audio.addEventListener('error', () => this._zmiana(false));
+    for (const zdarzenie of ['ended', 'pause', 'playing', 'error']) {
+      this.audio.addEventListener(zdarzenie, () => this.przyZmianie(this));
+    }
   }
 
-  _zmiana(gra) {
-    this.gra = gra;
-    this.przyZmianie(this);
+  /**
+   * Czy fragment leci w tej chwili — czytane wprost z elementu audio.
+   * Zapamiętana flaga potrafiła się tu zaciąć: `pause()` wysyła zdarzenie
+   * `pause` dopiero w następnym zadaniu, a `load()` przy ładowaniu kolejnego
+   * utworu kasuje takie zadania z kolejki. Po kliknięciu „Następny utwór"
+   * w trakcie grania flaga zostawała na `true` i przycisk „Odtwórz" nie dawał
+   * się już wcisnąć do końca rozgrywki.
+   */
+  get gra() {
+    return !!this.audio.src && !this.audio.paused && !this.audio.ended;
   }
 
   /** Podstawia nowy utwór i zeruje licznik odtworzeń. */
@@ -56,6 +64,9 @@ export class Odtwarzacz {
     try {
       await this.audio.play();
     } catch (e) {
+      // Host przerwał sam (Następny utwór, Zakończ) — to nie jest błąd
+      // i nie może kosztować odtworzenia ani zaśmiecać ekranu komunikatem.
+      if (e && e.name === 'AbortError') return;
       throw new Error(`Nie udało się odtworzyć fragmentu (${e.name || 'błąd'}). Sprawdź dźwięk i połączenie.`);
     }
     // Licznik rośnie dopiero po faktycznym starcie — odmowa przeglądarki
@@ -68,5 +79,6 @@ export class Odtwarzacz {
     if (!this.audio.src) return;
     this.audio.pause();
     try { this.audio.currentTime = 0; } catch { /* nieistotne */ }
+    this.przyZmianie(this);
   }
 }
