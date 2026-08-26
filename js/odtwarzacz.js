@@ -11,6 +11,22 @@
 
 export const LIMIT_ODTWORZEN = 2;
 
+/**
+ * Czy prowadzącemu wolno przejść do kolejnego utworu.
+ *
+ * Dopóki fragment nie poleciał ani razu, „Następny utwór" zostaje zablokowany.
+ * Bez tego jedno przypadkowe kliknięcie przewija utwór, którego nikt nie
+ * usłyszał — a gracze i tak muszą przypisać mu rocznik, więc cała sala traci
+ * punkt bez szansy na odpowiedź.
+ *
+ * Wyjątek: gdy odtwarzanie zwróciło błąd (wygasły previewUrl, odmowa
+ * przeglądarki), przejście musi się odblokować. Inaczej host utyka na
+ * uszkodzonym utworze i jedynym wyjściem zostaje zakończenie całej gry.
+ */
+export function wolnoIscDalej({ odtworzenia = 0, blad = false } = {}) {
+  return odtworzenia > 0 || blad;
+}
+
 export class Odtwarzacz {
   constructor() {
     this.audio = new Audio();
