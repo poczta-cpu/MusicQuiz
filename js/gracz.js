@@ -95,7 +95,8 @@ function wejdzDoGry() {
     pokazEkranKlucza();
     return;
   }
-  arkusz = new Arkusz(stan, pokoj.lata);
+  // Tryb przyjechał w kodzie pokoju, więc telefon nie ma go skąd pomylić.
+  arkusz = new Arkusz(stan, pokoj.lata, pokoj.tryb);
   pokazEkran('gra');
   odswiezGre();
 }
@@ -106,15 +107,62 @@ function odswiezGre() {
 
   arkusz.podpowiedzOstatniego();
 
+  if (arkusz.swobodny) odswiezSwobodny();
+  else odswiezRundowy();
+
+  rysujKolumne();
+}
+
+function odswiezRundowy() {
+  $('nieprzypisane-blok').classList.add('ukryte');
+
   $('podtytul-gry').textContent = arkusz.wybor === null
     ? `Wolnych roczników: ${arkusz.wolneIndeksy().length}`
     : `Wybrany rok: ${pokoj.lata[arkusz.wybor]}`;
-
-  rysujKolumne();
+  $('podpowiedz-gry').textContent = 'Zatwierdzony rocznik jest zablokowany na stałe.';
 
   $('btn-zatwierdz').textContent = arkusz.wybor === null
     ? 'Zatwierdź bez odpowiedzi'
     : `Zatwierdź rok ${pokoj.lata[arkusz.wybor]}`;
+}
+
+function odswiezSwobodny() {
+  rysujNieprzypisane();
+
+  const wRece = arkusz.podniesiony;
+  $('podtytul-gry').textContent = wRece === null
+    ? `Bez rocznika: ${arkusz.nieprzypisane().length}`
+    : `W ręce Utwór ${wRece + 1} — wskaż rocznik`;
+  $('podpowiedz-gry').textContent = 'Przypisania możesz przestawiać aż do zamrożenia listy.';
+
+  // Jeden przycisk na dole: przez całą grę przesuwa dalej, przy ostatnim
+  // utworze zamyka listę. Zamrożenie jest jedyną drogą do klucza odpowiedzi.
+  $('btn-zatwierdz').textContent = arkusz.ostatniUtwor ? 'Zamroź listę' : 'Dalej';
+}
+
+/** Utwory czekające na rocznik. Tapnięcie bierze utwór do ręki albo go odkłada. */
+function rysujNieprzypisane() {
+  const blok = $('nieprzypisane-blok');
+  const lista = $('nieprzypisane');
+  const utwory = arkusz.nieprzypisane();
+
+  blok.classList.toggle('ukryte', utwory.length === 0);
+  lista.innerHTML = '';
+
+  for (const utwor of utwory) {
+    const przycisk = document.createElement('button');
+    przycisk.type = 'button';
+    przycisk.className = 'zeton'
+      + (utwor === arkusz.podniesiony ? ' podniesiony' : '')
+      + (utwor === arkusz.stan.biezacy ? ' biezacy' : '');
+    przycisk.textContent = `Utwór ${utwor + 1}`;   // nigdy tytuł (7.2)
+    przycisk.addEventListener('click', () => {
+      arkusz.podnies(utwor);
+      zapiszStanGracza(stan);
+      odswiezGre();
+    });
+    lista.appendChild(przycisk);
+  }
 }
 
 function rysujKolumne() {
@@ -125,13 +173,22 @@ function rysujKolumne() {
     const li = document.createElement('li');
     const przycisk = document.createElement('button');
     przycisk.type = 'button';
-    przycisk.className = `rocznik ${w.zajety ? 'zajety' : w.wybrany ? 'wybrany' : 'wolny'}`;
-    przycisk.disabled = w.zajety;
-    if (w.zajety) przycisk.setAttribute('aria-disabled', 'true');
+
+    // Zamrożony wygrywa nad wszystkim — to jedyny stan, który blokuje tapnięcie.
+    let stanWiersza;
+    if (w.zamrozony) stanWiersza = 'zajety';
+    else if (w.podniesiony) stanWiersza = 'podniesiony';
+    else if (w.wybrany) stanWiersza = 'wybrany';
+    else if (w.zajety) stanWiersza = 'obsadzony';
+    else stanWiersza = 'wolny';
+
+    przycisk.className = `rocznik ${stanWiersza}`;
+    przycisk.disabled = w.zamrozony;
+    if (w.zamrozony) przycisk.setAttribute('aria-disabled', 'true');
 
     const znacznik = document.createElement('span');
     znacznik.className = 'znacznik';
-    znacznik.textContent = w.wybrany ? '◉' : '·';
+    znacznik.textContent = (w.wybrany || w.podniesiony) ? '◉' : (w.zajety ? '•' : '·');
 
     const etykietaRoku = document.createElement('span');
     etykietaRoku.className = 'rok';
@@ -142,13 +199,17 @@ function rysujKolumne() {
     zawartosc.textContent = w.etykieta;   // nigdy tytuł - wyłącznie numer utworu (7.2)
 
     przycisk.append(znacznik, etykietaRoku, zawartosc);
-    przycisk.setAttribute('aria-label',
-      w.zajety ? `Rok ${w.rok}, zajęty przez ${w.etykieta.toLowerCase()}` : `Rok ${w.rok}, wolny`);
+    let opis;
+    if (w.zamrozony) opis = `Rok ${w.rok}, zajęty przez ${w.etykieta.toLowerCase()}`;
+    else if (w.zajety) opis = `Rok ${w.rok}, stoi tu ${w.etykieta.toLowerCase()}`;
+    else opis = `Rok ${w.rok}, wolny`;
+    przycisk.setAttribute('aria-label', opis);
 
-    if (!w.zajety) {
-      // Zmiana zdania kosztuje jedno tapniecie, dopoki nie ma zatwierdzenia.
+    if (!w.zamrozony) {
+      // Zmiana zdania kosztuje jedno tapniecie, dopoki nie ma zamrozenia.
       przycisk.addEventListener('click', () => {
         arkusz.tapnij(w.indeks);
+        zapiszStanGracza(stan);
         odswiezGre();
       });
     }
@@ -159,6 +220,11 @@ function rysujKolumne() {
 }
 
 $('btn-zatwierdz').addEventListener('click', () => {
+  if (arkusz.swobodny) {
+    zamknijSwobodny();
+    return;
+  }
+
   if (arkusz.czyPominiecie()) {
     // Pominiecie to swiadoma decyzja strategiczna, nie blad - ale pytamy (4.4).
     const zgoda = confirm(
@@ -175,6 +241,35 @@ $('btn-zatwierdz').addEventListener('click', () => {
   if (koniec) pokazEkranKlucza();
   else odswiezGre();
 });
+
+/**
+ * Tryb swobodny: dolny przycisk przesuwa arkusz dalej, a przy ostatnim utworze
+ * mrozi listę. Utwory bez rocznika zostają pominięte — pytamy o to wprost,
+ * bo po zamrożeniu nie da się już nic poprawić.
+ */
+function zamknijSwobodny() {
+  if (!arkusz.ostatniUtwor) {
+    arkusz.przejdzDalej();
+    zapiszStanGracza(stan);
+    odswiezGre();
+    return;
+  }
+
+  const bezRocznika = arkusz.nieprzypisane().length;
+  const pytanie = bezRocznika > 0
+    ? `Utworów bez rocznika: ${bezRocznika}. Tracisz za nie punkty, a po zamrożeniu nic już nie zmienisz.
+
+Zamrozić listę?`
+    : `Po zamrożeniu nic już nie zmienisz.
+
+Zamrozić listę?`;
+  if (!confirm(pytanie)) return;
+
+  // Godzina oddania calego arkusza rozstrzyga remisy (4.5 pkt 2).
+  arkusz.zamroz(godzinaTeraz());
+  zapiszStanGracza(stan);
+  pokazEkranKlucza();
+}
 
 // ---------------------------------------------------------------- odbiór klucza
 

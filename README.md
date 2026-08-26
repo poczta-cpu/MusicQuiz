@@ -14,8 +14,8 @@ który mógł się przydać przy następnym.
 ## Jak zagrać
 
 **Prowadzący** otwiera stronę na laptopie podpiętym do głośnika, wybiera *Prowadzę grę*
-i loguje się (dane niżej). Ustawia liczbę utworów, zakres lat i repertuar, po czym gra
-losuje utwory i pokazuje kod QR z kodem pokoju.
+i loguje się (dane niżej). Ustawia liczbę utworów, zakres lat, repertuar i **tryb
+rozgrywki**, po czym gra losuje utwory i pokazuje kod QR z kodem pokoju.
 
 **Gracze** skanują kod telefonami albo wpisują adres ręcznie i przepisują kod pokoju.
 Podają imię i dostają kolumnę roczników.
@@ -23,11 +23,11 @@ Podają imię i dostają kolumnę roczników.
 Potem, dla każdego utworu:
 
 1. Prowadzący klika **Odtwórz** — leci fragment. Można go powtórzyć **najwyżej raz**.
-2. Każdy wybiera rocznik na swoim telefonie. Wybór można zmieniać dowolnie długo.
-3. Kliknięcie **Zatwierdź** blokuje rocznik **nieodwracalnie** i przesuwa telefon na
-   kolejny utwór. Zatwierdzony rok zostaje w kolumnie, wyszarzony — widać, co jeszcze
-   zostało.
-4. Prowadzący mówi na głos „dalej" i klika **Następny utwór**.
+   Fragmentu nie trzeba dosłuchać do końca.
+2. Każdy przypisuje utwór do rocznika na swoim telefonie.
+3. Prowadzący mówi na głos „dalej" i klika **Następny utwór**.
+
+To, co dzieje się w punkcie 2, zależy od trybu — patrz niżej.
 
 Po ostatnim utworze prowadzący pokazuje kod QR z kluczem odpowiedzi. Telefony liczą
 wyniki same i pokazują je razem z tytułami. **Wyniki odczytujecie na głos.**
@@ -39,32 +39,53 @@ niezależnie od wyboru.
 **Prowadzący gra na równi z resztą.** Jego ekran nie pokazuje roku — odpala fragment
 z laptopa i odpowiada na własnym telefonie jak każdy.
 
+### Dwa tryby rozgrywki
+
+Tryb wybiera prowadzący przed startem i **jedzie w kodzie pokoju**, więc telefony
+ustawiają się same. Nie da się grać w jednym pokoju w dwóch różnych trybach — tryb
+swobodny daje wyraźnie wyższe wyniki i punktacja przestałaby być porównywalna.
+
+**Rundowy** (domyślny). Wybór rocznika można zmieniać dowolnie długo, ale kliknięcie
+**Zatwierdź** blokuje go **nieodwracalnie** i przesuwa telefon na kolejny utwór.
+Zatwierdzony rok zostaje w kolumnie wyszarzony — widać, co jeszcze zostało.
+
+**Swobodny.** Przypisania żyją przez całą grę i układa się je **dwoma tapnięciami**:
+
+- Bieżący utwór czeka „w ręce" sam z siebie — jedno tapnięcie rocznika kładzie go
+  na miejsce i przesuwa arkusz dalej.
+- Tapnięcie obsadzonego rocznika **pustą ręką** bierze stamtąd utwór; drugie tapnięcie
+  kładzie go gdzie indziej. Położenie na zajętym roczniku **zamienia oba utwory
+  miejscami**.
+- Utwory bez rocznika czekają na liście u góry ekranu. Tapnięcie żetonu bierze utwór
+  do ręki albo go odkłada.
+- **Dalej** przechodzi do kolejnego utworu bez przypisywania czegokolwiek.
+- Przy ostatnim utworze przycisk zmienia się w **Zamroź listę**. Dopiero to zamyka
+  arkusz, wystawia godzinę i otwiera ekran klucza odpowiedzi. Utwory bez rocznika
+  zostają pominięte — gra pyta o to wprost.
+
 ### Przy remisie
 
-Telefon zapisuje godzinę zegarową w momencie zatwierdzenia ostatniego utworu.
+Telefon zapisuje godzinę zegarową w momencie zamknięcia arkusza — w trybie rundowym
+przy zatwierdzeniu ostatniego utworu, w swobodnym przy zamrożeniu listy.
 Przy tej samej liczbie punktów wygrywa wcześniejsza godzina. Zegary telefonów są
 synchronizowane przez sieć, więc porównanie co do sekundy jest wiarygodne.
 
 ### Kody
 
 Kod pokoju jest wyświetlany w grupach po cztery znaki i jego długość zależy od rozmiaru
-gry — od czterech znaków przy trzech utworach do jedenastu w najgorszym przypadku.
+gry — od ośmiu znaków przy dziesięciu utworach do dziesięciu w najgorszym przypadku.
 Wielkość liter, spacje i myślniki nie mają znaczenia przy przepisywaniu; alfabet pomija
 `I`, `L`, `O` i `U`, żeby nie myliły się z cyframi.
 
-Krótszy kod nie jest możliwy. Kod pokoju musi unieść zbiór N roczników wybranych z 52,
-a dla dziesięciu utworów to prawie 16 miliardów możliwości — czterocyfrowy kod ma ich
+Krótszy kod nie jest możliwy. Kod pokoju musi unieść zbiór N roczników wybranych z 47,
+a dla dziesięciu utworów to ponad 15 miliardów możliwości — czterocyfrowy kod ma ich
 dziesięć tysięcy. Bez serwera nie ma gdzie wymienić krótkiego kodu na dane, więc musi
 być samowystarczalny.
 
-### Krótka rozgrywka do testów
-
-Na dole listy „Liczba utworów" jest grupa **Do testów — krótka rozgrywka** z opcjami
-**3** i **5 utworów**. Służą do sprawdzenia gry od początku do końca w dwie minuty,
-zamiast rozgrywać pełny kwadrans. Przydają się też, gdy baza pokrywa mało roczników —
-właściwa gra wymaga co najmniej dziesięciu.
-
-Do grania wybieraj wartości z góry listy: 10–40 co 5.
+**Tryb rozgrywki nie wydłużył kodu ani o znak.** Lista długości gry ma pięć pozycji
+(10–30 co 5), więc jej indeks mieści się w trzech bitach zamiast czterech — zwolniony
+bit poszedł na tryb. Dopisanie szóstej długości ten zapas skasuje i wszystkie kody
+urosną; patrz `DLUGOSCI_W_NAGLOWKU` w `js/kody.js`.
 
 ### Łatwiejszy wariant — tytuł i wykonawca na ekranie
 
@@ -110,8 +131,9 @@ ograniczenia, które są **wybrane**, nie przeoczone:
    znajomych w jednym pokoju, nie turniej.
 2. **Prowadzący nie widzi postępu graczy.** Musi zapytać na głos, czy wszyscy zatwierdzili,
    i pilnować, żeby numer utworu na telefonach zgadzał się z numerem na jego ekranie.
-3. **Gracz może zwlekać z `Zatwierdź`** i podjąć decyzję po usłyszeniu kolejnego utworu.
-   Bez chmury nie da się tego wykryć.
+3. **Gracz może zwlekać z zamknięciem wyboru** i podjąć decyzję po usłyszeniu kolejnego
+   utworu. Bez chmury nie da się tego wykryć. Tryb swobodny robi z tego regułę zamiast
+   nadużycia — dlatego daje wyższe wyniki i dlatego cały pokój musi grać w tym samym trybie.
 4. **Fragment to 30 sekund z iTunes**, zwykle refren. Ani długości, ani punktu startowego
    nie da się wybrać.
 5. **Adresy fragmentów mogą z czasem wygasnąć.** Wtedy: `npm run enrich -- --refresh`.
@@ -119,9 +141,14 @@ ograniczenia, które są **wybrane**, nie przeoczone:
 7. **Prowadzący ma klucz odpowiedzi w przeglądarce** od początku gry. Nie jest renderowany
    na ekranie, ale zdeterminowany prowadzący znajdzie go w konsoli. Klucz trafia też do
    `localStorage`, żeby odświeżenie strony na laptopie nie skasowało rozgrywki w połowie.
-8. **Baza pokrywa lata 1980–2019** (391 utworów, 40 roczników, każdy rocznik pełny). Pola roku przyjmują
-   1975–2026 zgodnie ze specyfikacją, ale poza tym zakresem nie ma utworów. Licznik „dostępne roczniki" pokazuje to na żywo,
+8. **Baza pokrywa lata 1980–2019** (391 utworów, 40 roczników, każdy rocznik pełny). Pola roku
+   przyjmują 1980–2026; specyfikacja mówiła o 1975, ale przed 1980 nie ma i nie będzie utworów,
+   więc dolna granica poszła w górę — to zawęziło zakres kodu pokoju z 52 roczników do 47.
+   Powyżej 2019 nadal nic nie ma. Licznik „dostępne roczniki" pokazuje to na żywo,
    a walidacja odrzuci taki wybór z konkretnym komunikatem.
+9. **Rozgrywka ma 10–30 utworów, co 5.** Testowe długości 3 i 5 oraz warianty 35 i 40 zniknęły
+   z listy: pięć pozycji mieści się w trzech bitach nagłówka kodu pokoju, dzięki czemu tryb
+   rozgrywki wszedł do kodu bez wydłużania go.
 
 ---
 
@@ -220,7 +247,7 @@ js/kody.js          kod pokoju (52-bitowa maska lat w base32) i klucz odpowiedzi
 js/transport.js     publishRoom / joinRoom / publishKey / fetchKey
 js/dane.js          wczytanie bazy, filtry, walidacja konfiguracji
 js/losowanie.js     dobór roczników i utworów
-js/arkusz.js        reguły układanki gracza (bez DOM)
+js/arkusz.js        reguły układanki gracza, oba tryby (bez DOM)
 js/punktacja.js     liczenie wyniku na telefonie
 js/magazyn.js       localStorage kluczowany kodem pokoju
 js/odtwarzacz.js    odtwarzanie fragmentu i limit dwóch odtworzeń

@@ -16,7 +16,7 @@
 
 import {
   wczytajBaze, sprawdzKonfiguracje, dostepneRoczniki, opisUtworu, odmienUtwory,
-  LICZBY_UTWOROW, LICZBY_TESTOWE, REPERTUARY,
+  LICZBY_UTWOROW, REPERTUARY, OPISY_TRYBOW, TRYBY, TRYB_DOMYSLNY,
 } from './dane.js';
 import { przygotujGre } from './losowanie.js';
 import { publishRoom, publishKey } from './transport.js';
@@ -109,6 +109,7 @@ function czytajKonfiguracje() {
     od: Number($('rok-od').value),
     doRoku: Number($('rok-do').value),
     repertuar: $('repertuar').value,
+    tryb: $('tryb').value,
     pokazTytul: $('pokaz-tytul').checked,
     pokazWykonawce: $('pokaz-wykonawce').checked,
   };
@@ -137,6 +138,14 @@ function odswiezLicznikRocznikow() {
   el.innerHTML = `Dostępne roczniki: <strong>${roczniki.length}</strong> `
     + `<span style="color:var(--tekst-cichy)">(${etykieta}, ${k.od}–${k.doRoku}; wybrano ${odmienUtwory(k.liczbaUtworow)})</span>`;
 }
+
+/** Opis trybu pod listą — host wybiera zasady, nie nazwę. */
+function odswiezOpisTrybu() {
+  const opis = OPISY_TRYBOW[$('tryb').value] || OPISY_TRYBOW[TRYB_DOMYSLNY];
+  $('opis-trybu').textContent = opis.opis;
+}
+
+$('tryb').addEventListener('change', odswiezOpisTrybu);
 
 for (const id of ['liczba-utworow', 'rok-od', 'rok-do', 'repertuar']) {
   $(id).addEventListener('input', odswiezLicznikRocznikow);
@@ -189,13 +198,19 @@ $('btn-porzuc').addEventListener('click', () => {
 function pokazZaproszenie() {
   stan.faza = 'zaproszenie';
   // Transport sam decyduje, jak wygląda zaproszenie — ten ekran nie wie o QR (D9).
-  const { kod, url } = publishRoom({ lata: stan.lata }, $('qr-pokoj'));
+  const { kod, url } = publishRoom({ lata: stan.lata, tryb: stan.konfiguracja.tryb }, $('qr-pokoj'));
   stan.kodPokoju = kod;
   zapiszStan();
 
   // Grupy po cztery znaki - kod jest przepisywany recznie z drugiego konca pokoju.
   $('kod-pokoju').textContent = formatujKod(kod);
   $('adres-gry').textContent = url.split('#')[0];
+
+  // Tryb jedzie w kodzie pokoju, więc telefony ustawią się same — ale gracze
+  // muszą wiedzieć, w co grają, zanim zacznie się pierwszy utwór.
+  const opis = OPISY_TRYBOW[stan.konfiguracja.tryb] || OPISY_TRYBOW[TRYB_DOMYSLNY];
+  $('info-tryb').textContent = `Tryb ${opis.etykieta.toLowerCase()}. ${opis.opis}`;
+
   pokazEkran('zaproszenie');
 }
 
@@ -397,17 +412,16 @@ async function start() {
     wybor.appendChild(opt);
   }
 
-  // Krótkie rozgrywki na samym dole i wyraźnie opisane — służą do sprawdzenia
-  // gry na żywo, nie do grania.
-  const grupaTestowa = document.createElement('optgroup');
-  grupaTestowa.label = 'Do testów — krótka rozgrywka';
-  for (const n of LICZBY_TESTOWE) {
+  const wyborTrybu = $('tryb');
+  for (const tryb of TRYBY) {
     const opt = document.createElement('option');
-    opt.value = String(n);
-    opt.textContent = `${odmienUtwory(n)} (test)`;
-    grupaTestowa.appendChild(opt);
+    opt.value = tryb;
+    opt.textContent = OPISY_TRYBOW[tryb].etykieta;
+    if (tryb === TRYB_DOMYSLNY) opt.selected = true;
+    wyborTrybu.appendChild(opt);
   }
-  wybor.appendChild(grupaTestowa);
+  odswiezOpisTrybu();
+
   $('rok-od').value = ROK_MIN;
   $('rok-do').value = ROK_MAX;
 

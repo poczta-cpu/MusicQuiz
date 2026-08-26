@@ -350,6 +350,41 @@ button.duzy { font-size: 1.3rem; min-height: 64px; padding: 16px 32px; }
 
 .rocznik:disabled { pointer-events: none; }
 
+/* tryb swobodny: rocznik obsadzony, ale wciąż do ruszenia */
+.rocznik.obsadzony { border-style: solid; }
+.rocznik.obsadzony .zawartosc { color: var(--tekst); font-weight: 600; }
+
+/* utwór wzięty do ręki — czeka na wskazanie rocznika */
+.rocznik.podniesiony {
+  border-color: var(--akcent);
+  border-style: dashed;
+  background: rgba(255, 194, 61, .18);
+}
+.rocznik.podniesiony .rok,
+.rocznik.podniesiony .zawartosc { color: var(--akcent); font-weight: 700; }
+
+/* żetony utworów bez rocznika (tryb swobodny) */
+.nieprzypisane-blok { margin-bottom: 16px; }
+.zetony { display: flex; flex-wrap: wrap; gap: 8px; }
+.zeton {
+  min-height: var(--cel-dotyku);
+  padding: 8px 16px;
+  border-radius: var(--promien);
+  border: 2px dashed var(--obwodka);
+  background: var(--tlo-karta);
+  color: var(--tekst);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.zeton.podniesiony {
+  border-style: solid;
+  border-color: var(--akcent);
+  background: rgba(255, 194, 61, .18);
+  color: var(--akcent);
+}
+.zeton.biezacy::after { content: ' • teraz'; font-weight: 400; opacity: .75; }
+
 /* sticky przycisk Zatwierdź */
 .pasek-dolny {
   position: fixed;

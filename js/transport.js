@@ -109,11 +109,11 @@ function wyluskajKod(wejscie) {
  * Host publikuje pokój. Zwraca kod tekstowy i adres — ekran hosta pokazuje
  * jedno i drugie, żeby dało się dołączyć bez aparatu.
  *
- * @param {{lata:number[]}} pokoj
+ * @param {{lata:number[], tryb:string}} pokoj
  * @param {HTMLElement} cel  miejsce na wizualną formę zaproszenia
  */
 export function publishRoom(pokoj, cel) {
-  const kod = zakodujKodPokoju(pokoj.lata);
+  const kod = zakodujKodPokoju(pokoj.lata, { tryb: pokoj.tryb });
   const url = adresDlaGracza(kod);
   if (cel) narysujQr(cel, url);
   return { kod, url };
@@ -121,7 +121,7 @@ export function publishRoom(pokoj, cel) {
 
 /**
  * Gracz przyjmuje zaproszenie. Przyjmuje kod tekstowy albo adres.
- * @returns {{lata:number[], liczbaUtworow:number, kod:string}}
+ * @returns {{lata:number[], liczbaUtworow:number, tryb:string, kod:string}}
  */
 export function joinRoom(wejscie) {
   const kod = wyluskajKod(wejscie);

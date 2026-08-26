@@ -3,15 +3,15 @@
  *
  * Dwa kody:
  *   1. KOD POKOJU — host -> gracze, na starcie. Ludzie go przepisują z ekranu,
- *      więc musi być krótki. Zawiera wyłącznie wersję formatu, liczbę utworów
- *      i zbiór roczników; NIE zawiera odpowiedzi (4.3).
+ *      więc musi być krótki. Zawiera wyłącznie wersję formatu, tryb rozgrywki,
+ *      liczbę utworów i zbiór roczników; NIE zawiera odpowiedzi (4.3).
  *   2. KLUCZ ODPOWIEDZI — host -> gracze, po ostatnim utworze. Idzie przez QR,
  *      więc może być dłuższy.
  *
  * Oba kody upakowane są bitowo, bez marnowania miejsca na granice bajtów.
- * Kod pokoju nie zapisuje maski 52 roczników, tylko numer kombinacji wybranych
- * lat — dzięki temu jego długość zależy od rozmiaru gry: 4 znaki przy trzech
- * utworach, 8 przy dziesięciu, 11 w najgorszym przypadku.
+ * Kod pokoju nie zapisuje maski 47 roczników, tylko numer kombinacji wybranych
+ * lat — dzięki temu jego długość zależy od rozmiaru gry: 8 znaków przy dziesięciu
+ * utworach, 10 w najgorszym przypadku.
  *
  * Alfabet base32 w wariancie Crockforda: bez I, L, O i U, żeby nie mylić znaków
  * przy przepisywaniu.
@@ -29,19 +29,37 @@ const WARTOSCI = (() => {
   return m;
 })();
 
-export const ROK_MIN = 1975;
+export const ROK_MIN = 1980;
 export const ROK_MAX = 2026;
-export const LICZBA_ROCZNIKOW = ROK_MAX - ROK_MIN + 1;   // 52 możliwe roczniki
+export const LICZBA_ROCZNIKOW = ROK_MAX - ROK_MIN + 1;   // 47 możliwych roczników
 export const WERSJA_FORMATU = 1;
 
 /**
- * Typowe długości gry mieszczą się w 4 bitach nagłówka kodu pokoju, co pozwala
- * zamknąć nagłówek w jednym znaku. Kolejność jest częścią formatu — dopisywać
- * na końcu, nigdy nie przestawiać. Indeks 15 jest zarezerwowany na ucieczkę
- * dla nietypowej liczby utworów.
+ * Tryby rozgrywki. Numer w tej tablicy jest częścią formatu kodu pokoju —
+ * dopisywać na końcu, nigdy nie przestawiać.
+ *
+ *   rundowy  — każdy utwór zatwierdzasz nieodwracalnie (4.4 pkt 5)
+ *   swobodny — przypisania da się przestawiać do momentu zamrożenia listy
+ *
+ * Tryb musi jechać w kodzie pokoju, a nie być wyborem gracza: swobodny daje
+ * wyraźnie wyższe wyniki, więc dwie osoby grające w jednym pokoju w różnych
+ * trybach nie miałyby porównywalnej punktacji.
  */
-const DLUGOSCI_W_NAGLOWKU = [3, 5, 10, 15, 20, 25, 30, 35, 40];
-const UCIECZKA_DLUGOSCI = 15;
+export const TRYBY = ['rundowy', 'swobodny'];
+export const TRYB_DOMYSLNY = 'rundowy';
+
+/**
+ * Długości gry mieszczące się w nagłówku kodu pokoju. Kolejność jest częścią
+ * formatu — dopisywać na końcu, nigdy nie przestawiać. Ostatnia wartość indeksu
+ * (7) jest zarezerwowana na ucieczkę dla nietypowej liczby utworów.
+ *
+ * Pięć długości mieści się w 3 bitach zamiast 4, a zaoszczędzony bit poszedł na
+ * tryb rozgrywki — dzięki temu nagłówek nadal ma 5 bitów i dołożenie trybu nie
+ * wydłużyło ani jednego kodu.
+ */
+const DLUGOSCI_W_NAGLOWKU = [10, 15, 20, 25, 30];
+const BITY_DLUGOSCI = 3;
+const UCIECZKA_DLUGOSCI = (1 << BITY_DLUGOSCI) - 1;
 
 /** Usuwa spacje i myślniki, ujednolica wielkość liter. */
 export function oczysc(tekst) {
@@ -188,7 +206,8 @@ function permutacjaZRangi(ranga, n) {
 
 // ---------------------------------------------------------------- kod pokoju
 
-const BITY_NAGLOWKA = 1 + 4;        // wersja + indeks długości
+const BITY_TRYBU = 1;
+const BITY_NAGLOWKA = 1 + BITY_TRYBU + BITY_DLUGOSCI;   // wersja + tryb + indeks długości
 const BITY_UCIECZKI = 6;            // jawne N, gdy długość jest nietypowa
 
 /**
@@ -202,12 +221,15 @@ export function dlugoscKoduPokoju(n) {
 }
 
 /**
- * Koduje zbiór roczników jako numer kombinacji nad zakresem 1975–2026.
+ * Koduje zbiór roczników jako numer kombinacji nad zakresem 1980–2026.
  *
- * Nagłówek to jeden znak: bit wersji + indeks długości gry. Nietypowa liczba
- * utworów (spoza listy w nagłówku) dokłada drugi znak z jawnym N.
+ * Nagłówek to jeden znak: bit wersji + bit trybu + indeks długości gry.
+ * Nietypowa liczba utworów (spoza listy w nagłówku) dokłada jawne N.
+ *
+ * Tryb idzie zaraz za wersją, przed indeksem długości — dzięki temu siedzi
+ * zawsze na tym samym bicie, niezależnie od tego, czy użyta została ucieczka.
  */
-export function zakodujKodPokoju(lata, wersja = WERSJA_FORMATU) {
+export function zakodujKodPokoju(lata, { tryb = TRYB_DOMYSLNY, wersja = WERSJA_FORMATU } = {}) {
   if (!Array.isArray(lata) || lata.length === 0) throw new Error('Pusta lista roczników.');
   if (lata.length > LICZBA_ROCZNIKOW) throw new Error('Za dużo roczników.');
 
@@ -223,33 +245,39 @@ export function zakodujKodPokoju(lata, wersja = WERSJA_FORMATU) {
   }
   indeksy.sort((a, b) => a - b);
 
+  const numerTrybu = TRYBY.indexOf(tryb);
+  if (numerTrybu < 0) throw new Error(`Nieznany tryb rozgrywki: „${tryb}".`);
+
   const n = indeksy.length;
   const indeksDlugosci = DLUGOSCI_W_NAGLOWKU.indexOf(n);
   const zapis = new Zapis();
   zapis.dopisz(wersja, 1);
+  zapis.dopisz(numerTrybu, BITY_TRYBU);
   if (indeksDlugosci >= 0) {
-    zapis.dopisz(indeksDlugosci, 4);
+    zapis.dopisz(indeksDlugosci, BITY_DLUGOSCI);
   } else {
-    zapis.dopisz(UCIECZKA_DLUGOSCI, 4);
-    zapis.dopisz(n, 6);
+    zapis.dopisz(UCIECZKA_DLUGOSCI, BITY_DLUGOSCI);
+    zapis.dopisz(n, BITY_UCIECZKI);
   }
   zapis.dopisz(rangaKombinacji(indeksy), bitowNa(dwumian(LICZBA_ROCZNIKOW, n)));
   return zapis.naBase32();
 }
 
-/** Dekoduje kod pokoju do { wersja, lata, liczbaUtworow }. Lata posortowane rosnąco. */
+/** Dekoduje kod pokoju do { wersja, tryb, lata, liczbaUtworow }. Lata posortowane rosnąco. */
 export function odkodujKodPokoju(kod) {
   const czysty = oczysc(kod);
   if (czysty.length < 2) throw new Error('Kod pokoju jest za krótki.');
 
   const odczyt = new Odczyt(czysty);
   let wersja;
+  let tryb;
   let n;
   try {
     wersja = Number(odczyt.czytaj(1));
-    const indeksDlugosci = Number(odczyt.czytaj(4));
+    tryb = TRYBY[Number(odczyt.czytaj(BITY_TRYBU))];
+    const indeksDlugosci = Number(odczyt.czytaj(BITY_DLUGOSCI));
     if (indeksDlugosci === UCIECZKA_DLUGOSCI) {
-      n = Number(odczyt.czytaj(6));
+      n = Number(odczyt.czytaj(BITY_UCIECZKI));
     } else {
       n = DLUGOSCI_W_NAGLOWKU[indeksDlugosci];
       if (n === undefined) throw new Error('Kod pokoju jest uszkodzony — sprawdź, czy nie ma literówki.');
@@ -261,7 +289,7 @@ export function odkodujKodPokoju(kod) {
   if (wersja !== WERSJA_FORMATU) {
     throw new Error(`Kod pochodzi z innej wersji gry (${wersja}). Odśwież stronę na obu urządzeniach.`);
   }
-  if (!Number.isInteger(n) || n < 1 || n > LICZBA_ROCZNIKOW) {
+  if (!Number.isInteger(n) || n < 1 || n > LICZBA_ROCZNIKOW || !tryb) {
     throw new Error('Kod pokoju jest uszkodzony — sprawdź, czy nie ma literówki.');
   }
 
@@ -277,7 +305,7 @@ export function odkodujKodPokoju(kod) {
   }
 
   const lata = kombinacjaZRangi(ranga, n).map((i) => ROK_MIN + i);
-  return { wersja, lata, liczbaUtworow: n };
+  return { wersja, tryb, lata, liczbaUtworow: n };
 }
 
 // ---------------------------------------------------------------- klucz odpowiedzi

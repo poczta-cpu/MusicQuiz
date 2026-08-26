@@ -6,7 +6,7 @@
  * fragmentu spod gotowego previewUrl.
  */
 
-import { ROK_MIN, ROK_MAX } from './kody.js';
+import { ROK_MIN, ROK_MAX, TRYBY, TRYB_DOMYSLNY } from './kody.js';
 
 export const REPERTUARY = {
   // `opis` to forma do wstawienia w zdanie „dla repertuaru ..." — sama etykieta
@@ -16,18 +16,28 @@ export const REPERTUARY = {
   pl: { etykieta: 'Polska', opis: 'polskiego', tagi: ['pl'] },
 };
 
-/** Właściwe długości rozgrywki (4.1): 10–40, krok 5. */
-export const LICZBY_UTWOROW = [10, 15, 20, 25, 30, 35, 40];
-
 /**
- * Krótkie rozgrywki do sprawdzenia gry na żywo — pełna partia to kwadrans,
- * a przy ubogiej bazie (mało roczników) w ogóle nie da się jej uruchomić.
- * Oznaczone w interfejsie jako testowe, żeby nikt nie wybrał ich przez pomyłkę.
+ * Długości rozgrywki (4.1): 10–30, krok 5.
+ *
+ * Pięć wartości mieści się w trzech bitach nagłówka kodu pokoju, co zwolniło bit
+ * na tryb rozgrywki — dlatego ta lista jest wprost związana z formatem kodu
+ * i nie rozrasta się bez zajrzenia do DLUGOSCI_W_NAGLOWKU w kody.js.
  */
-export const LICZBY_TESTOWE = [3, 5];
+export const LICZBY_UTWOROW = [10, 15, 20, 25, 30];
 
-/** Wszystkie dopuszczalne długości, rosnąco — używane przy podpowiadaniu maksimum. */
-export const WSZYSTKIE_DLUGOSCI = [...LICZBY_TESTOWE, ...LICZBY_UTWOROW];
+/** Opisy trybów na ekranie hosta. Klucze pochodzą z TRYBY w kody.js. */
+export const OPISY_TRYBOW = {
+  rundowy: {
+    etykieta: 'Rundowy',
+    opis: 'Każdy utwór zatwierdzasz nieodwracalnie, zaraz po odsłuchaniu.',
+  },
+  swobodny: {
+    etykieta: 'Swobodny',
+    opis: 'Przypisania można przestawiać przez całą grę; lista mrozi się na końcu.',
+  },
+};
+
+export { TRYBY, TRYB_DOMYSLNY };
 
 /** Polska odmiana: 3 utwory, ale 10 utworów. */
 export function odmienUtwory(n) {
@@ -146,10 +156,10 @@ export function sprawdzKonfiguracje(songs, { od, doRoku, repertuar, liczbaUtworo
   if (liczbaUtworow > roczniki.length) {
     // Podpowiadamy największą wartość, którą host faktycznie może wybrać z listy —
     // sam licznik roczników bywa nieosiągalny, bo lista ma skoki.
-    const osiagalne = WSZYSTKIE_DLUGOSCI.filter((n) => n <= roczniki.length);
+    const osiagalne = LICZBY_UTWOROW.filter((n) => n <= roczniki.length);
     const wyjscie = osiagalne.length
       ? `Wybierz maksymalnie ${odmienUtwory(osiagalne[osiagalne.length - 1])} albo poszerz zakres lat.`
-      : `Gra wymaga co najmniej ${WSZYSTKIE_DLUGOSCI[0]} roczników. Poszerz zakres lat albo zmień repertuar.`;
+      : `Gra wymaga co najmniej ${LICZBY_UTWOROW[0]} roczników. Poszerz zakres lat albo zmień repertuar.`;
     return {
       ok: false,
       komunikat: `Dla repertuaru ${nazwa} w latach ${od}–${doRoku} mam utwory z ${roczniki.length} roczników. ${wyjscie}`,

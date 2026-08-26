@@ -50,11 +50,11 @@
       <div class="rzad">
         <div>
           <label for="rok-od">Rok początkowy</label>
-          <input type="number" id="rok-od" min="1975" max="2026" step="1" inputmode="numeric">
+          <input type="number" id="rok-od" min="1980" max="2026" step="1" inputmode="numeric">
         </div>
         <div>
           <label for="rok-do">Rok końcowy</label>
-          <input type="number" id="rok-do" min="1975" max="2026" step="1" inputmode="numeric">
+          <input type="number" id="rok-do" min="1980" max="2026" step="1" inputmode="numeric">
         </div>
       </div>
 
@@ -66,6 +66,12 @@
         <option value="mix" selected>Mix</option>
         <option value="pl">Polska</option>
       </select>
+
+      <div style="height:18px"></div>
+
+      <label for="tryb">Tryb rozgrywki</label>
+      <select id="tryb"></select>
+      <p class="podpowiedz" id="opis-trybu"></p>
 
       <div style="height:22px"></div>
 
@@ -110,6 +116,7 @@
     </div>
 
     <div class="info">Zeskanujcie kod albo wpiszcie adres i przepiszcie kod pokoju.</div>
+    <div class="info" id="info-tryb"></div>
 
     <div class="rzad">
       <button type="button" id="btn-wroc-konfiguracja">Zmień ustawienia</button>
