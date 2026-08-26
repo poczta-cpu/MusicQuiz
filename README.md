@@ -119,7 +119,7 @@ ograniczenia, które są **wybrane**, nie przeoczone:
 7. **Prowadzący ma klucz odpowiedzi w przeglądarce** od początku gry. Nie jest renderowany
    na ekranie, ale zdeterminowany prowadzący znajdzie go w konsoli. Klucz trafia też do
    `localStorage`, żeby odświeżenie strony na laptopie nie skasowało rozgrywki w połowie.
-8. **Baza pokrywa lata 1980–2003** (228 utworów, 24 roczniki). Pola roku przyjmują
+8. **Baza pokrywa lata 1980–2019** (391 utworów, 40 roczników, każdy rocznik pełny). Pola roku przyjmują
    1975–2026 zgodnie ze specyfikacją, ale poza tym zakresem nie ma utworów. Licznik „dostępne roczniki" pokazuje to na żywo,
    a walidacja odrzuci taki wybór z konkretnym komunikatem.
 

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-25",
+  "generatedAt": "2026-08-26",
   "songs": [
     {
       "id": "1980-andrzej-rosiewicz-najwiecej-witaminy",
@@ -2010,6 +2010,15 @@
       "itunesTrackId": 1387977051
     },
     {
+      "id": "2002-madonna-die-another-day",
+      "rok": 2002,
+      "tytul": "Die Another Day",
+      "wykonawca": "Madonna",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/9b/b3/6b/9bb36bef-6d1c-47e6-f439-91c80d2f07d8/mzaf_17758553405110399908.plus.aac.p.m4a",
+      "itunesTrackId": 372008322
+    },
+    {
       "id": "2002-robbie-williams-feel",
       "rok": 2002,
       "tytul": "Feel",
@@ -2037,6 +2046,42 @@
       "itunesTrackId": 201274644
     },
     {
+      "id": "2003-blue-cafe-do-nieba-do-piekla",
+      "rok": 2003,
+      "tytul": "Do nieba, do piekła",
+      "wykonawca": "Blue Cafe",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8e/8f/45/8e8f4531-cd31-1bde-ba75-018b31d0bfdc/mzaf_10480958397312697186.plus.aac.p.m4a",
+      "itunesTrackId": 691284703
+    },
+    {
+      "id": "2003-britney-spears-toxic",
+      "rok": 2003,
+      "tytul": "Toxic",
+      "wykonawca": "Britney Spears",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ae/c4/7f/aec47f56-842d-49b4-558b-7a7523fd6728/mzaf_6693111381462300599.plus.aac.p.m4a",
+      "itunesTrackId": 251948354
+    },
+    {
+      "id": "2003-evanescence-bring-me-to-life",
+      "rok": 2003,
+      "tytul": "Bring Me to Life",
+      "wykonawca": "Evanescence",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3e/34/c4/3e34c400-9ad9-3859-6988-496c27728be4/mzaf_14936938522678789093.plus.aac.p.m4a",
+      "itunesTrackId": 1440666111
+    },
+    {
+      "id": "2003-ich-troje-keine-grenzen-zadnych-granic",
+      "rok": 2003,
+      "tytul": "Keine Grenzen - Żadnych granic",
+      "wykonawca": "Ich Troje",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/9d/22/a5/9d22a574-936e-57cb-5f97-f1de840cd0dc/mzaf_16081701155862158677.plus.aac.p.m4a",
+      "itunesTrackId": 1442441387
+    },
+    {
       "id": "2003-outkast-hey-ya",
       "rok": 2003,
       "tytul": "Hey Ya!",
@@ -2046,6 +2091,33 @@
       "itunesTrackId": 1032178989
     },
     {
+      "id": "2003-sistars-na-dnie",
+      "rok": 2003,
+      "tytul": "Na dnie",
+      "wykonawca": "Sistars",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4c/08/3d/4c083d04-766c-59a5-3e0c-67fb6bc37508/mzaf_7951466343397966399.plus.aac.p.m4a",
+      "itunesTrackId": 203886707
+    },
+    {
+      "id": "2003-the-black-eyed-peas-where-is-the-love",
+      "rok": 2003,
+      "tytul": "Where Is the Love?",
+      "wykonawca": "The Black Eyed Peas",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3d/00/ba/3d00bab6-2787-7890-97ef-ff2367de957f/mzaf_15757202187459955972.plus.aac.p.m4a",
+      "itunesTrackId": 1783671454
+    },
+    {
+      "id": "2003-the-rasmus-in-the-shadows",
+      "rok": 2003,
+      "tytul": "In the Shadows",
+      "wykonawca": "The Rasmus",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b6/63/c8/b663c8d3-e065-bcf1-d40c-ef6b2638779d/mzaf_11319572053889676788.plus.aac.p.m4a",
+      "itunesTrackId": 314526683
+    },
+    {
       "id": "2003-the-white-stripes-seven-nation-army",
       "rok": 2003,
       "tytul": "Seven Nation Army",
@@ -2053,6 +2125,1401 @@
       "tag": "swiat",
       "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/61/54/97/61549744-a83b-1c4d-58cf-e56b36beb4a7/mzaf_1246579179619940831.plus.aac.p.m4a",
       "itunesTrackId": 1533513537
+    },
+    {
+      "id": "2004-ania-dabrowska-tego-chcialam",
+      "rok": 2004,
+      "tytul": "Tego chciałam",
+      "wykonawca": "Ania Dąbrowska",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/65/e0/0e/65e00e15-974b-e685-f3eb-22d5217c2423/mzaf_4829466694259576300.plus.aac.p.m4a",
+      "itunesTrackId": 1291127847
+    },
+    {
+      "id": "2004-chylinska-winna",
+      "rok": 2004,
+      "tytul": "Winna",
+      "wykonawca": "Chylińska",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/09/0c/1b/090c1b3f-9374-31ae-e1c1-aff7d49d155a/mzaf_17660907517764322289.plus.aac.p.m4a",
+      "itunesTrackId": 692036327
+    },
+    {
+      "id": "2004-evanescence-my-immortal",
+      "rok": 2004,
+      "tytul": "My Immortal",
+      "wykonawca": "Evanescence",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/09/ea/5c/09ea5ced-ef74-c081-43dd-db6a069e432f/mzaf_13463183518707863924.plus.aac.p.m4a",
+      "itunesTrackId": 1440666126
+    },
+    {
+      "id": "2004-franz-ferdinand-take-me-out",
+      "rok": 2004,
+      "tytul": "Take Me Out",
+      "wykonawca": "Franz Ferdinand",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/39/0b/12/390b12af-41bf-8587-3bbf-d54ad7c69f63/mzaf_6391656788554881067.plus.aac.p.m4a",
+      "itunesTrackId": 315844084
+    },
+    {
+      "id": "2004-kombii-pokolenie",
+      "rok": 2004,
+      "tytul": "Pokolenie",
+      "wykonawca": "Kombii",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/58/35/b3/5835b35c-09ec-4c31-46dd-173b520cfedc/mzaf_17079348024137047471.plus.aac.p.m4a",
+      "itunesTrackId": 1443543291
+    },
+    {
+      "id": "2004-maroon-5-this-love",
+      "rok": 2004,
+      "tytul": "This Love",
+      "wykonawca": "Maroon 5",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/79/0b/8d/790b8d2f-dae6-9380-87ec-6acd52806e49/mzaf_4263648516794463383.plus.aac.p.m4a",
+      "itunesTrackId": 1428782513
+    },
+    {
+      "id": "2004-ozone-dragostea-din-tei",
+      "rok": 2004,
+      "tytul": "Dragostea Din Tei",
+      "wykonawca": "O-Zone",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview123/v4/84/fb/3a/84fb3a50-2b6e-9c9e-96c1-c3f7410f0b1b/mzaf_982804505229788807.plus.aac.p.m4a",
+      "itunesTrackId": 1662362905
+    },
+    {
+      "id": "2004-the-killers-somebody-told-me",
+      "rok": 2004,
+      "tytul": "Somebody Told Me",
+      "wykonawca": "The Killers",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3f/52/56/3f525606-7cb8-0292-51c1-c617802ba773/mzaf_433193577063250516.plus.aac.p.m4a",
+      "itunesTrackId": 1526194195
+    },
+    {
+      "id": "2004-u2-vertigo",
+      "rok": 2004,
+      "tytul": "Vertigo",
+      "wykonawca": "U2",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7a/4e/6c/7a4e6cfd-8c82-d84b-e532-4dc251be3b0d/mzaf_4729366778423265194.plus.aac.p.m4a",
+      "itunesTrackId": 1440891551
+    },
+    {
+      "id": "2004-usher-yeah",
+      "rok": 2004,
+      "tytul": "Yeah!",
+      "wykonawca": "Usher",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/94/52/3c/94523c88-f5f9-16f4-dbd7-f284ca168048/mzaf_7184891920196479048.plus.aac.p.m4a",
+      "itunesTrackId": 386153478
+    },
+    {
+      "id": "2005-blog-27-uh-la-la-la",
+      "rok": 2005,
+      "tytul": "Uh La La La",
+      "wykonawca": "Blog 27",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/39/95/0b/39950b6f-7362-fab8-eb4f-a43e58810226/mzaf_16411327481929966551.plus.aac.p.m4a",
+      "itunesTrackId": 388801881
+    },
+    {
+      "id": "2005-crazy-frog-axel-f",
+      "rok": 2005,
+      "tytul": "Axel F",
+      "wykonawca": "Crazy Frog",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/29/89/45/29894503-c1db-6bce-9979-0dddd621e831/mzaf_4671425623140848850.plus.aac.p.m4a",
+      "itunesTrackId": 1369887955
+    },
+    {
+      "id": "2005-gorillaz-feel-good-inc",
+      "rok": 2005,
+      "tytul": "Feel Good Inc.",
+      "wykonawca": "Gorillaz",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/26/ff/1b/26ff1bb4-d961-be2b-11cd-78f8442c4d48/mzaf_8252539612758120765.plus.aac.p.m4a",
+      "itunesTrackId": 850583586
+    },
+    {
+      "id": "2005-james-blunt-you-re-beautiful",
+      "rok": 2005,
+      "tytul": "You're Beautiful",
+      "wykonawca": "James Blunt",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/ac/13/8a/ac138a70-c7de-c1a8-6f04-1f16b10fc8a6/mzaf_14519433729243866927.plus.aac.p.m4a",
+      "itunesTrackId": 714601673
+    },
+    {
+      "id": "2005-juanes-la-camisa-negra",
+      "rok": 2005,
+      "tytul": "La Camisa Negra",
+      "wykonawca": "Juanes",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/84/de/46/84de46ef-f9f8-c6ad-fb6e-f6d5ca7571b7/mzaf_17789816509198950478.plus.aac.p.m4a",
+      "itunesTrackId": 1440652265
+    },
+    {
+      "id": "2005-lao-che-przebicie-do-srodmiescia",
+      "rok": 2005,
+      "tytul": "Przebicie do Śródmieścia",
+      "wykonawca": "Lao Che",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/4e/f5/bc/4ef5bc87-a359-109f-73b8-44e490e9cd23/mzaf_2189189223438642821.plus.aac.p.m4a",
+      "itunesTrackId": 615320585
+    },
+    {
+      "id": "2005-madonna-hung-up",
+      "rok": 2005,
+      "tytul": "Hung Up",
+      "wykonawca": "Madonna",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/65/45/c3/6545c319-f578-6e0a-ab1d-f7ea3089f297/mzaf_15842461037347473100.plus.aac.p.m4a",
+      "itunesTrackId": 91989806
+    },
+    {
+      "id": "2005-the-killers-mr-brightside",
+      "rok": 2005,
+      "tytul": "Mr. Brightside",
+      "wykonawca": "The Killers",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c3/a0/30/c3a03008-17c5-aa29-6c6a-5e757ccdbaa5/mzaf_6073120660767081787.plus.aac.p.m4a",
+      "itunesTrackId": 1440891171
+    },
+    {
+      "id": "2005-the-pussycat-dolls-don-t-cha",
+      "rok": 2005,
+      "tytul": "Don't Cha",
+      "wykonawca": "The Pussycat Dolls",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/37/0d/f1/370df152-a1f0-9f91-1d25-4d3907a4c5e4/mzaf_12113646064665681076.plus.aac.p.m4a",
+      "itunesTrackId": 1455130399
+    },
+    {
+      "id": "2006-akon-smack-that",
+      "rok": 2006,
+      "tytul": "Smack That",
+      "wykonawca": "Akon",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b0/40/40/b0404063-a07d-8fb6-cf2e-a7ff0d65667f/mzaf_8662755250945474580.plus.aac.p.m4a",
+      "itunesTrackId": 1694062481
+    },
+    {
+      "id": "2006-amy-winehouse-rehab",
+      "rok": 2006,
+      "tytul": "Rehab",
+      "wykonawca": "Amy Winehouse",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c0/7f/37/c07f37f1-a8e1-b093-f643-9e3bae02589b/mzaf_10374144630525520706.plus.aac.p.m4a",
+      "itunesTrackId": 1422677781
+    },
+    {
+      "id": "2006-coma-spadam",
+      "rok": 2006,
+      "tytul": "Spadam",
+      "wykonawca": "Coma",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c8/82/8c/c8828c30-1fcf-586c-d336-3dc9a1d299e4/mzaf_1900160051159538158.plus.aac.p.m4a",
+      "itunesTrackId": 981560166
+    },
+    {
+      "id": "2006-gnarls-barkley-crazy",
+      "rok": 2006,
+      "tytul": "Crazy",
+      "wykonawca": "Gnarls Barkley",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/38/67/b2/3867b24c-8af6-4d26-d014-42c9912a782a/mzaf_12466923089499072047.plus.aac.p.m4a",
+      "itunesTrackId": 1741403966
+    },
+    {
+      "id": "2006-justin-timberlake-sexyback",
+      "rok": 2006,
+      "tytul": "SexyBack",
+      "wykonawca": "Justin Timberlake",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1a/f4/7b/1af47ba3-a363-5716-4dd9-6aea4fe35e3f/mzaf_13609262275263691829.plus.aac.p.m4a",
+      "itunesTrackId": 400946435
+    },
+    {
+      "id": "2006-kasia-cerekwicka-na-kolana",
+      "rok": 2006,
+      "tytul": "Na kolana",
+      "wykonawca": "Kasia Cerekwicka",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ce/d0/e9/ced0e9f7-819c-fe46-2e33-6e02a62eaee8/mzaf_17271570971238693545.plus.aac.p.m4a",
+      "itunesTrackId": 288863471
+    },
+    {
+      "id": "2006-scissor-sisters-i-don-t-feel-like-dancin",
+      "rok": 2006,
+      "tytul": "I Don't Feel Like Dancin'",
+      "wykonawca": "Scissor Sisters",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0d/d5/71/0dd57141-0417-3bc8-fe33-a693edfee7b9/mzaf_13414035075553529726.plus.aac.p.m4a",
+      "itunesTrackId": 1443836265
+    },
+    {
+      "id": "2006-shakira-hips-don-t-lie",
+      "rok": 2006,
+      "tytul": "Hips Don't Lie",
+      "wykonawca": "Shakira",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ac/c7/61/acc7619f-c1e3-e0a5-df9b-0329a35af062/mzaf_13106936727189536738.plus.aac.p.m4a",
+      "itunesTrackId": 1817217063
+    },
+    {
+      "id": "2006-snow-patrol-chasing-cars",
+      "rok": 2006,
+      "tytul": "Chasing Cars",
+      "wykonawca": "Snow Patrol",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/bf/dc/fe/bfdcfeb4-7fde-c148-bf2d-f82d0f1e8096/mzaf_15850382492018725787.plus.aac.p.m4a",
+      "itunesTrackId": 1440758864
+    },
+    {
+      "id": "2007-beyonce-beautiful-liar",
+      "rok": 2007,
+      "tytul": "Beautiful Liar",
+      "wykonawca": "Beyoncé",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7f/cf/e2/7fcfe2a0-7c5b-e826-ec26-b7a735f7c5be/mzaf_7222210965503460038.plus.aac.p.m4a",
+      "itunesTrackId": 261707449
+    },
+    {
+      "id": "2007-doda-katharsis",
+      "rok": 2007,
+      "tytul": "Katharsis",
+      "wykonawca": "Doda",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/dd/de/05/ddde0595-3bc0-3720-0f96-4e686a33bd02/mzaf_7959225347535956063.plus.aac.p.m4a",
+      "itunesTrackId": 1444031180
+    },
+    {
+      "id": "2007-doda-to-jest-to",
+      "rok": 2007,
+      "tytul": "To jest to",
+      "wykonawca": "Doda",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/37/de/e2/37dee2a8-86f1-4f8d-16be-06d76ac7bf28/mzaf_772804038499817667.plus.aac.p.m4a",
+      "itunesTrackId": 1455975347
+    },
+    {
+      "id": "2007-feel-a-gdy-jest-juz-ciemno",
+      "rok": 2007,
+      "tytul": "A gdy jest już ciemno",
+      "wykonawca": "Feel",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1c/85/66/1c8566a3-4ff2-7991-cc23-7dfe059f2522/mzaf_17249409639827806261.plus.aac.p.m4a",
+      "itunesTrackId": 692629904
+    },
+    {
+      "id": "2007-foo-fighters-the-pretender",
+      "rok": 2007,
+      "tytul": "The Pretender",
+      "wykonawca": "Foo Fighters",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5f/41/f8/5f41f86a-1d7a-0c1e-7b29-55cd5fa40c4c/mzaf_1876575708645472937.plus.aac.p.m4a",
+      "itunesTrackId": 262743414
+    },
+    {
+      "id": "2007-leona-lewis-bleeding-love",
+      "rok": 2007,
+      "tytul": "Bleeding Love",
+      "wykonawca": "Leona Lewis",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ed/5f/0b/ed5f0b87-a3d8-8e24-8019-f5c4cf3eafcb/mzaf_10706859781439569235.plus.aac.p.m4a",
+      "itunesTrackId": 303682849
+    },
+    {
+      "id": "2007-mark-ronson-valerie",
+      "rok": 2007,
+      "tytul": "Valerie",
+      "wykonawca": "Mark Ronson",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/75/2c/65/752c65b5-8d7b-cfce-83b3-971fcdd65a4f/mzaf_8731730557804410329.plus.aac.p.m4a",
+      "itunesTrackId": 259214627
+    },
+    {
+      "id": "2007-mika-grace-kelly",
+      "rok": 2007,
+      "tytul": "Grace Kelly",
+      "wykonawca": "MIKA",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e3/83/b3/e383b3e8-576b-a5fb-0d95-e170737a4ad8/mzaf_6535473455234952417.plus.aac.p.m4a",
+      "itunesTrackId": 1440763492
+    },
+    {
+      "id": "2007-onerepublic-apologize",
+      "rok": 2007,
+      "tytul": "Apologize",
+      "wykonawca": "OneRepublic",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d7/a5/ac/d7a5ac54-0dbf-5bea-df14-c9965ac2e682/mzaf_2048711194344336393.plus.aac.p.m4a",
+      "itunesTrackId": 1445845403
+    },
+    {
+      "id": "2007-rihanna-umbrella",
+      "rok": 2007,
+      "tytul": "Umbrella",
+      "wykonawca": "Rihanna",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7b/45/22/7b452241-882c-409b-3a9b-23306b14286a/mzaf_8588243939716013218.plus.aac.p.m4a",
+      "itunesTrackId": 1441154437
+    },
+    {
+      "id": "2008-britney-spears-womanizer",
+      "rok": 2008,
+      "tytul": "Womanizer",
+      "wykonawca": "Britney Spears",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/97/18/c297183d-ba98-fb37-f294-dd9795952176/mzaf_11516860194132644939.plus.aac.p.m4a",
+      "itunesTrackId": 990422390
+    },
+    {
+      "id": "2008-coldplay-viva-la-vida",
+      "rok": 2008,
+      "tytul": "Viva la Vida",
+      "wykonawca": "Coldplay",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/2b/04/65/2b0465c3-2db1-e461-2362-14b528456b8f/mzaf_1805426141027060154.plus.aac.p.m4a",
+      "itunesTrackId": 1122773680
+    },
+    {
+      "id": "2008-doda-nie-daj-sie",
+      "rok": 2008,
+      "tytul": "Nie daj się",
+      "wykonawca": "Doda",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/fd/d5/35/fdd53545-8641-761f-3cfd-1673680cf985/mzaf_4350819445898415902.plus.aac.p.m4a",
+      "itunesTrackId": 1444030889
+    },
+    {
+      "id": "2008-duffy-warwick-avenue",
+      "rok": 2008,
+      "tytul": "Warwick Avenue",
+      "wykonawca": "Duffy",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/52/05/d5/5205d599-55ed-68df-845e-adbcb2a344c4/mzaf_15582215077490924596.plus.aac.p.m4a",
+      "itunesTrackId": 1440746183
+    },
+    {
+      "id": "2008-ewa-farna-cicho",
+      "rok": 2008,
+      "tytul": "Cicho",
+      "wykonawca": "Ewa Farna",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/fb/f1/04/fbf1041a-15fb-cf2e-0528-83549df64776/mzaf_3081110864174897576.plus.aac.p.m4a",
+      "itunesTrackId": 481180382
+    },
+    {
+      "id": "2008-feel-jak-aniola-glos",
+      "rok": 2008,
+      "tytul": "Jak anioła głos",
+      "wykonawca": "Feel",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/19/9c/ca/199cca3c-9573-f25a-4637-a85dc28364a4/mzaf_367983288888139015.plus.aac.p.m4a",
+      "itunesTrackId": 692629936
+    },
+    {
+      "id": "2008-kanye-west-love-lockdown",
+      "rok": 2008,
+      "tytul": "Love Lockdown",
+      "wykonawca": "Kanye West",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/bb/17/f4/bb17f4b9-cc47-1ecd-6915-f386a64f1969/mzaf_6822193382196102125.plus.aac.p.m4a",
+      "itunesTrackId": 1441410404
+    },
+    {
+      "id": "2008-katy-perry-i-kissed-a-girl",
+      "rok": 2008,
+      "tytul": "I Kissed a Girl",
+      "wykonawca": "Katy Perry",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/78/8c/fe/788cfe12-f671-d8ea-e162-ce602d32e128/mzaf_488034760898269401.plus.aac.p.m4a",
+      "itunesTrackId": 715891620
+    },
+    {
+      "id": "2008-kings-of-leon-sex-on-fire",
+      "rok": 2008,
+      "tytul": "Sex on Fire",
+      "wykonawca": "Kings of Leon",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8f/39/df/8f39df6b-9b97-1313-b26d-368d9cc0d20f/mzaf_16643660259914950728.plus.aac.p.m4a",
+      "itunesTrackId": 290303003
+    },
+    {
+      "id": "2008-lady-gaga-poker-face",
+      "rok": 2008,
+      "tytul": "Poker Face",
+      "wykonawca": "Lady Gaga",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/06/b8/ac/06b8acb3-7f5e-3302-0781-952eb834e27a/mzaf_17151548762072495969.plus.aac.p.m4a",
+      "itunesTrackId": 1577631231
+    },
+    {
+      "id": "2009-chylinska-nie-moge-cie-zapomniec",
+      "rok": 2009,
+      "tytul": "Nie mogę Cię zapomnieć",
+      "wykonawca": "Chylińska",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/88/b1/11/88b1113c-d070-b0ce-da16-227f1309f643/mzaf_12764577600643667520.plus.aac.p.m4a",
+      "itunesTrackId": 688454583
+    },
+    {
+      "id": "2009-david-guetta-sexy-bitch",
+      "rok": 2009,
+      "tytul": "Sexy Bitch",
+      "wykonawca": "David Guetta",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/ee/37/aa/ee37aa42-98ba-5e71-b521-5b4c81cecf6e/mzaf_14213183151469356245.plus.aac.p.m4a",
+      "itunesTrackId": 693247224
+    },
+    {
+      "id": "2009-doda-rany",
+      "rok": 2009,
+      "tytul": "Rany",
+      "wykonawca": "Doda",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ca/98/98/ca98988f-3463-df5b-0345-f3067465e634/mzaf_17247694917600787773.plus.aac.p.m4a",
+      "itunesTrackId": 1444031682
+    },
+    {
+      "id": "2009-jayz-empire-state-of-mind",
+      "rok": 2009,
+      "tytul": "Empire State of Mind",
+      "wykonawca": "JAY-Z",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6e/5d/9d/6e5d9d42-23d1-21cf-4822-cbedb12383e9/mzaf_2813097032706602219.plus.aac.p.m4a",
+      "itunesTrackId": 1440777015
+    },
+    {
+      "id": "2009-kings-of-leon-use-somebody",
+      "rok": 2009,
+      "tytul": "Use Somebody",
+      "wykonawca": "Kings of Leon",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ae/78/eb/ae78eb81-01e0-a02a-1442-eea0cff76f41/mzaf_17219616663227158625.plus.aac.p.m4a",
+      "itunesTrackId": 290303018
+    },
+    {
+      "id": "2009-lady-gaga-bad-romance",
+      "rok": 2009,
+      "tytul": "Bad Romance",
+      "wykonawca": "Lady Gaga",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1b/54/f0/1b54f0b7-db6a-1a40-6af8-4ae4650d8d6d/mzaf_2782647211171496826.plus.aac.p.m4a",
+      "itunesTrackId": 1476095084
+    },
+    {
+      "id": "2009-owl-city-fireflies",
+      "rok": 2009,
+      "tytul": "Fireflies",
+      "wykonawca": "Owl City",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/70/12/64/7012647c-9251-a012-f5d4-6dd804197fae/mzaf_9158487417358931156.plus.aac.p.m4a",
+      "itunesTrackId": 1440783289
+    },
+    {
+      "id": "2009-the-black-eyed-peas-i-gotta-feeling",
+      "rok": 2009,
+      "tytul": "I Gotta Feeling",
+      "wykonawca": "The Black Eyed Peas",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/ce/00/7c/ce007c21-7c09-d8b6-931a-67be8c75cb15/mzaf_8821611196674562208.plus.aac.p.m4a",
+      "itunesTrackId": 1440769310
+    },
+    {
+      "id": "2009-the-black-eyed-peas-meet-me-halfway",
+      "rok": 2009,
+      "tytul": "Meet Me Halfway",
+      "wykonawca": "The Black Eyed Peas",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/88/8b/fe/888bfed1-897e-bb0c-b780-7de367ba45fd/mzaf_5302186889228155946.plus.aac.p.m4a",
+      "itunesTrackId": 1440769131
+    },
+    {
+      "id": "2010-adele-rolling-in-the-deep",
+      "rok": 2010,
+      "tytul": "Rolling in the Deep",
+      "wykonawca": "Adele",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/9f/07/1d/9f071dc7-791c-c869-dfa2-06b25936a287/mzaf_11077490630806345321.plus.aac.p.m4a",
+      "itunesTrackId": 1544491233
+    },
+    {
+      "id": "2010-bruno-mars-just-the-way-you-are",
+      "rok": 2010,
+      "tytul": "Just the Way You Are",
+      "wykonawca": "Bruno Mars",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/0c/9d/26/0c9d266f-632d-dbda-770d-55cdded795f8/mzaf_18078867637438469059.plus.aac.p.m4a",
+      "itunesTrackId": 576655095
+    },
+    {
+      "id": "2010-duck-sauce-barbra-streisand",
+      "rok": 2010,
+      "tytul": "Barbra Streisand",
+      "wykonawca": "Duck Sauce",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8f/2b/f9/8f2bf903-6592-ed37-0730-76a0111ee559/mzaf_8745068047131232463.plus.aac.p.m4a",
+      "itunesTrackId": 1786856061
+    },
+    {
+      "id": "2010-eminem-love-the-way-you-lie",
+      "rok": 2010,
+      "tytul": "Love The Way You Lie",
+      "wykonawca": "Eminem",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8d/b7/57/8db75733-6493-a056-5cac-7720ccc8beb7/mzaf_14741601340445734803.plus.aac.p.m4a",
+      "itunesTrackId": 1440782199
+    },
+    {
+      "id": "2010-ewa-farna-ewakuacja",
+      "rok": 2010,
+      "tytul": "Ewakuacja",
+      "wykonawca": "Ewa Farna",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/75/c8/56/75c856e1-4a62-a1bd-e5aa-fbf2b15af067/mzaf_5328533651723779791.plus.aac.p.m4a",
+      "itunesTrackId": 432779183
+    },
+    {
+      "id": "2010-liber-mi-amor",
+      "rok": 2010,
+      "tytul": "Mi Amor",
+      "wykonawca": "Liber",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/51/1b/76/511b7612-ea9b-6a6c-9c5b-3e3873a5e910/mzaf_10038253386072682527.plus.aac.p.m4a",
+      "itunesTrackId": 1812078461
+    },
+    {
+      "id": "2010-rihanna-only-girl",
+      "rok": 2010,
+      "tytul": "Only Girl (In The World)",
+      "wykonawca": "Rihanna",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/58/bd/6f/58bd6f05-45d7-76d7-bae3-6d453e00b5cc/mzaf_1937910784700207272.plus.aac.p.m4a",
+      "itunesTrackId": 1440896009
+    },
+    {
+      "id": "2010-shakira-waka-waka",
+      "rok": 2010,
+      "tytul": "Waka Waka (This Time for Africa)",
+      "wykonawca": "Shakira",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/93/6a/ea/936aea82-ecc6-2f75-2cb3-e3f6d4ef338d/mzaf_14925444051909201229.plus.aac.p.m4a",
+      "itunesTrackId": 888878529
+    },
+    {
+      "id": "2010-taio-cruz-dynamite",
+      "rok": 2010,
+      "tytul": "Dynamite",
+      "wykonawca": "Taio Cruz",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c6/9d/51/c69d51c6-05ca-a0e4-4c43-c9743257048b/mzaf_17316422719838636186.plus.aac.p.m4a",
+      "itunesTrackId": 1443147095
+    },
+    {
+      "id": "2011-adele-someone-like-you",
+      "rok": 2011,
+      "tytul": "Someone Like You",
+      "wykonawca": "Adele",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ef/18/7b/ef187b7d-f487-e935-4ca1-af5748313710/mzaf_8455263230305249048.plus.aac.p.m4a",
+      "itunesTrackId": 1544491998
+    },
+    {
+      "id": "2011-avicii-levels",
+      "rok": 2011,
+      "tytul": "Levels",
+      "wykonawca": "Avicii",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/dc/bd/66dcbd68-b557-bdfd-f2c2-a05491758783/mzaf_13654489760720011690.plus.aac.p.m4a",
+      "itunesTrackId": 1440787349
+    },
+    {
+      "id": "2011-bednarek-chwile-jak-te",
+      "rok": 2011,
+      "tytul": "Chwile jak te",
+      "wykonawca": "Bednarek",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/78/2a/46/782a46ad-a4d6-2978-607e-7e4aa077c942/mzaf_5867535524274420874.plus.aac.p.m4a",
+      "itunesTrackId": 1695082144
+    },
+    {
+      "id": "2011-enej-skrzydlate-rece",
+      "rok": 2011,
+      "tytul": "Skrzydlate ręce",
+      "wykonawca": "Enej",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/41/76/66/4176662a-91fb-4376-69ff-83e60deac25f/mzaf_3121570470040246024.plus.aac.p.m4a",
+      "itunesTrackId": 1764943619
+    },
+    {
+      "id": "2011-gotye-somebody-that-i-used-to-know",
+      "rok": 2011,
+      "tytul": "Somebody That I Used To Know",
+      "wykonawca": "Gotye",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f9/9c/55/f99c553e-7be1-91dc-b55e-3da1aad29bba/mzaf_5038171343466446420.plus.aac.p.m4a",
+      "itunesTrackId": 1440754487
+    },
+    {
+      "id": "2011-jennifer-lopez-on-the-floor",
+      "rok": 2011,
+      "tytul": "On The Floor",
+      "wykonawca": "Jennifer Lopez",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b7/c2/9f/b7c29f2a-4d89-1dba-8484-14ff71ef8a81/mzaf_10145980146387884095.plus.aac.p.m4a",
+      "itunesTrackId": 1440622264
+    },
+    {
+      "id": "2011-lmfao-party-rock-anthem",
+      "rok": 2011,
+      "tytul": "Party Rock Anthem",
+      "wykonawca": "LMFAO",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fe/63/a1/fe63a1b8-091f-9d45-594f-bb982166297f/mzaf_8877172162075707701.plus.aac.p.m4a",
+      "itunesTrackId": 1440636627
+    },
+    {
+      "id": "2011-maroon-5-moves-like-jagger",
+      "rok": 2011,
+      "tytul": "Moves Like Jagger",
+      "wykonawca": "Maroon 5",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1a/e8/be/1ae8bea8-8962-8168-80d5-65bf3b1478ba/mzaf_471500839444486606.plus.aac.p.m4a",
+      "itunesTrackId": 1440859510
+    },
+    {
+      "id": "2011-pitbull-give-me-everything",
+      "rok": 2011,
+      "tytul": "Give Me Everything",
+      "wykonawca": "Pitbull",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/07/7a/58/077a5833-acac-306a-c927-f800f1e09d4d/mzaf_10663174745007601529.plus.aac.p.m4a",
+      "itunesTrackId": 440733032
+    },
+    {
+      "id": "2011-zakopower-boso",
+      "rok": 2011,
+      "tytul": "Boso",
+      "wykonawca": "Zakopower",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/81/92/b0/8192b064-ddc6-e88f-02f7-f8e6da94a7c2/mzaf_8190677879850397993.plus.aac.p.m4a",
+      "itunesTrackId": 1502705558
+    },
+    {
+      "id": "2012-bruno-mars-locked-out-of-heaven",
+      "rok": 2012,
+      "tytul": "Locked Out of Heaven",
+      "wykonawca": "Bruno Mars",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f4/37/44/f4374481-e6e8-54d1-32ad-893ec2f4d495/mzaf_3915415747653767603.plus.aac.p.m4a",
+      "itunesTrackId": 573962551
+    },
+    {
+      "id": "2012-fun-some-nights",
+      "rok": 2012,
+      "tytul": "Some Nights",
+      "wykonawca": "fun.",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fd/74/9b/fd749b38-22b2-2820-fe5e-2ed8849a1da0/mzaf_6723634430028206406.plus.aac.p.m4a",
+      "itunesTrackId": 601186061
+    },
+    {
+      "id": "2012-macklemore-ryan-lewis-thrift-shop",
+      "rok": 2012,
+      "tytul": "Thrift Shop",
+      "wykonawca": "Macklemore & Ryan Lewis",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a9/9a/4f/a99a4f5c-f2de-c343-24ac-4c05be74bbee/mzaf_9222035325351290831.plus.aac.p.m4a",
+      "itunesTrackId": 560097550
+    },
+    {
+      "id": "2012-maria-peszek-sorry-polsko",
+      "rok": 2012,
+      "tytul": "Sorry Polsko",
+      "wykonawca": "Maria Peszek",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/17/10/e2/1710e2c1-89c5-28e2-21ee-437b73896528/mzaf_4301624147641132741.plus.aac.p.m4a",
+      "itunesTrackId": 1577341197
+    },
+    {
+      "id": "2012-mrozu-nic-do-stracenia",
+      "rok": 2012,
+      "tytul": "Nic do stracenia",
+      "wykonawca": "Mrozu",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/e4/ea/e1/e4eae120-7e13-090b-55dc-3375d456fb09/mzaf_2288634224735133644.plus.aac.p.m4a",
+      "itunesTrackId": 1711240295
+    },
+    {
+      "id": "2012-projekt-warszawiak-nie-masz-cwaniaka-nad-warszawiaka",
+      "rok": 2012,
+      "tytul": "Nie masz cwaniaka nad warszawiaka",
+      "wykonawca": "Projekt Warszawiak",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/0d/c1/53/0dc1536f-5b62-8de8-b573-acf8db4de109/mzaf_3459586992142026620.plus.aac.p.m4a",
+      "itunesTrackId": 475962340
+    },
+    {
+      "id": "2012-psy-gangnam-style",
+      "rok": 2012,
+      "tytul": "Gangnam Style",
+      "wykonawca": "PSY",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3d/65/ae/3d65ae0a-7b2c-f14d-5680-cdafaa8cfb2d/mzaf_11206445915046452880.plus.aac.p.m4a",
+      "itunesTrackId": 1445144527
+    },
+    {
+      "id": "2012-rihanna-diamonds",
+      "rok": 2012,
+      "tytul": "Diamonds",
+      "wykonawca": "Rihanna",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/26/97/fb/2697fb36-8ef2-9d18-0a2e-6545947b4445/mzaf_9032202105098805603.plus.aac.p.m4a",
+      "itunesTrackId": 1444321282
+    },
+    {
+      "id": "2012-swedish-house-mafia-don-t-you-worry-child",
+      "rok": 2012,
+      "tytul": "Don't You Worry Child",
+      "wykonawca": "Swedish House Mafia",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/df/b7/ba/dfb7bac3-cdad-da5c-1de5-54767c4c959e/mzaf_16325181629715680732.plus.aac.p.m4a",
+      "itunesTrackId": 1444020877
+    },
+    {
+      "id": "2012-the-lumineers-ho-hey",
+      "rok": 2012,
+      "tytul": "Ho Hey",
+      "wykonawca": "The Lumineers",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/12/a7/d7/12a7d77c-b9cb-550a-dacc-7e96676b8e49/mzaf_14790682879186925076.plus.aac.p.m4a",
+      "itunesTrackId": 1754031516
+    },
+    {
+      "id": "2013-avicii-wake-me-up",
+      "rok": 2013,
+      "tytul": "Wake Me Up",
+      "wykonawca": "Avicii",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/68/1e/60/681e601f-e1f2-4ebb-37de-adf00bdf57b6/mzaf_8266263075137964740.plus.aac.p.m4a",
+      "itunesTrackId": 1440872929
+    },
+    {
+      "id": "2013-daft-punk-get-lucky",
+      "rok": 2013,
+      "tytul": "Get Lucky",
+      "wykonawca": "Daft Punk",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/68/2e/16/682e16c2-6c6d-6bf4-9cd9-42c742fa6bbc/mzaf_11789558788925782439.plus.aac.p.m4a",
+      "itunesTrackId": 664332744
+    },
+    {
+      "id": "2013-dawid-podsiadlo-trojkaty-i-kwadraty",
+      "rok": 2013,
+      "tytul": "Trójkąty i kwadraty",
+      "wykonawca": "Dawid Podsiadło",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3c/a2/43/3ca24390-02f2-6352-ff1d-5c5b2d4a95a0/mzaf_2378380806014437419.plus.aac.p.m4a",
+      "itunesTrackId": 1483841094
+    },
+    {
+      "id": "2013-donatan-my-slowianie",
+      "rok": 2013,
+      "tytul": "My Słowianie",
+      "wykonawca": "Donatan",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/6c/91/36/6c91360b-fa82-8589-a336-635512a7ea64/mzaf_759618339098672102.plus.aac.p.m4a",
+      "itunesTrackId": 738390318
+    },
+    {
+      "id": "2013-grzegorz-hyzy-na-chwile",
+      "rok": 2013,
+      "tytul": "Na chwilę",
+      "wykonawca": "Grzegorz Hyży",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/76/9c/3f/769c3ff1-de44-888a-ebf7-57d52f361051/mzaf_13854402080202469106.plus.aac.p.m4a",
+      "itunesTrackId": 840792706
+    },
+    {
+      "id": "2013-katy-perry-roar",
+      "rok": 2013,
+      "tytul": "Roar",
+      "wykonawca": "Katy Perry",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/21/a8/76/21a87607-1fe3-2bd2-753c-0b4b73c22b90/mzaf_9666996724668759977.plus.aac.p.m4a",
+      "itunesTrackId": 1440818897
+    },
+    {
+      "id": "2013-lorde-royals",
+      "rok": 2013,
+      "tytul": "Royals",
+      "wykonawca": "Lorde",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4c/50/2e/4c502ee4-d63e-3f7c-11cc-61b2e0c92656/mzaf_4849324024240261165.plus.aac.p.m4a",
+      "itunesTrackId": 1594982922
+    },
+    {
+      "id": "2013-onerepublic-counting-stars",
+      "rok": 2013,
+      "tytul": "Counting Stars",
+      "wykonawca": "OneRepublic",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b0/db/7f/b0db7fbe-f8ff-1f67-fe72-ca8185ffbca2/mzaf_15298650366584767800.plus.aac.p.m4a",
+      "itunesTrackId": 1471704175
+    },
+    {
+      "id": "2013-pitbull-timber",
+      "rok": 2013,
+      "tytul": "Timber",
+      "wykonawca": "Pitbull",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/b4/35/34/b435341e-a03e-b1d8-d5a5-bcc91de64250/mzaf_16292031192841335029.plus.aac.p.m4a",
+      "itunesTrackId": 1656840949
+    },
+    {
+      "id": "2013-robin-thicke-blurred-lines",
+      "rok": 2013,
+      "tytul": "Blurred Lines",
+      "wykonawca": "Robin Thicke",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8d/7a/74/8d7a7475-5ab4-68c3-7a70-ba111d8358df/mzaf_18355636855815173576.plus.aac.p.m4a",
+      "itunesTrackId": 1442971656
+    },
+    {
+      "id": "2014-ania-dabrowska-nigdy-wiecej-nie-tancz-ze-mna",
+      "rok": 2014,
+      "tytul": "Nigdy więcej nie tańcz ze mną",
+      "wykonawca": "Ania Dąbrowska",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ee/61/81/ee618173-5f84-6cce-3db1-e11e6c37dd03/mzaf_17480258857504535820.plus.aac.p.m4a",
+      "itunesTrackId": 1291127848
+    },
+    {
+      "id": "2014-clean-bandit-rather-be",
+      "rok": 2014,
+      "tytul": "Rather Be",
+      "wykonawca": "Clean Bandit",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/0e/79/7f/0e797ff4-0094-4053-39af-2255898e804c/mzaf_8292168751841826927.plus.aac.p.m4a",
+      "itunesTrackId": 1027563268
+    },
+    {
+      "id": "2014-ella-henderson-ghost",
+      "rok": 2014,
+      "tytul": "Ghost",
+      "wykonawca": "Ella Henderson",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/10/7c/66/107c665e-b98f-f64e-d6da-f870ee35ab5d/mzaf_8630000971157649587.plus.aac.p.m4a",
+      "itunesTrackId": 942753720
+    },
+    {
+      "id": "2014-lemon-napraw",
+      "rok": 2014,
+      "tytul": "Napraw",
+      "wykonawca": "LemON",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/8d/cb/89/8dcb89d7-56d7-017f-d18c-22e03290d4ab/mzaf_12351283975518039947.plus.aac.p.m4a",
+      "itunesTrackId": 751649775
+    },
+    {
+      "id": "2014-margaret-thank-you-very-much",
+      "rok": 2014,
+      "tytul": "Thank You Very Much",
+      "wykonawca": "Margaret",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/96/9b/dc/969bdc07-e230-9a4d-0f2b-7698bbb24d82/mzaf_7323425936154637771.plus.aac.p.m4a",
+      "itunesTrackId": 672667074
+    },
+    {
+      "id": "2014-mark-ronson-uptown-funk",
+      "rok": 2014,
+      "tytul": "Uptown Funk",
+      "wykonawca": "Mark Ronson",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/62/e1/98/62e19826-cd13-6eff-390e-dbca502bb7b5/mzaf_8006535252627949661.plus.aac.p.m4a",
+      "itunesTrackId": 943946671
+    },
+    {
+      "id": "2014-meghan-trainor-all-about-that-bass",
+      "rok": 2014,
+      "tytul": "All About That Bass",
+      "wykonawca": "Meghan Trainor",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/81/96/7c/81967c37-d555-9012-0a7d-aec5bd06c714/mzaf_4490793233205205675.plus.aac.p.m4a",
+      "itunesTrackId": 1351343202
+    },
+    {
+      "id": "2014-sam-smith-stay-with-me",
+      "rok": 2014,
+      "tytul": "Stay With Me",
+      "wykonawca": "Sam Smith",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d8/90/ef/d890ef3d-95b8-2224-5ff2-4ed56a359449/mzaf_8285804271834164275.plus.aac.p.m4a",
+      "itunesTrackId": 1440814425
+    },
+    {
+      "id": "2014-sia-chandelier",
+      "rok": 2014,
+      "tytul": "Chandelier",
+      "wykonawca": "Sia",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f0/de/66/f0de661c-299a-b7ae-80d9-4f35f79875b1/mzaf_10598240417031133475.plus.aac.p.m4a",
+      "itunesTrackId": 882945383
+    },
+    {
+      "id": "2014-taylor-swift-shake-it-off",
+      "rok": 2014,
+      "tytul": "Shake It Off",
+      "wykonawca": "Taylor Swift",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/11/d5/6d/11d56d4a-ce23-e793-8681-70dc4d35d931/mzaf_5886436202259848624.plus.aac.p.m4a",
+      "itunesTrackId": 1440933651
+    },
+    {
+      "id": "2015-adele-hello",
+      "rok": 2015,
+      "tytul": "Hello",
+      "wykonawca": "Adele",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/93/22/22/93222271-8d55-d923-e0ff-b2964a5abefe/mzaf_3513742103157153222.plus.aac.p.m4a",
+      "itunesTrackId": 1544494392
+    },
+    {
+      "id": "2015-dawid-podsiadlo-pastempomat",
+      "rok": 2015,
+      "tytul": "Pastempomat",
+      "wykonawca": "Dawid Podsiadło",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e5/57/b4/e557b420-3d4c-014d-ac23-958e3fa93795/mzaf_11329093467517443021.plus.aac.p.m4a",
+      "itunesTrackId": 1162481289
+    },
+    {
+      "id": "2015-drake-hotline-bling",
+      "rok": 2015,
+      "tytul": "Hotline Bling",
+      "wykonawca": "Drake",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c7/b1/f3/c7b1f35a-8d24-735b-5923-1fb52fc7647e/mzaf_12441003627825640809.plus.aac.p.m4a",
+      "itunesTrackId": 1440841730
+    },
+    {
+      "id": "2015-justin-bieber-sorry",
+      "rok": 2015,
+      "tytul": "Sorry",
+      "wykonawca": "Justin Bieber",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/eb/29/66eb29c0-c2f9-d9df-8af3-3bf2562c9d7c/mzaf_4099789285264521999.plus.aac.p.m4a",
+      "itunesTrackId": 1440829610
+    },
+    {
+      "id": "2015-kortez-stare-drzewa",
+      "rok": 2015,
+      "tytul": "Stare drzewa",
+      "wykonawca": "Kortez",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6e/f7/af/6ef7afd0-ca74-ef7c-0c79-d15675664eb4/mzaf_9023216898184748099.plus.aac.p.m4a",
+      "itunesTrackId": 1435796820
+    },
+    {
+      "id": "2015-major-lazer-lean-on",
+      "rok": 2015,
+      "tytul": "Lean On",
+      "wykonawca": "Major Lazer",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/ee/fd/16/eefd1670-5a08-9ff9-363c-6fda16f227cd/mzaf_6454393582525042843.plus.aac.p.m4a",
+      "itunesTrackId": 1696639397
+    },
+    {
+      "id": "2015-sarsa-naucz-mnie",
+      "rok": 2015,
+      "tytul": "Naucz mnie",
+      "wykonawca": "Sarsa",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/fc/33/95/fc3395ed-95fc-2b45-9d8b-b14940ae7a9b/mzaf_6003496834823835867.plus.aac.p.m4a",
+      "itunesTrackId": 1443146201
+    },
+    {
+      "id": "2015-the-weeknd-can-t-feel-my-face",
+      "rok": 2015,
+      "tytul": "Can't Feel My Face",
+      "wykonawca": "The Weeknd",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e0/4d/65/e04d6546-d5ae-28bf-51fa-e4e54d737c2f/mzaf_17329746342766146939.plus.aac.p.m4a",
+      "itunesTrackId": 1440858500
+    },
+    {
+      "id": "2015-wiz-khalifa-see-you-again",
+      "rok": 2015,
+      "tytul": "See You Again",
+      "wykonawca": "Wiz Khalifa",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ef/54/3d/ef543d55-58cb-320e-8dc7-084336d961d0/mzaf_15679467696516524072.plus.aac.p.m4a",
+      "itunesTrackId": 966411602
+    },
+    {
+      "id": "2015-zara-larsson-lush-life",
+      "rok": 2015,
+      "tytul": "Lush Life",
+      "wykonawca": "Zara Larsson",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/77/52/6a/77526a57-f53f-b8ba-bdc7-e74e242c7c55/mzaf_11538198025885549610.plus.aac.p.m4a",
+      "itunesTrackId": 1201058113
+    },
+    {
+      "id": "2016-calvin-harris-this-is-what-you-came-for",
+      "rok": 2016,
+      "tytul": "This Is What You Came For",
+      "wykonawca": "Calvin Harris",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/e6/4c/8a/e64c8a6b-49e1-6ead-4f22-7d81dea2768e/mzaf_1927716231528220099.plus.aac.p.m4a",
+      "itunesTrackId": 1108212668
+    },
+    {
+      "id": "2016-clean-bandit-rockabye",
+      "rok": 2016,
+      "tytul": "Rockabye",
+      "wykonawca": "Clean Bandit",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c5/b0/12/c5b01268-5ba1-fc79-32ab-4a60e9f4da9a/mzaf_5896066955206504523.plus.aac.p.m4a",
+      "itunesTrackId": 1418704737
+    },
+    {
+      "id": "2016-drake-one-dance",
+      "rok": 2016,
+      "tytul": "One Dance",
+      "wykonawca": "Drake",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/a8/bd/68/a8bd68a2-dcd2-9024-3859-3a9fd6d53576/mzaf_16864609147187531487.plus.aac.p.m4a",
+      "itunesTrackId": 1440841384
+    },
+    {
+      "id": "2016-justin-timberlake-can-t-stop-the-feeling",
+      "rok": 2016,
+      "tytul": "CAN'T STOP THE FEELING!",
+      "wykonawca": "Justin Timberlake",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/86/41/2d/86412d20-2f4d-39fc-221b-3f643d7c99c6/mzaf_9909715182585785919.plus.aac.p.m4a",
+      "itunesTrackId": 1154239184
+    },
+    {
+      "id": "2016-margaret-cool-me-down",
+      "rok": 2016,
+      "tytul": "Cool Me Down",
+      "wykonawca": "Margaret",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/aa/aa/4c/aaaa4ccd-e70d-0ead-12f9-687407c77676/mzaf_981350098794920263.plus.aac.p.m4a",
+      "itunesTrackId": 1085734051
+    },
+    {
+      "id": "2016-maria-peszek-padam",
+      "rok": 2016,
+      "tytul": "Padam",
+      "wykonawca": "Maria Peszek",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4f/e0/b5/4fe0b570-c40f-85e4-ae3c-3bfb719be80c/mzaf_5191001306836422486.plus.aac.p.m4a",
+      "itunesTrackId": 1577341331
+    },
+    {
+      "id": "2016-sia-cheap-thrills",
+      "rok": 2016,
+      "tytul": "Cheap Thrills",
+      "wykonawca": "Sia",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/89/73/fb/8973fb2c-5417-e56b-30f1-bf5035bb46a2/mzaf_5922398524297774212.plus.aac.p.m4a",
+      "itunesTrackId": 1055074640
+    },
+    {
+      "id": "2016-taco-hemingway-wosk",
+      "rok": 2016,
+      "tytul": "Wosk",
+      "wykonawca": "Taco Hemingway",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/65/5f/da/655fda54-98f6-0a82-973c-840de9cfaf92/mzaf_10736075397642664837.plus.aac.p.m4a",
+      "itunesTrackId": 1701407509
+    },
+    {
+      "id": "2016-the-chainsmokers-closer",
+      "rok": 2016,
+      "tytul": "Closer",
+      "wykonawca": "The Chainsmokers",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bd/f9/b9/bdf9b9b2-eaa4-4461-6079-aaacc6df7316/mzaf_17327312786932455493.plus.aac.p.m4a",
+      "itunesTrackId": 1170699703
+    },
+    {
+      "id": "2016-the-weeknd-starboy",
+      "rok": 2016,
+      "tytul": "Starboy",
+      "wykonawca": "The Weeknd",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/11/71/d6/1171d6ad-3c96-e027-2af6-58028426588c/mzaf_15137631797407745471.plus.aac.p.m4a",
+      "itunesTrackId": 1440870375
+    },
+    {
+      "id": "2017-camila-cabello-havana",
+      "rok": 2017,
+      "tytul": "Havana",
+      "wykonawca": "Camila Cabello",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7d/42/fe/7d42fe40-78b9-c546-861e-bda5788bba4e/mzaf_7434858341023410545.plus.aac.p.m4a",
+      "itunesTrackId": 1321217032
+    },
+    {
+      "id": "2017-charlie-puth-attention",
+      "rok": 2017,
+      "tytul": "Attention",
+      "wykonawca": "Charlie Puth",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0b/76/e1/0b76e164-35b8-7fbb-a773-9832f3155532/mzaf_12020704327610118862.plus.aac.p.m4a",
+      "itunesTrackId": 1293229677
+    },
+    {
+      "id": "2017-daria-zawialow-malinowy-chrusniak",
+      "rok": 2017,
+      "tytul": "Malinowy chruśniak",
+      "wykonawca": "Daria Zawiałow",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/34/84/66348495-88fc-8e52-8113-b95b3a7c277e/mzaf_9530051751357553092.plus.aac.p.m4a",
+      "itunesTrackId": 1196290788
+    },
+    {
+      "id": "2017-ed-sheeran-shape-of-you",
+      "rok": 2017,
+      "tytul": "Shape of You",
+      "wykonawca": "Ed Sheeran",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/c7/4f/44c74f0d-72dc-6143-d4d0-ba14d661ca0d/mzaf_9566898362556366703.plus.aac.p.m4a",
+      "itunesTrackId": 1193701392
+    },
+    {
+      "id": "2017-imagine-dragons-believer",
+      "rok": 2017,
+      "tytul": "Believer",
+      "wykonawca": "Imagine Dragons",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c0/3f/36/c03f367a-b66b-fd0a-a54c-30f8250c4410/mzaf_12768434238801682952.plus.aac.p.m4a",
+      "itunesTrackId": 1411628233
+    },
+    {
+      "id": "2017-luis-fonsi-despacito",
+      "rok": 2017,
+      "tytul": "Despacito",
+      "wykonawca": "Luis Fonsi",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c3/1d/78/c31d78f1-d663-2da3-d906-fb125cda2723/mzaf_12818947610504705599.plus.aac.p.m4a",
+      "itunesTrackId": 1445025224
+    },
+    {
+      "id": "2017-meskie-granie-orkiestra-2017-poczatek",
+      "rok": 2017,
+      "tytul": "Początek",
+      "wykonawca": "Męskie Granie Orkiestra 2017",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/72/27/2b/72272b34-e2b1-c4ae-6cbd-ad942ad3e547/mzaf_11925123625065451061.plus.aac.p.m4a",
+      "itunesTrackId": 1501148303
+    },
+    {
+      "id": "2017-rganek-mississippi-w-ogniu",
+      "rok": 2017,
+      "tytul": "Mississippi w ogniu",
+      "wykonawca": "Ørganek",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/1d/59/70/1d597004-09b6-6277-ec3f-833810167537/mzaf_16309183494198939856.plus.aac.p.m4a",
+      "itunesTrackId": 1169094478
+    },
+    {
+      "id": "2017-post-malone-rockstar",
+      "rok": 2017,
+      "tytul": "rockstar",
+      "wykonawca": "Post Malone",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/37/94/223794d5-e415-e646-a1c6-a52f178f9c82/mzaf_4256851832513251175.plus.aac.p.m4a",
+      "itunesTrackId": 1373506170
+    },
+    {
+      "id": "2017-the-chainsmokers-something-just-like-this",
+      "rok": 2017,
+      "tytul": "Something Just Like This",
+      "wykonawca": "The Chainsmokers",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/64/7f/96/647f9601-aa94-3599-6c73-0143510b8b92/mzaf_13538528720942742126.plus.aac.p.m4a",
+      "itunesTrackId": 1207120448
+    },
+    {
+      "id": "2018-5-seconds-of-summer-youngblood",
+      "rok": 2018,
+      "tytul": "Youngblood",
+      "wykonawca": "5 Seconds of Summer",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/61/87/d5/6187d53f-df0f-69d5-3afc-834708c111c8/mzaf_10559632245319534333.plus.aac.p.m4a",
+      "itunesTrackId": 1369109665
+    },
+    {
+      "id": "2018-ariana-grande-thank-u-next",
+      "rok": 2018,
+      "tytul": "thank u, next",
+      "wykonawca": "Ariana Grande",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/89/96/16/8996169e-2309-a298-f6f0-e7c52fe8e176/mzaf_590631660224715451.plus.aac.p.m4a",
+      "itunesTrackId": 1450334169
+    },
+    {
+      "id": "2018-ava-max-sweet-but-psycho",
+      "rok": 2018,
+      "tytul": "Sweet but Psycho",
+      "wykonawca": "Ava Max",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7d/96/ac/7d96acd9-0cec-f5af-4fab-8a93c3b6cbc3/mzaf_6373469644118153896.plus.aac.p.m4a",
+      "itunesTrackId": 1538214889
+    },
+    {
+      "id": "2018-calvin-harris-one-kiss",
+      "rok": 2018,
+      "tytul": "One Kiss",
+      "wykonawca": "Calvin Harris",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7b/51/0a/7b510a93-10b2-530f-71fb-2462f7606e6d/mzaf_907293082198573368.plus.aac.p.m4a",
+      "itunesTrackId": 1364709436
+    },
+    {
+      "id": "2018-dawid-podsiadlo-malomiasteczkowy",
+      "rok": 2018,
+      "tytul": "Małomiasteczkowy",
+      "wykonawca": "Dawid Podsiadło",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ee/81/f1/ee81f11e-2f95-0299-e7fa-cc50906bbe57/mzaf_11854659095379763333.plus.aac.p.m4a",
+      "itunesTrackId": 1488362005
+    },
+    {
+      "id": "2018-drake-god-s-plan",
+      "rok": 2018,
+      "tytul": "God's Plan",
+      "wykonawca": "Drake",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/da/7d/f1/da7df14b-8ee6-5020-d850-ccc0381eb141/mzaf_5511967710095380808.plus.aac.p.m4a",
+      "itunesTrackId": 1406109863
+    },
+    {
+      "id": "2018-lady-gaga-shallow",
+      "rok": 2018,
+      "tytul": "Shallow",
+      "wykonawca": "Lady Gaga",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0c/cc/ed/0ccced59-6e6f-f0a0-0c9a-d20bfd475052/mzaf_26600833784075363.plus.aac.p.m4a",
+      "itunesTrackId": 1434371887
+    },
+    {
+      "id": "2018-maroon-5-girls-like-you",
+      "rok": 2018,
+      "tytul": "Girls Like You",
+      "wykonawca": "Maroon 5",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/16/0e/6a/160e6a89-543a-e4bf-2e9b-0c125df71f93/mzaf_2355588020367881678.plus.aac.p.m4a",
+      "itunesTrackId": 1396141911
+    },
+    {
+      "id": "2018-roksana-wegiel-anyone-i-want-to-be",
+      "rok": 2018,
+      "tytul": "Anyone I Want To Be",
+      "wykonawca": "Roksana Węgiel",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/33/e6/da/33e6da5c-21fb-e5c6-b542-d08b449f7c5f/mzaf_12342920437347749790.plus.aac.p.m4a",
+      "itunesTrackId": 1441455400
+    },
+    {
+      "id": "2019-billie-eilish-bad-guy",
+      "rok": 2019,
+      "tytul": "bad guy",
+      "wykonawca": "Billie Eilish",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c3/87/1f/c3871f7e-3260-d615-1c66-5fdca2c3a48f/mzaf_10721331211699880949.plus.aac.p.m4a",
+      "itunesTrackId": 1450695739
+    },
+    {
+      "id": "2019-dua-lipa-don-t-start-now",
+      "rok": 2019,
+      "tytul": "Don't Start Now",
+      "wykonawca": "Dua Lipa",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/24/3d/34/243d3413-a0fc-b229-f54a-1715ebd3a9ca/mzaf_11578996572221800393.plus.aac.p.m4a",
+      "itunesTrackId": 1484636829
+    },
+    {
+      "id": "2019-kwiat-jabloni-dzis-pozno-pojde-spac",
+      "rok": 2019,
+      "tytul": "Dziś późno pójdę spać",
+      "wykonawca": "Kwiat Jabłoni",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/35/45/a2/3545a2a2-e26d-b0fa-3012-dbd89bc104b7/mzaf_3754194866312546002.plus.aac.p.m4a",
+      "itunesTrackId": 1455996635
+    },
+    {
+      "id": "2019-lil-nas-x-old-town-road",
+      "rok": 2019,
+      "tytul": "Old Town Road",
+      "wykonawca": "Lil Nas X",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/df/c5/d9/dfc5d936-099d-8c34-3a52-209164115571/mzaf_5301823922994311166.plus.aac.p.m4a",
+      "itunesTrackId": 1468166326
+    },
+    {
+      "id": "2019-maroon-5-memories",
+      "rok": 2019,
+      "tytul": "Memories",
+      "wykonawca": "Maroon 5",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/48/db/6b/48db6b78-cdb7-5b3f-1b4d-dfec435a513d/mzaf_11078616836226327327.plus.aac.p.m4a",
+      "itunesTrackId": 1479600902
+    },
+    {
+      "id": "2019-mata-patointeligencja",
+      "rok": 2019,
+      "tytul": "Patointeligencja",
+      "wykonawca": "Mata",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/80/a1/f5/80a1f5d3-abe3-ac22-71df-ef5f2f3bc3b3/mzaf_18198716277792436978.plus.aac.p.m4a",
+      "itunesTrackId": 1525759718
+    },
+    {
+      "id": "2019-post-malone-circles",
+      "rok": 2019,
+      "tytul": "Circles",
+      "wykonawca": "Post Malone",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f9/b1/aa/f9b1aaed-3e24-227f-153d-99969f8b8464/mzaf_6272498007975402144.plus.aac.p.m4a",
+      "itunesTrackId": 1477880561
+    },
+    {
+      "id": "2019-sanah-melodia",
+      "rok": 2019,
+      "tytul": "Melodia",
+      "wykonawca": "sanah",
+      "tag": "pl",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6f/45/8b/6f458b6d-7dc2-8502-598c-ad9749c8e94e/mzaf_9705990067574201650.plus.aac.p.m4a",
+      "itunesTrackId": 1509855652
+    },
+    {
+      "id": "2019-shawn-mendes-senorita",
+      "rok": 2019,
+      "tytul": "Señorita",
+      "wykonawca": "Shawn Mendes",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cf/06/d6/cf06d6fd-f7a0-2898-8363-67688df6c14f/mzaf_8234301186390421644.plus.aac.p.m4a",
+      "itunesTrackId": 1468910018
+    },
+    {
+      "id": "2019-tones-and-i-dance-monkey",
+      "rok": 2019,
+      "tytul": "Dance Monkey",
+      "wykonawca": "Tones And I",
+      "tag": "swiat",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/43/1a/32/431a3203-7e62-c7b1-0377-824aded16096/mzaf_7471896698419931094.plus.aac.p.m4a",
+      "itunesTrackId": 1475930045
     }
   ]
 }
