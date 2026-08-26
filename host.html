@@ -134,7 +134,7 @@
   <!-- ─────────────────────────────── rozgrywka (7.1) -->
   <!-- Uwaga: rok NIE MOŻE pojawić się w tej sekcji nigdy — to odpowiedź.       -->
   <!-- Tytuł i wykonawca trafiają tu wyłącznie przez #ujawnienie (bieżący utwór -->
-  <!-- po kliknięciu Odtwórz) albo #poprzedni-utwor (utwór, który już przeszedł)-->
+  <!-- po kliknięciu Odtwórz) albo #poprzednie-utwory (utwory już rozstrzygnięte)-->
   <!-- i tylko wtedy, gdy odpowiedni podgląd jest włączony w ustawieniach.      -->
   <!-- Przy domyślnych ustawieniach sekcja nie zawiera żadnych metadanych.      -->
   <section id="ekran-gra" class="ekran ukryte">
@@ -154,10 +154,6 @@
          ustawieniach żadne metadane nie trafiają tu do DOM (7.1). -->
     <div id="ujawnienie" class="ujawnienie ukryte" aria-live="polite"></div>
 
-    <!-- „Co przed chwilą leciało". Wypełniane dopiero po kliknięciu Następny
-         utwór, czyli gdy wszyscy zdążyli już zamknąć swój wybór. Nigdy rok. -->
-    <div id="poprzedni-utwor" class="poprzedni-utwor ukryte" aria-live="polite"></div>
-
     <div id="blad-gra" class="blad ukryte"></div>
 
     <div class="sterowanie">
@@ -166,6 +162,16 @@
     </div>
 
     <div style="height:36px"></div>
+
+    <!-- „Co już leciało". Rośnie o wiersz przy każdym kliknięciu Następny utwór,
+         czyli dopiero gdy wszyscy zdążyli zamknąć swój wybór, i zostaje na ekranie
+         do końca gry. Wypełniane wyłącznie przy włączonym podglądzie. Nigdy rok. -->
+    <div id="poprzednie-utwory" class="poprzednie-utwory ukryte" aria-live="polite">
+      <table>
+        <tbody id="poprzednie-wiersze"></tbody>
+      </table>
+    </div>
+
     <div class="rzad">
       <button type="button" id="btn-zakoncz">Zakończ grę</button>
     </div>
@@ -220,6 +226,7 @@
   <p class="stopka">
     Kalendarz muzyczny · gra działa bez serwera i bez kont ·
     <a href="index.html">strona główna</a>
+    <span class="wersja" id="wersja"></span>
   </p>
 </main>
 

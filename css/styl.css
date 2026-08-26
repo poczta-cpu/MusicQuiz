@@ -240,20 +240,46 @@ button.duzy { font-size: 1.3rem; min-height: 64px; padding: 16px 32px; }
   overflow-wrap: anywhere;
 }
 
-/* „Co przed chwilą leciało" — informacja wsteczna, więc ciszej niż #ujawnienie,
-   żeby nie konkurowała z bieżącym utworem na dużym ekranie. */
-.poprzedni-utwor {
-  margin: 16px auto 0;
-  padding: 12px 20px;
+/* „Co już leciało" — informacja wsteczna, więc ciszej niż #ujawnienie, żeby nie
+   konkurowała z bieżącym utworem na dużym ekranie. Tabela rośnie przez całą grę,
+   dlatego ma własne przewijanie: przy trzydziestu utworach nie może zepchnąć
+   przycisku „Zakończ grę" poza ekran. */
+.poprzednie-utwory {
+  margin: 0 auto 28px;
+  padding: 10px 16px;
   max-width: 720px;
-  text-align: center;
-  font-size: clamp(1rem, 2.4vw, 1.35rem);
-  line-height: 1.35;
-  color: var(--tekst-cichy);
+  max-height: 38vh;
+  overflow-y: auto;
   background: var(--tlo-karta);
   border: 2px dashed var(--obwodka);
   border-radius: var(--promien);
+}
+.poprzednie-utwory table { width: 100%; border-collapse: collapse; }
+.poprzednie-utwory td {
+  padding: 6px 4px;
+  font-size: clamp(.95rem, 2vw, 1.2rem);
+  line-height: 1.3;
+  color: var(--tekst-cichy);
+  vertical-align: baseline;
   overflow-wrap: anywhere;
+}
+.poprzednie-utwory tr + tr td { border-top: 1px solid var(--obwodka); }
+.poprzednie-utwory .numer { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.poprzednie-utwory .strzalka {
+  padding: 6px 12px;
+  white-space: nowrap;
+  font-family: var(--font-cyfry);
+  color: var(--tekst-bardzo-cichy);
+}
+.poprzednie-utwory .opis { width: 100%; color: var(--tekst); font-weight: 600; }
+
+/* numer wersji w stopce - ma byc do znalezienia, ale nie ma rzucac sie w oczy */
+.wersja {
+  margin-left: 6px;
+  font-family: var(--font-cyfry);
+  font-size: .85em;
+  color: var(--tekst-bardzo-cichy);
+  letter-spacing: .02em;
 }
 
 .pasek-postepu {

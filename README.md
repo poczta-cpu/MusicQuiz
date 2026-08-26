@@ -95,19 +95,29 @@ Domyślnie oba są wyłączone. Po włączeniu wybrane dane pojawiają się na d
 
 **Rok nie jest pokazywany nawet wtedy.** To odpowiedź, nie podpowiedź.
 
-### Potwierdzenie po rundzie — co przed chwilą leciało
+### Potwierdzenie po rundzie — co już leciało
 
-Trzeci przełącznik: **Pokazuj, co leciało, po przejściu dalej**. Po kliknięciu
-`Następny utwór` duży ekran wypisuje tytuł i wykonawcę utworu, który właśnie
-przeszedł — „Utwór 3 to był: *Take On Me* — a‑ha".
+Trzeci przełącznik: **Pokazuj, co leciało, po przejściu dalej**. Każde kliknięcie
+`Następny utwór` dopisuje wiersz do tabeli pod przyciskami:
+
+```
+Utwór 3   ====>>>>   Take On Me — a-ha
+Utwór 2   ====>>>>   Chałupy Welcome To — Zbigniew Wodecki
+Utwór 1   ====>>>>   Bad Romance — Lady Gaga
+```
+
+Tabela **zostaje na ekranie do końca gry**, więc sala może cofnąć się do utworu
+sprzed kilku rund. Najświeższy wiersz jest na górze — przy trzydziestu utworach
+lista rosnąca w dół spychałaby ostatnie odsłonięcie poza ekran. Tabela ma własne
+przewijanie, żeby nie zepchnąć przycisku `Zakończ grę`.
 
 Różnica wobec dwóch przełączników wyżej jest w momencie. Tamte odsłaniają **bieżący**
 utwór zaraz po `Odtwórz`, czyli **zanim ktokolwiek zamknie swój wybór** — to realna
-podpowiedź. Ten odsłania utwór **już rozstrzygnięty**: prowadzący powiedział „dalej",
+podpowiedź. Ten odsłania utwory **już rozstrzygnięte**: prowadzący powiedział „dalej",
 więc wszyscy zdążyli odpowiedzieć. Dostajecie potwierdzenie, nie ułatwienie.
 
 Utwór, którego nikt nie usłyszał (prowadzący przeszedł dalej bez `Odtwórz`), nie
-zostaje odsłonięty. Rok nie pojawia się i tutaj.
+trafia do tabeli. Rok nie pojawia się i tutaj.
 
 Duży ekran widzi cała sala, a prowadzący może też odczytać tytuł na głos — więc to
 ułatwienie dla wszystkich po równo, nie przewaga prowadzącego. Zdejmuje z gry

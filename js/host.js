@@ -22,6 +22,7 @@ import { przygotujGre } from './losowanie.js';
 import { publishRoom, publishKey } from './transport.js';
 import { Odtwarzacz, LIMIT_ODTWORZEN } from './odtwarzacz.js';
 import { odciskBazy, formatujKod, ROK_MIN, ROK_MAX } from './kody.js';
+import { WERSJA_GRY } from './wersja.js';
 import { wczytajStanHosta, zapiszStanHosta, skasujStanHosta, magazynDostepny } from './magazyn.js';
 
 // Logowanie jest dekoracyjne (D7) — oba te napisy są jawne w kodzie strony.
@@ -174,7 +175,7 @@ $('form-konfiguracja').addEventListener('submit', (e) => {
     })),
     biezacy: 0,
     odtworzeniaBiezacego: 0,
-    poprzedni: null,
+    odsloniete: [],
     kodPokoju: null,
   };
   zapiszStan();
@@ -226,7 +227,7 @@ $('btn-zacznij').addEventListener('click', () => {
   stan.faza = 'gra';
   stan.biezacy = 0;
   stan.odtworzeniaBiezacego = 0;
-  stan.poprzedni = null;
+  stan.odsloniete = [];
   zapiszStan();
   wejdzDoGry();
 });
@@ -248,26 +249,50 @@ function zaladujBiezacy() {
   odtwarzacz.odtworzenia = stan.odtworzeniaBiezacego || 0;
   pokazBlad($('blad-gra'), '');
   odswiezUjawnienie();
-  odswiezPoprzedni();
+  odswiezPoprzednie();
   odswiezEkranGry();
 }
 
 /**
- * Wypełnia blok „co przed chwilą leciało". Przy wyłączonym podglądzie w ogóle
- * nie dotyka treści elementu, więc do DOM-u nie trafia ani tytuł, ani wykonawca.
+ * Wypełnia tabelę „co już leciało". Rośnie przez całą grę i zostaje na ekranie
+ * do samego końca — sala ma się móc cofnąć do utworu sprzed kilku rund.
+ *
+ * Przy wyłączonym podglądzie `opisPoprzedniego` zwraca null dla każdego wiersza,
+ * tabela zostaje pusta i schowana, więc do DOM-u nie trafia ani tytuł, ani wykonawca.
  */
-function odswiezPoprzedni() {
-  const el = $('poprzedni-utwor');
-  const pozycja = Number.isInteger(stan.poprzedni) ? stan.kolejnosc[stan.poprzedni] : null;
-  const opis = pozycja ? opisPoprzedniego(odtworzUtworZBazy(pozycja), stan.konfiguracja || {}) : null;
+function odswiezPoprzednie() {
+  const blok = $('poprzednie-utwory');
+  const tbody = $('poprzednie-wiersze');
+  const opcje = stan.konfiguracja || {};
+  const odsloniete = Array.isArray(stan.odsloniete) ? stan.odsloniete : [];
 
-  if (!opis) {
-    el.textContent = '';
-    el.classList.add('ukryte');
+  // Najświeższy odsłonięty utwór idzie na górę. Przy trzydziestu utworach lista
+  // rosnąca w dół spychałaby ostatnie odsłonięcie poza ekran.
+  const wiersze = [];
+  for (const numer of [...odsloniete].reverse()) {
+    const pozycja = stan.kolejnosc[numer];
+    const opis = pozycja ? opisPoprzedniego(odtworzUtworZBazy(pozycja), opcje) : null;
+    if (opis) wiersze.push({ numer: numer + 1, opis });
+  }
+
+  tbody.innerHTML = '';
+  if (wiersze.length === 0) {
+    blok.classList.add('ukryte');
     return;
   }
-  el.textContent = `Utwór ${stan.poprzedni + 1} to był: ${opis}`;
-  el.classList.remove('ukryte');
+
+  for (const w of wiersze) {
+    const tr = document.createElement('tr');
+    const komorki = [['numer', `Utwór ${w.numer}`], ['strzalka', '====>>>>'], ['opis', w.opis]];
+    for (const [klasa, tekst] of komorki) {
+      const td = document.createElement('td');
+      td.className = klasa;
+      td.textContent = tekst;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  blok.classList.remove('ukryte');
 }
 
 /**
@@ -335,7 +360,10 @@ $('btn-nastepny').addEventListener('click', () => {
     return;
   }
   // Utworu, którego nikt nie usłyszał, nie ma po co odsłaniać.
-  stan.poprzedni = (stan.odtworzeniaBiezacego || 0) > 0 ? stan.biezacy : null;
+  if ((stan.odtworzeniaBiezacego || 0) > 0) {
+    if (!Array.isArray(stan.odsloniete)) stan.odsloniete = [];
+    if (!stan.odsloniete.includes(stan.biezacy)) stan.odsloniete.push(stan.biezacy);
+  }
   stan.biezacy++;
   stan.odtworzeniaBiezacego = 0;
   zapiszStan();
@@ -426,6 +454,8 @@ $('btn-nowa-gra').addEventListener('click', () => {
 // ---------------------------------------------------------------- start
 
 async function start() {
+  $('wersja').textContent = WERSJA_GRY;
+
   // Lista długości gry i zakresy lat pochodzą z jednego miejsca (dane.js),
   // żeby nie rozjechały się z walidacją.
   const wybor = $('liczba-utworow');
