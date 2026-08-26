@@ -27,6 +27,12 @@ Potem, dla każdego utworu:
 2. Każdy przypisuje utwór do rocznika na swoim telefonie.
 3. Prowadzący mówi na głos „dalej" i klika **Następny utwór**.
 
+`Następny utwór` jest **zablokowany, dopóki fragment nie poleci choć raz** — inaczej
+jedno przypadkowe kliknięcie przewija utwór, którego nikt nie usłyszał, a gracze i tak
+muszą przypisać mu rocznik. Gdyby odtworzenie się nie udało (wygasły adres fragmentu,
+odmowa przeglądarki), przejście się odblokowuje — nie ma jak utknąć na uszkodzonym
+utworze. `Zakończ grę` działa zawsze.
+
 To, co dzieje się w punkcie 2, zależy od trybu — patrz niżej.
 
 Po ostatnim utworze prowadzący pokazuje kod QR z kluczem odpowiedzi. Telefony liczą

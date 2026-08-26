@@ -20,7 +20,7 @@ import {
 } from './dane.js';
 import { przygotujGre } from './losowanie.js';
 import { publishRoom, publishKey } from './transport.js';
-import { Odtwarzacz, LIMIT_ODTWORZEN } from './odtwarzacz.js';
+import { Odtwarzacz, LIMIT_ODTWORZEN, wolnoIscDalej } from './odtwarzacz.js';
 import { odciskBazy, formatujKod, ROK_MIN, ROK_MAX } from './kody.js';
 import { WERSJA_GRY } from './wersja.js';
 import { wczytajStanHosta, zapiszStanHosta, skasujStanHosta, magazynDostepny } from './magazyn.js';
@@ -41,6 +41,13 @@ const ekrany = {
 
 let baza = null;
 let odtwarzacz = null;
+
+/**
+ * Czy odtworzenie bieżącego utworu skończyło się błędem. Nie trafia do stanu
+ * trwałego — po przeładowaniu strony host po prostu klika „Odtwórz" jeszcze raz
+ * i błąd wraca, jeśli utwór faktycznie jest uszkodzony.
+ */
+let bladBiezacego = false;
 
 /**
  * Stan rozgrywki. `kolejnosc` trzyma wyłącznie indeksy — utwory doklejamy
@@ -247,6 +254,7 @@ function zaladujBiezacy() {
   // Licznik odtworzeń przetrwał przeładowanie strony — odtwarzacz startuje od zera,
   // więc przywracamy go ze stanu.
   odtwarzacz.odtworzenia = stan.odtworzeniaBiezacego || 0;
+  bladBiezacego = false;
   pokazBlad($('blad-gra'), '');
   odswiezUjawnienie();
   odswiezPoprzednie();
@@ -339,6 +347,12 @@ function odswiezEkranGry() {
   const ostatni = stan.biezacy >= wszystkich - 1;
   $('btn-nastepny').textContent = ostatni ? 'To był ostatni — pokaż klucz' : 'Następny utwór';
   $('btn-nastepny').classList.toggle('glowny', ostatni);
+
+  // Nie da się przewinąć utworu, którego nikt nie usłyszał. „Zakończ grę"
+  // zostaje czynne — to jedyne wyjście awaryjne i nie wolno go zablokować.
+  const wolno = wolnoIscDalej({ odtworzenia: odtwarzacz.odtworzenia, blad: bladBiezacego });
+  $('btn-nastepny').disabled = !wolno;
+  $('podpowiedz-nastepny').classList.toggle('ukryte', wolno);
 }
 
 $('btn-odtworz').addEventListener('click', async () => {
@@ -348,6 +362,9 @@ $('btn-odtworz').addEventListener('click', async () => {
     zapiszStan();
     odswiezUjawnienie();       // tytuł/wykonawca dopiero teraz, nigdy przed kliknięciem
   } catch (e) {
+    // Nieudane odtworzenie odblokowuje przejście dalej — inaczej uszkodzony
+    // previewUrl zatrzymałby całą rozgrywkę na tym utworze.
+    bladBiezacego = true;
     pokazBlad($('blad-gra'), e.message);
   }
   odswiezEkranGry();

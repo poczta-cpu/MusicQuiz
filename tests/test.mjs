@@ -22,7 +22,7 @@ import {
 import { przygotujGre, wylosujRoczniki, liczbaDekad, potasuj } from '../js/losowanie.js';
 import { policzWynik, wgRoku } from '../js/punktacja.js';
 import { Arkusz } from '../js/arkusz.js';
-import { Odtwarzacz, LIMIT_ODTWORZEN } from '../js/odtwarzacz.js';
+import { Odtwarzacz, LIMIT_ODTWORZEN, wolnoIscDalej } from '../js/odtwarzacz.js';
 import { pustyStanGracza } from '../js/magazyn.js';
 import { WERSJA_GRY } from '../js/wersja.js';
 
@@ -1041,6 +1041,22 @@ await testAsync('dosłuchanie do końca zwalnia przycisk, a limit dalej obowiąz
   assert.equal(odtwarzacz.zostalo, 0);
   assert.equal(odtwarzacz.mozeGrac, false, 'trzecie odtworzenie jest zablokowane');
   await assert.rejects(() => odtwarzacz.odtworz(), /już odtworzony/);
+});
+
+test('nieodtworzonego utworu nie da się przewinąć', () => {
+  assert.equal(wolnoIscDalej({ odtworzenia: 0 }), false);
+  assert.equal(wolnoIscDalej(), false, 'brak danych to tak samo brak odtworzenia');
+});
+
+test('jedno odtworzenie wystarczy, żeby przejść dalej', () => {
+  assert.equal(wolnoIscDalej({ odtworzenia: 1 }), true);
+  assert.equal(wolnoIscDalej({ odtworzenia: LIMIT_ODTWORZEN }), true);
+});
+
+test('błąd odtwarzania odblokowuje przejście dalej', () => {
+  // Inaczej wygasly previewUrl zatrzymalby cala rozgrywke na jednym utworze,
+  // a jedynym wyjsciem byloby zakonczenie gry.
+  assert.equal(wolnoIscDalej({ odtworzenia: 0, blad: true }), true);
 });
 
 await testAsync('każde przejście dalej wraca do pełnego limitu', async () => {
