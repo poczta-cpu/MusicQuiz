@@ -15,8 +15,8 @@
  */
 
 import {
-  wczytajBaze, sprawdzKonfiguracje, dostepneRoczniki, opisUtworu, odmienUtwory,
-  LICZBY_UTWOROW, REPERTUARY, OPISY_TRYBOW, TRYBY, TRYB_DOMYSLNY,
+  wczytajBaze, sprawdzKonfiguracje, dostepneRoczniki, opisUtworu, opisPoprzedniego,
+  odmienUtwory, LICZBY_UTWOROW, REPERTUARY, OPISY_TRYBOW, TRYBY, TRYB_DOMYSLNY,
 } from './dane.js';
 import { przygotujGre } from './losowanie.js';
 import { publishRoom, publishKey } from './transport.js';
@@ -112,6 +112,7 @@ function czytajKonfiguracje() {
     tryb: $('tryb').value,
     pokazTytul: $('pokaz-tytul').checked,
     pokazWykonawce: $('pokaz-wykonawce').checked,
+    pokazPoRundzie: $('pokaz-po-rundzie').checked,
   };
 }
 
@@ -173,6 +174,7 @@ $('form-konfiguracja').addEventListener('submit', (e) => {
     })),
     biezacy: 0,
     odtworzeniaBiezacego: 0,
+    poprzedni: null,
     kodPokoju: null,
   };
   zapiszStan();
@@ -224,6 +226,7 @@ $('btn-zacznij').addEventListener('click', () => {
   stan.faza = 'gra';
   stan.biezacy = 0;
   stan.odtworzeniaBiezacego = 0;
+  stan.poprzedni = null;
   zapiszStan();
   wejdzDoGry();
 });
@@ -245,7 +248,26 @@ function zaladujBiezacy() {
   odtwarzacz.odtworzenia = stan.odtworzeniaBiezacego || 0;
   pokazBlad($('blad-gra'), '');
   odswiezUjawnienie();
+  odswiezPoprzedni();
   odswiezEkranGry();
+}
+
+/**
+ * Wypełnia blok „co przed chwilą leciało". Przy wyłączonym podglądzie w ogóle
+ * nie dotyka treści elementu, więc do DOM-u nie trafia ani tytuł, ani wykonawca.
+ */
+function odswiezPoprzedni() {
+  const el = $('poprzedni-utwor');
+  const pozycja = Number.isInteger(stan.poprzedni) ? stan.kolejnosc[stan.poprzedni] : null;
+  const opis = pozycja ? opisPoprzedniego(odtworzUtworZBazy(pozycja), stan.konfiguracja || {}) : null;
+
+  if (!opis) {
+    el.textContent = '';
+    el.classList.add('ukryte');
+    return;
+  }
+  el.textContent = `Utwór ${stan.poprzedni + 1} to był: ${opis}`;
+  el.classList.remove('ukryte');
 }
 
 /**
@@ -312,6 +334,8 @@ $('btn-nastepny').addEventListener('click', () => {
     zakonczGre();
     return;
   }
+  // Utworu, którego nikt nie usłyszał, nie ma po co odsłaniać.
+  stan.poprzedni = (stan.odtworzeniaBiezacego || 0) > 0 ? stan.biezacy : null;
   stan.biezacy++;
   stan.odtworzeniaBiezacego = 0;
   zapiszStan();

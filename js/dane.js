@@ -65,6 +65,22 @@ export function opisUtworu(utwor, { pokazTytul = false, pokazWykonawce = false }
   return czesci.filter(Boolean).join(' — ') || null;
 }
 
+/**
+ * Podpis „co przed chwilą leciało" na dużym ekranie.
+ *
+ * Odsłania tytuł i wykonawcę utworu, który JUŻ PRZESZEDŁ — prowadzący kliknął
+ * „Następny utwór", więc wszyscy zdążyli zamknąć swój wybór. Dzięki temu jest to
+ * potwierdzenie, a nie podpowiedź: w odróżnieniu od `opisUtworu`, które pokazuje
+ * bieżący utwór jeszcze przed odpowiedziami graczy.
+ *
+ * Rok nie jest pokazywany nigdy. Zwraca `null`, gdy podgląd jest wyłączony —
+ * wywołujący ma wtedy nie dotykać DOM-u, żeby żadne metadane do niego nie trafiły (7.1).
+ */
+export function opisPoprzedniego(utwor, { pokazPoRundzie = false } = {}) {
+  if (!utwor || !pokazPoRundzie) return null;
+  return opisUtworu(utwor, { pokazTytul: true, pokazWykonawce: true });
+}
+
 let bazaWPamieci = null;
 
 /** Wczytuje data/songs.json. Wynik jest zapamiętywany na czas życia strony. */

@@ -240,6 +240,22 @@ button.duzy { font-size: 1.3rem; min-height: 64px; padding: 16px 32px; }
   overflow-wrap: anywhere;
 }
 
+/* „Co przed chwilą leciało" — informacja wsteczna, więc ciszej niż #ujawnienie,
+   żeby nie konkurowała z bieżącym utworem na dużym ekranie. */
+.poprzedni-utwor {
+  margin: 16px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  text-align: center;
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  line-height: 1.35;
+  color: var(--tekst-cichy);
+  background: var(--tlo-karta);
+  border: 2px dashed var(--obwodka);
+  border-radius: var(--promien);
+  overflow-wrap: anywhere;
+}
+
 .pasek-postepu {
   height: 6px;
   background: var(--tlo-karta-jasniej);

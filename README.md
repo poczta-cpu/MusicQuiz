@@ -95,6 +95,20 @@ Domyślnie oba są wyłączone. Po włączeniu wybrane dane pojawiają się na d
 
 **Rok nie jest pokazywany nawet wtedy.** To odpowiedź, nie podpowiedź.
 
+### Potwierdzenie po rundzie — co przed chwilą leciało
+
+Trzeci przełącznik: **Pokazuj, co leciało, po przejściu dalej**. Po kliknięciu
+`Następny utwór` duży ekran wypisuje tytuł i wykonawcę utworu, który właśnie
+przeszedł — „Utwór 3 to był: *Take On Me* — a‑ha".
+
+Różnica wobec dwóch przełączników wyżej jest w momencie. Tamte odsłaniają **bieżący**
+utwór zaraz po `Odtwórz`, czyli **zanim ktokolwiek zamknie swój wybór** — to realna
+podpowiedź. Ten odsłania utwór **już rozstrzygnięty**: prowadzący powiedział „dalej",
+więc wszyscy zdążyli odpowiedzieć. Dostajecie potwierdzenie, nie ułatwienie.
+
+Utwór, którego nikt nie usłyszał (prowadzący przeszedł dalej bez `Odtwórz`), nie
+zostaje odsłonięty. Rok nie pojawia się i tutaj.
+
 Duży ekran widzi cała sala, a prowadzący może też odczytać tytuł na głos — więc to
 ułatwienie dla wszystkich po równo, nie przewaga prowadzącego. Zdejmuje z gry
 rozpoznawanie utworu i zostawia samą zgadywankę rocznika. Dobre, gdy gracie

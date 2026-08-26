@@ -16,8 +16,8 @@ import {
   TRYBY, TRYB_DOMYSLNY,
 } from '../js/kody.js';
 import {
-  ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj, opisUtworu, odmienUtwory,
-  LICZBY_UTWOROW,
+  ustawBaze, sprawdzKonfiguracje, dostepneRoczniki, filtruj, opisUtworu, opisPoprzedniego,
+  odmienUtwory, LICZBY_UTWOROW,
 } from '../js/dane.js';
 import { przygotujGre, wylosujRoczniki, liczbaDekad, potasuj } from '../js/losowanie.js';
 import { policzWynik, wgRoku } from '../js/punktacja.js';
@@ -453,6 +453,40 @@ test('podgląd nie wpływa na losowanie ani walidację', () => {
   const a = przygotujGre(bazaPelna, zPodgladem, rngZiarno(21));
   const b = przygotujGre(bazaPelna, bez, rngZiarno(21));
   assert.deepEqual(a.lata, b.lata, 'te same ziarna muszą dać tę samą grę');
+});
+
+// ------------------------------------------------- podglad poprzedniego utworu
+
+grupa('Podgląd „co przed chwilą leciało" (7.1)');
+
+test('domyślnie nie zwraca niczego', () => {
+  assert.equal(opisPoprzedniego(UTWOR), null);
+  assert.equal(opisPoprzedniego(UTWOR, {}), null);
+  assert.equal(opisPoprzedniego(UTWOR, { pokazPoRundzie: false }), null);
+});
+
+test('po włączeniu pokazuje tytuł razem z wykonawcą', () => {
+  assert.equal(opisPoprzedniego(UTWOR, { pokazPoRundzie: true }), 'Take On Me — a-ha');
+});
+
+test('nie zależy od przełączników bieżącego utworu', () => {
+  // To osobne ułatwienie: odsłania utwór, który już przeszedł, więc nie ma
+  // powodu wiązać go z podglądem bieżącego.
+  assert.equal(
+    opisPoprzedniego(UTWOR, { pokazPoRundzie: true, pokazTytul: false, pokazWykonawce: false }),
+    'Take On Me — a-ha'
+  );
+  assert.equal(opisPoprzedniego(UTWOR, { pokazTytul: true, pokazWykonawce: true }), null);
+});
+
+test('rok nie wychodzi tędy nawet po włączeniu', () => {
+  const opis = opisPoprzedniego(UTWOR, { pokazPoRundzie: true });
+  assert.doesNotMatch(opis, /1985/, 'rok jest odpowiedzią, nie podpowiedzią');
+});
+
+test('brak utworu nie wysypuje podglądu', () => {
+  assert.equal(opisPoprzedniego(null, { pokazPoRundzie: true }), null);
+  assert.equal(opisPoprzedniego(undefined, { pokazPoRundzie: true }), null);
 });
 
 // ---------------------------------------------------------------- arkusz gracza
