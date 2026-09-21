@@ -8,4 +8,4 @@
  * Numer musi zgadzać się z polem `version` w `package.json` — pilnuje tego test.
  */
 
-export const WERSJA_GRY = 'v1.1';
+export const WERSJA_GRY = 'v1.2';

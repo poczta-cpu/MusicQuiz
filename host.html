@@ -47,14 +47,16 @@
 
       <div style="height:18px"></div>
 
+      <!-- Granice min/max ustawia host.js z ROK_MIN/ROK_MAX, żeby nie rozjechały
+           się z walidacją i z zakresem kodu pokoju. Tu ich celowo nie ma. -->
       <div class="rzad">
         <div>
           <label for="rok-od">Rok początkowy</label>
-          <input type="number" id="rok-od" min="1980" max="2026" step="1" inputmode="numeric">
+          <input type="number" id="rok-od" step="1" inputmode="numeric">
         </div>
         <div>
           <label for="rok-do">Rok końcowy</label>
-          <input type="number" id="rok-do" min="1980" max="2026" step="1" inputmode="numeric">
+          <input type="number" id="rok-do" step="1" inputmode="numeric">
         </div>
       </div>
 
@@ -182,6 +184,19 @@
 
     <div class="info" style="margin-top:28px">
       Numer utworu na telefonach musi zgadzać się z numerem na ekranie.
+    </div>
+
+    <!-- Zaproszenie zostaje na ekranie przez całą grę: telefon, któremu padła
+         bateria albo który dołącza w trakcie, nie ma innej drogi z powrotem
+         do pokoju. Kod pokoju NIE jest metadaną utworu — koduje wersję, tryb
+         i listę roczników, którą gracze i tak mają w swojej kolumnie. Żadna
+         cyfra roku ani tytuł nie trafia przez niego do DOM. -->
+    <div class="dolacz-w-trakcie">
+      <div class="pudlo-qr maly"><div id="qr-pokoj-gra"></div></div>
+      <div>
+        <p style="margin-bottom:4px;color:var(--tekst-cichy)">Spóźnialscy dołączają tu:</p>
+        <div class="kod-sredni" id="kod-pokoju-gra"></div>
+      </div>
     </div>
   </section>
 

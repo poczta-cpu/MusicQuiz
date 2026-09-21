@@ -13,8 +13,10 @@
  *
  *   SWOBODNY — przypisania żyją przez całą grę. Utwór bierze się „do ręki"
  *              jednym tapnięciem i kładzie drugim; położenie go na obsadzonym
- *              roczniku zamienia oba utwory miejscami. Dopiero `zamroz()`
- *              zamyka listę i wystawia godzinę oddania.
+ *              roczniku zamienia oba utwory miejscami. Po położeniu utwór
+ *              ZOSTAJE w ręce, więc zmiana zdania to jedno tapnięcie, a nie
+ *              kaskada poprawek. Przycisk „✕" odsyła utwór z rocznika z powrotem
+ *              do puli. Dopiero `zamroz()` zamyka listę i wystawia godzinę.
  *
  * Rozróżnienie, na którym stoi tryb swobodny: rocznik ZAJĘTY trzyma jakiś utwór,
  * ale nadal daje się ruszyć; rocznik ZAMROŻONY jest nietykalny. W trybie
@@ -144,18 +146,12 @@ export class Arkusz {
     // jeszcze rocznika, lokator zostaje nieprzypisany i wraca na listę u góry.
     if (utworTam !== null) this.stan.odpowiedzi[utworTam] = skad;
 
-    const ulozylBiezacy = this.podniesiony === this.stan.biezacy;
-    this.podniesiony = null;
-    if (ulozylBiezacy) {
-      // Ułożenie bieżącego utworu samo przesuwa arkusz dalej — ten sam rytm, co
-      // „Zatwierdź" w trybie rundowym, tylko bez zatrzaskiwania wyboru.
-      this.przejdzDalej();
-    } else {
-      // Poprawianie starszego utworu nie może zostawić pustej ręki, kiedy bieżący
-      // wciąż czeka bez rocznika — utwór leci i gracz nie ma czasu na dodatkowe
-      // tapnięcie żetonu. Pustą rękę zostawia tylko świadome odłożenie utworu.
-      this.podniesiony = this.domyslnieWRece();
-    }
+    // Utwór ZOSTAJE w ręce. Wcześniej ułożenie bieżącego utworu samo przesuwało
+    // arkusz dalej i wciągało kolejny do ręki — przy grze bez synchronizacji
+    // z serwerem jedno błędne tapnięcie zapełniało kaskadą pół listy i trzeba
+    // ją było odkręcać wstecz. Teraz kolejne tapnięcie rocznika przestawia ten
+    // sam utwór: pomyłka kosztuje jedno tapnięcie, nie serię poprawek.
+    // Po następny utwór gracz sięga sam — żetonem albo przyciskiem „Dalej".
     return true;
   }
 
@@ -163,7 +159,33 @@ export class Arkusz {
   podnies(utwor) {
     if (!this.swobodny || this.oddany) return false;
     if (!Number.isInteger(utwor) || utwor < 0 || utwor >= this.liczbaUtworow) return false;
-    this.podniesiony = this.podniesiony === utwor ? null : utwor;
+
+    const odkladamy = this.podniesiony === utwor;
+    this.podniesiony = odkladamy ? null : utwor;
+
+    // Licznik idzie za ręką, ale wyłącznie do przodu. Sięgnięcie po dalszy utwór
+    // przesuwa arkusz — to druga, obok przycisku „Dalej", droga naprzód. Powrót
+    // do starszego utworu licznika NIE cofa: z głośnika leci już dalszy fragment,
+    // a numer na telefonie ma zgadzać się z numerem na ekranie prowadzącego.
+    if (!odkladamy && utwor > this.stan.biezacy) this.stan.biezacy = utwor;
+    return true;
+  }
+
+  /**
+   * Zdejmuje utwór z rocznika i odsyła go na listę nieprzypisanych.
+   *
+   * Bez tego jedyną drogą odwrotu było wypchnięcie lokatora innym utworem —
+   * a gdy wszystkie pozostałe mają już rocznik, nie ma czym wypchnąć i pomyłka
+   * zostaje do końca gry. Licznika nie rusza: odpięcie to poprawka, nie postęp.
+   */
+  odepnij(indeksRoku) {
+    if (!this.swobodny || this.oddany) return false;
+    const zajete = this.zajete();
+    if (!zajete.has(indeksRoku)) return false;
+
+    const utwor = zajete.get(indeksRoku) - 1;
+    this.stan.odpowiedzi[utwor] = null;
+    if (this.podniesiony === utwor) this.podniesiony = null;
     return true;
   }
 
@@ -255,6 +277,9 @@ export class Arkusz {
         zamrozony,
         podniesiony,
         wybrany: this.swobodny ? podniesiony : (!zajety && indeks === this.wybor),
+        // Czy wiersz dostaje „✕". Regułę trzyma arkusz, żeby ekran gracza nie
+        // musiał wiedzieć, kiedy odpięcie jest w ogóle dozwolone.
+        odpinalny: this.swobodny && zajety && !zamrozony && !this.oddany,
         etykieta,
       };
     });

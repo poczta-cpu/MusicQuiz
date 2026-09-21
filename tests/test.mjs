@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 
 import {
   zakodujKodPokoju, odkodujKodPokoju, zakodujKlucz, odkodujKlucz,
-  odciskBazy, oczysc, formatujKod, dlugoscKoduPokoju, ROK_MIN, ROK_MAX,
+  odciskBazy, oczysc, formatujKod, dlugoscKoduPokoju, ROK_MIN, ROK_MAX, LICZBA_ROCZNIKOW,
   TRYBY, TRYB_DOMYSLNY,
 } from '../js/kody.js';
 import {
@@ -88,13 +88,15 @@ function bazaSyntetyczna({ odRoku = ROK_MIN, doRoku = ROK_MAX, plCoIleLat = 1 } 
 grupa('Kod pokoju (sekcja 8)');
 
 test('długość kodu pokoju zależy od rozmiaru gry', () => {
-  const dziesiec = Array.from({ length: 10 }, (_, i) => 1980 + i * 4);
-  assert.equal(zakodujKodPokoju(dziesiec).length, 8);
+  const dziesiec = Array.from({ length: 10 }, (_, i) => ROK_MIN + i * 4);
+  assert.equal(zakodujKodPokoju(dziesiec).length, 9);
 
-  // Najgorszy przypadek nie przekracza dziesięciu znaków — kod przepisuje się
-  // ręcznie z drugiego końca pokoju.
+  // Najgorszy przypadek nie przekracza dwunastu znaków — kod przepisuje się
+  // ręcznie z drugiego końca pokoju, więc granica jest świadoma, nie przypadkowa.
+  // Rosła z dziesięciu, gdy zakres roczników zszedł do 1970: więcej roczników
+  // to więcej kombinacji do ponumerowania, czyli szersze pole rangi.
   for (const n of LICZBY_UTWOROW) {
-    assert.ok(dlugoscKoduPokoju(n) <= 10, `N=${n} daje ${dlugoscKoduPokoju(n)} znaków`);
+    assert.ok(dlugoscKoduPokoju(n) <= 12, `N=${n} daje ${dlugoscKoduPokoju(n)} znaków`);
   }
 });
 
@@ -145,8 +147,8 @@ test('kod pokoju wraca do tych samych roczników', () => {
 
 test('nietypowa liczba utworów też się koduje', () => {
   // Spoza listy w nagłówku — format dokłada drugi znak z jawnym N.
-  for (const n of [1, 2, 3, 5, 7, 13, 47]) {
-    const lata = Array.from({ length: n }, (_, i) => ROK_MIN + i * Math.floor(47 / n));
+  for (const n of [1, 2, 3, 5, 7, 13, LICZBA_ROCZNIKOW]) {
+    const lata = Array.from({ length: n }, (_, i) => ROK_MIN + i * Math.floor(LICZBA_ROCZNIKOW / n));
     const wynik = odkodujKodPokoju(zakodujKodPokoju(lata));
     assert.equal(wynik.liczbaUtworow, n, `N=${n}`);
     assert.deepEqual(wynik.lata, lata);
@@ -188,8 +190,17 @@ test('formatujKod grupuje po cztery znaki', () => {
 });
 
 test('kod pokoju odrzuca rocznik spoza zakresu', () => {
-  assert.throws(() => zakodujKodPokoju([1979]), /poza zakresem/);
-  assert.throws(() => zakodujKodPokoju([2027]), /poza zakresem/);
+  assert.throws(() => zakodujKodPokoju([ROK_MIN - 1]), /poza zakresem/);
+  assert.throws(() => zakodujKodPokoju([ROK_MAX + 1]), /poza zakresem/);
+});
+
+test('roczniki brzegowe przechodzą przez kod pokoju', () => {
+  // Brzegi zakresu to indeksy 0 i LICZBA_ROCZNIKOW-1 w kombinacji — najłatwiej
+  // je zgubić przy zmianie ROK_MIN, a gra nie ma jak tego zasygnalizować.
+  const wynik = odkodujKodPokoju(zakodujKodPokoju([ROK_MIN, ROK_MAX]));
+  assert.deepEqual(wynik.lata, [ROK_MIN, ROK_MAX]);
+  assert.equal(ROK_MIN, 1970, 'zakres gry zaczyna się w 1970');
+  assert.equal(ROK_MAX, 2026, 'zakres gry kończy się w 2026');
 });
 
 test('kod pokoju odrzuca powtórzony rocznik', () => {
@@ -198,7 +209,7 @@ test('kod pokoju odrzuca powtórzony rocznik', () => {
 
 test('kod złej długości daje czytelny komunikat', () => {
   const kod = zakodujKodPokoju(Array.from({ length: 10 }, (_, i) => ROK_MIN + i * 4));
-  assert.throws(() => odkodujKodPokoju(kod + '0'), /10 utworów ma 8 znaków/);
+  assert.throws(() => odkodujKodPokoju(kod + '0'), /10 utworów ma 9 znaków/);
   assert.throws(() => odkodujKodPokoju('A'), /za krótki/);
 });
 
@@ -630,34 +641,57 @@ function swobodnyArkusz(lata = LATA_TESTOWE) {
   return nowyArkusz(lata, 'swobodny');
 }
 
-test('bieżący utwór jest w ręce, a ułożenie go przesuwa arkusz dalej', () => {
+/** Bierze utwór do ręki. `podnies` przełącza, więc trzymanego już nie ruszamy. */
+function wez(a, utwor) {
+  if (a.podniesiony !== utwor) a.podnies(utwor);
+}
+
+/** Układa utwory 0..n-1 na kolejnych rocznikach, jak gracz robiący to żetonami. */
+function ulozWszystko(a, ile = LATA_TESTOWE.length) {
+  for (let i = 0; i < ile; i++) {
+    wez(a, i);
+    a.tapnij(i);
+  }
+}
+
+test('pierwszy utwór czeka w ręce i zostaje w niej po ułożeniu', () => {
   const a = swobodnyArkusz();
   assert.equal(a.podniesiony, 0, 'utwór 1 czeka w ręce od startu');
 
   a.tapnij(3);
   assert.equal(a.stan.odpowiedzi[0], 3);
-  assert.equal(a.stan.biezacy, 1, 'arkusz sam przechodzi do kolejnego utworu');
-  assert.equal(a.podniesiony, 1, 'kolejny utwór wskakuje do ręki');
+  assert.equal(a.stan.biezacy, 0, 'licznik nie rusza się sam');
+  assert.equal(a.podniesiony, 0, 'utwór zostaje w ręce — poprawka to jedno tapnięcie');
+});
+
+test('kolejne tapnięcia przestawiają ten sam utwór, zamiast zapełniać listę', () => {
+  const a = swobodnyArkusz();
+  a.tapnij(3);
+  a.tapnij(5);
+  a.tapnij(1);
+
+  assert.equal(a.stan.odpowiedzi[0], 1, 'utwór 1 wylądował tam, gdzie ostatnie tapnięcie');
+  assert.equal(a.nieprzypisane().length, LATA_TESTOWE.length - 1,
+    'żaden inny utwór nie został przypisany po drodze');
+  assert.deepEqual(a.wolneIndeksy().includes(3) && a.wolneIndeksy().includes(5), true,
+    'porzucone roczniki wracają do puli');
 });
 
 test('przestawienie na wolny rocznik zwalnia poprzedni', () => {
   const a = swobodnyArkusz();
   a.tapnij(0);
-  a.podnies(0);
   assert.equal(a.podniesiony, 0);
 
   a.tapnij(5);
   assert.equal(a.stan.odpowiedzi[0], 5);
   assert.ok(a.wolneIndeksy().includes(0), 'stary rocznik wraca do puli');
-  assert.equal(a.stan.biezacy, 1, 'poprawianie starego utworu nie rusza licznika');
 });
 
 test('położenie utworu na obsadzonym roczniku zamienia oba miejscami', () => {
   const a = swobodnyArkusz();
-  a.tapnij(0);
-  a.tapnij(1);
-  a.podnies(0);
-  a.tapnij(1);
+  ulozWszystko(a, 2);                // utwór 1 -> rocznik 0, utwór 2 -> rocznik 1
+  wez(a, 0);
+  a.tapnij(1);                       // utwór 1 ląduje na roczniku utworu 2
 
   assert.equal(a.stan.odpowiedzi[0], 1);
   assert.equal(a.stan.odpowiedzi[1], 0, 'lokator idzie tam, skąd przyszedł utwór z ręki');
@@ -667,21 +701,86 @@ test('położenie utworu na obsadzonym roczniku zamienia oba miejscami', () => {
 test('utwór bez rocznika wypycha lokatora z powrotem do puli', () => {
   const a = swobodnyArkusz();
   a.tapnij(0);                       // utwór 1 na pierwszy rocznik
-  a.tapnij(0);                       // utwór 2 ląduje na tym samym roczniku
+  a.podnies(1);                      // sięgamy po utwór 2
+  a.tapnij(0);                       // i kładziemy go na tym samym roczniku
 
   assert.equal(a.stan.odpowiedzi[1], 0);
   assert.equal(a.stan.odpowiedzi[0], null, 'utwór 1 nie ma dokąd pójść — wraca do puli');
   assert.ok(a.nieprzypisane().includes(0));
 });
 
-test('po poprawieniu starszego utworu bieżący wraca do ręki', () => {
+test('poprawianie starszego utworu zostawia go w ręce', () => {
   const a = swobodnyArkusz();
-  a.tapnij(0);                       // utwór 1 na miejsce, utwór 2 wskakuje do ręki
-  a.podnies(0);                      // bierzemy utwór 1 do poprawki
+  a.tapnij(0);                       // utwór 1 na miejsce
+  a.podnies(2);                      // przeskakujemy do utworu 3
+  a.tapnij(3);
+  a.podnies(0);                      // wracamy do utworu 1
   a.tapnij(4);                       // przestawiamy go
 
-  assert.equal(a.stan.biezacy, 1);
-  assert.equal(a.podniesiony, 1, 'bieżący utwór leci, ręka nie może zostać pusta');
+  assert.equal(a.podniesiony, 0, 'w ręce zostaje utwór poprawiany, nie bieżący');
+  assert.equal(a.stan.odpowiedzi[0], 4);
+});
+
+test('licznik idzie za żetonem do przodu, ale nigdy się nie cofa', () => {
+  const a = swobodnyArkusz();
+  assert.equal(a.stan.biezacy, 0);
+
+  a.podnies(4);
+  assert.equal(a.stan.biezacy, 4, 'sięgnięcie po dalszy utwór przesuwa arkusz');
+
+  a.podnies(1);
+  assert.equal(a.stan.biezacy, 4, 'poprawka starszego utworu nie cofa numeru');
+  assert.equal(a.podniesiony, 1, 'ale do ręki trafia ten, po który sięgnięto');
+});
+
+test('odpięcie odsyła utwór na listę nieprzypisanych', () => {
+  const a = swobodnyArkusz();
+  a.tapnij(2);
+  assert.equal(a.stan.odpowiedzi[0], 2);
+
+  assert.equal(a.odepnij(2), true);
+  assert.equal(a.stan.odpowiedzi[0], null);
+  assert.ok(a.nieprzypisane().includes(0), 'utwór wraca do puli u góry');
+  assert.equal(a.podniesiony, null, 'odpięty utwór nie zostaje w ręce');
+  assert.ok(a.wolneIndeksy().includes(2), 'rocznik znów jest wolny');
+});
+
+test('odpięcie działa nawet wtedy, gdy nie ma czym wypchnąć lokatora', () => {
+  // Cała kolumna obsadzona — to jest przypadek, w którym przed dodaniem „✕"
+  // pomyłka zostawała na planszy do końca gry.
+  const a = swobodnyArkusz();
+  ulozWszystko(a);
+  assert.equal(a.nieprzypisane().length, 0);
+
+  assert.equal(a.odepnij(3), true);
+  assert.deepEqual(a.nieprzypisane(), [3]);
+});
+
+test('odpięcie odmawia tam, gdzie nie ma czego zdejmować', () => {
+  const a = swobodnyArkusz();
+  a.tapnij(0);
+  assert.equal(a.odepnij(4), false, 'wolny rocznik');
+  assert.equal(a.odepnij(99), false, 'rocznik spoza kolumny');
+
+  const rundowy = nowyArkusz(LATA_TESTOWE, 'rundowy');
+  rundowy.tapnij(0);
+  rundowy.zatwierdz('20:00:00');
+  assert.equal(rundowy.odepnij(0), false, 'w rundowym nie ma odpinania');
+});
+
+test('wiersz obsadzony w trybie swobodnym dostaje „✕", rundowy nie', () => {
+  const a = swobodnyArkusz();
+  a.tapnij(2);
+  assert.equal(a.wiersze()[2].odpinalny, true);
+  assert.equal(a.wiersze()[0].odpinalny, false, 'wolny rocznik nie ma czego zdejmować');
+
+  a.zamroz('20:00:00');
+  assert.equal(a.wiersze()[2].odpinalny, false, 'po zamrożeniu nic się nie rusza');
+
+  const rundowy = nowyArkusz(LATA_TESTOWE, 'rundowy');
+  rundowy.tapnij(2);
+  rundowy.zatwierdz('20:00:00');
+  assert.equal(rundowy.wiersze()[2].odpinalny, false);
 });
 
 test('świadome odłożenie utworu zostawia pustą rękę', () => {
@@ -701,8 +800,7 @@ test('tapnięcie pustego rocznika pustą ręką nic nie zmienia', () => {
 
 test('nic nie jest zamrożone przed zamrożeniem listy', () => {
   const a = swobodnyArkusz();
-  a.tapnij(0);
-  a.tapnij(1);
+  ulozWszystko(a, 2);
 
   assert.equal(a.zajete().size, 2, 'dwa roczniki są obsadzone');
   assert.equal(a.zamrozone().size, 0, 'ale żaden nie jest jeszcze nietykalny');
@@ -712,7 +810,7 @@ test('nic nie jest zamrożone przed zamrożeniem listy', () => {
 
 test('zamrożenie listy zatrzaskuje wszystko i wystawia godzinę', () => {
   const a = swobodnyArkusz();
-  for (let i = 0; i < LATA_TESTOWE.length; i++) a.tapnij(i);
+  ulozWszystko(a);
   assert.deepEqual(a.stan.odpowiedzi, [0, 1, 2, 3, 4, 5]);
 
   a.zamroz('21:14:32');
@@ -728,11 +826,11 @@ test('zamrożenie listy zatrzaskuje wszystko i wystawia godzinę', () => {
 test('utwory bez rocznika po zamrożeniu liczą się jako pominięte', () => {
   const a = swobodnyArkusz();
   a.tapnij(0);            // utwór 1 -> rocznik 0
-  a.przejdzDalej();       // utwór 2 zostawiamy bez rocznika
-  a.tapnij(2);            // utwór 3 -> rocznik 2
-  a.tapnij(3);            // utwór 4 -> rocznik 3
-  a.tapnij(4);            // utwór 5 -> rocznik 4
-  a.tapnij(5);            // utwór 6 -> rocznik 5
+  // utwór 2 zostawiamy bez rocznika — sięgamy od razu po trzeci
+  for (const i of [2, 3, 4, 5]) {
+    wez(a, i);
+    a.tapnij(i);
+  }
 
   assert.deepEqual(a.nieprzypisane(), [1]);
   a.zamroz('22:00:00');
@@ -1085,6 +1183,17 @@ test('wersja w stopce zgadza się z package.json', () => {
   const [glowny, poboczny] = paczka.version.split('.');
   assert.equal(WERSJA_GRY, `v${glowny}.${poboczny}`,
     `stopka mówi ${WERSJA_GRY}, a package.json ${paczka.version}`);
+});
+
+test('zaproszenie do pokoju zostaje na ekranie gry', () => {
+  // Telefon, który padł w trakcie, nie ma innej drogi z powrotem do pokoju.
+  const tresc = readFileSync(path.join(ROOT, 'host.html'), 'utf8');
+  const ekranGry = tresc.slice(
+    tresc.indexOf('<section id="ekran-gra"'),
+    tresc.indexOf('<section id="ekran-koniec"')
+  );
+  assert.ok(ekranGry.includes('id="qr-pokoj-gra"'), 'brak kodu QR na ekranie gry');
+  assert.ok(ekranGry.includes('id="kod-pokoju-gra"'), 'brak kodu tekstowego na ekranie gry');
 });
 
 test('każda strona ma miejsce na numer wersji', () => {

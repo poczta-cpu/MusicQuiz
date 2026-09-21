@@ -9,9 +9,14 @@
  *      więc może być dłuższy.
  *
  * Oba kody upakowane są bitowo, bez marnowania miejsca na granice bajtów.
- * Kod pokoju nie zapisuje maski 47 roczników, tylko numer kombinacji wybranych
- * lat — dzięki temu jego długość zależy od rozmiaru gry: 8 znaków przy dziesięciu
- * utworach, 10 w najgorszym przypadku.
+ * Kod pokoju nie zapisuje maski 57 roczników, tylko numer kombinacji wybranych
+ * lat — dzięki temu jego długość zależy od rozmiaru gry: 9 znaków przy dziesięciu
+ * utworach, 12 przy trzydziestu.
+ *
+ * Te liczby rosną razem z ROK_MIN. Zejście dolnej granicy do 1970 dołożyło dziesięć
+ * roczników, czyli więcej kombinacji do ponumerowania, i wydłużyło każdy kod o znak
+ * albo dwa. Kody sprzed tej zmiany odpadają na kontroli długości przy dekodowaniu —
+ * żaden nie zdekoduje się po cichu na roczniki przesunięte o dekadę.
  *
  * Alfabet base32 w wariancie Crockforda: bez I, L, O i U, żeby nie mylić znaków
  * przy przepisywaniu.
@@ -29,9 +34,9 @@ const WARTOSCI = (() => {
   return m;
 })();
 
-export const ROK_MIN = 1980;
+export const ROK_MIN = 1970;
 export const ROK_MAX = 2026;
-export const LICZBA_ROCZNIKOW = ROK_MAX - ROK_MIN + 1;   // 47 możliwych roczników
+export const LICZBA_ROCZNIKOW = ROK_MAX - ROK_MIN + 1;   // 57 możliwych roczników
 export const WERSJA_FORMATU = 1;
 
 /**
@@ -221,7 +226,7 @@ export function dlugoscKoduPokoju(n) {
 }
 
 /**
- * Koduje zbiór roczników jako numer kombinacji nad zakresem 1980–2026.
+ * Koduje zbiór roczników jako numer kombinacji nad zakresem ROK_MIN–ROK_MAX.
  *
  * Nagłówek to jeden znak: bit wersji + bit trybu + indeks długości gry.
  * Nietypowa liczba utworów (spoza listy w nagłówku) dokłada jawne N.
@@ -293,9 +298,15 @@ export function odkodujKodPokoju(kod) {
     throw new Error('Kod pokoju jest uszkodzony — sprawdź, czy nie ma literówki.');
   }
 
+  // Zmiana zakresu roczników zmienia długość kodu dla każdej liczby utworów, więc
+  // to sito łapie także kody z poprzedniej wersji gry — zanim zdążą zdekodować się
+  // na przesunięte lata. Stąd podpowiedź o nowym kodzie, a nie o literówce.
   const oczekiwana = dlugoscKoduPokoju(n);
   if (czysty.length !== oczekiwana) {
-    throw new Error(`Kod pokoju dla ${n} utworów ma ${oczekiwana} znaków, a ten ma ${czysty.length}.`);
+    throw new Error(
+      `Kod pokoju dla ${n} utworów ma ${oczekiwana} znaków, a ten ma ${czysty.length}. `
+      + 'Sprawdź literówki albo poproś prowadzącego o świeży kod.'
+    );
   }
 
   const liczbaKombinacji = dwumian(LICZBA_ROCZNIKOW, n);

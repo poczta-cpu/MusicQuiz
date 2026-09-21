@@ -244,7 +244,24 @@ $('btn-zacznij').addEventListener('click', () => {
 function wejdzDoGry() {
   stan.faza = 'gra';
   pokazEkran('gra');
+  pokazZaproszenieWTrakcie();
   zaladujBiezacy();
+}
+
+/**
+ * Zaproszenie do pokoju, widoczne przez całą rozgrywkę.
+ *
+ * Siedzi tutaj, a nie w `pokazZaproszenie()`, bo prowadzący może przeładować
+ * stronę w trakcie gry — wtedy ekran zaproszenia w ogóle się nie pokazuje,
+ * a kod QR i tak musi być na swoim miejscu. `publishRoom` jest deterministyczne,
+ * więc drugie wywołanie odtwarza dokładnie ten sam kod bez nowego API transportu.
+ */
+function pokazZaproszenieWTrakcie() {
+  const { kod } = publishRoom(
+    { lata: stan.lata, tryb: stan.konfiguracja.tryb },
+    $('qr-pokoj-gra')
+  );
+  $('kod-pokoju-gra').textContent = formatujKod(kod);
 }
 
 function zaladujBiezacy() {
@@ -493,6 +510,12 @@ async function start() {
   }
   odswiezOpisTrybu();
 
+  // Granice pól roku idą stąd, a nie z atrybutów w HTML — inaczej przy zmianie
+  // zakresu przeglądarka puszczałaby rok, który walidacja i tak odrzuci.
+  for (const pole of [$('rok-od'), $('rok-do')]) {
+    pole.min = ROK_MIN;
+    pole.max = ROK_MAX;
+  }
   $('rok-od').value = ROK_MIN;
   $('rok-do').value = ROK_MAX;
 

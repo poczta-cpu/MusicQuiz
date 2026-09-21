@@ -33,7 +33,9 @@ const UA_ITUNES = 'MuzycznyRok/1.0 (song database build script)';
 const MB_ODSTEP_MS = 1100;          // maks. 1 zapytanie na sekundę, z zapasem
 const PROG_DOPASOWANIA = 0.55;      // minimalny wynik podobieństwa, żeby uznać trafienie
 
-const ZAKRES_OD = 1975;
+// Ten sam zakres, co ROK_MIN/ROK_MAX w js/kody.js — raport o pustych rocznikach
+// ma pokrywać dokładnie to, co gra przyjmie w konfiguracji.
+const ZAKRES_OD = 1970;
 const ZAKRES_DO = 2026;
 
 // ---------------------------------------------------------------- argumenty

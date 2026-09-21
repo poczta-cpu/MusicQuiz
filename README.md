@@ -171,14 +171,19 @@ ograniczenia, które są **wybrane**, nie przeoczone:
 7. **Prowadzący ma klucz odpowiedzi w przeglądarce** od początku gry. Nie jest renderowany
    na ekranie, ale zdeterminowany prowadzący znajdzie go w konsoli. Klucz trafia też do
    `localStorage`, żeby odświeżenie strony na laptopie nie skasowało rozgrywki w połowie.
-8. **Baza pokrywa lata 1980–2019** (391 utworów, 40 roczników, każdy rocznik pełny). Pola roku
-   przyjmują 1980–2026; specyfikacja mówiła o 1975, ale przed 1980 nie ma i nie będzie utworów,
-   więc dolna granica poszła w górę — to zawęziło zakres kodu pokoju z 52 roczników do 47.
-   Powyżej 2019 nadal nic nie ma. Licznik „dostępne roczniki" pokazuje to na żywo,
-   a walidacja odrzuci taki wybór z konkretnym komunikatem.
+8. **Pola roku przyjmują 1970–2026, ale baza pokrywa 1980–2019** (391 utworów, 40 roczników,
+   każdy rocznik pełny). Roczniki 1970–1979 i 2020–2026 są puste — zakres poszedł w dół
+   z wyprzedzeniem, żeby dosypanie starszych dekad do `data/candidates/` nie wymagało
+   ruszania kodu. Licznik „dostępne roczniki" pokazuje stan na żywo, a walidacja odrzuci
+   wybór bez pokrycia z konkretnym komunikatem.
 9. **Rozgrywka ma 10–30 utworów, co 5.** Testowe długości 3 i 5 oraz warianty 35 i 40 zniknęły
    z listy: pięć pozycji mieści się w trzech bitach nagłówka kodu pokoju, dzięki czemu tryb
    rozgrywki wszedł do kodu bez wydłużania go.
+10. **Kod pokoju ma 9–12 znaków** — 9 przy dziesięciu utworach, 12 przy dwudziestu i więcej.
+    Kod zapisuje numer kombinacji wybranych roczników, więc szerszy zakres to więcej
+    kombinacji do ponumerowania: zejście do 1970 wydłużyło każdy kod o znak albo dwa.
+    Kody sprzed v1.2 odpadają na kontroli długości — żaden nie zdekoduje się po cichu
+    na roczniki przesunięte o dekadę.
 
 ---
 

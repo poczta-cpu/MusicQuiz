@@ -68,7 +68,7 @@ Raport w formie tabeli: narzędzie / wersja / OK-brak / czy blokuje.
 Prowadzący loguje się i ustawia:
 
 - **Liczba utworów:** 10–40, krok 5
-- **Rok początkowy** i **rok końcowy** — dwa niezależne pola, zakres 1975–2026
+- **Rok początkowy** i **rok końcowy** — dwa niezależne pola, zakres 1970–2026
 - **Repertuar:** `Świat` / `Mix` / `Polska`
 
 **Walidacja — krytyczna.** Sprawdź w tej kolejności:
@@ -90,7 +90,7 @@ Pokazuj na żywo licznik: *„dostępne roczniki: 34"*, żeby host widział, co 
 
 1. Zbuduj listę dostępnych roczników w zakresie, po filtrze repertuaru.
 2. Podziel ją na N równych koszyków i wylosuj po jednym roczniku z każdego.
-   **Nie losuj lat czysto losowo** — przy 10 utworach z zakresu 1975–2026 potrafi
+   **Nie losuj lat czysto losowo** — przy 10 utworach z zakresu 1970–2026 potrafi
    wyjść 8 piosenek z jednej dekady i gra robi się nudna.
 3. Z każdego wylosowanego rocznika wylosuj jeden utwór.
 4. Potasuj kolejność odtwarzania — kolumna lat jest posortowana rosnąco, więc kolejność
@@ -102,8 +102,13 @@ Host wyświetla na dużym ekranie kod QR z URL-em gry + kodem pokoju oraz sam ko
 Gracz skanuje albo wpisuje adres ręcznie, podaje imię, dostaje tabelę.
 
 **Kod pokoju nie może zawierać odpowiedzi.** Koduje wyłącznie: wersję formatu,
-liczbę utworów i posortowaną listę lat. Zakoduj lata jako bitmaskę nad zakresem
-1975–2026 (52 bity) w base32 — wychodzi ~11 znaków, wygodnych do przepisania.
+liczbę utworów i posortowaną listę lat.
+
+> **Stan faktyczny (v1.2).** Pierwotnie było tu: „zakoduj lata jako bitmaskę nad
+> zakresem 1975–2026 (52 bity)". Implementacja poszła inaczej i lepiej — zapisuje
+> **numer kombinacji** wybranych roczników nad zakresem 1970–2026, więc długość
+> kodu zależy od rozmiaru gry zamiast być stała: 9 znaków przy dziesięciu utworach,
+> 12 przy trzydziestu. Bitmaska nigdy nie powstała.
 
 ### 4.4 Runda
 
@@ -237,6 +242,10 @@ Zasady:
 - Tapnięcie wolnego rocznika przenosi tam bieżący wybór. Zmiana zdania kosztuje jedno
   tapnięcie, dopóki wybór nie jest zatwierdzony.
 - Zatwierdzonego rocznika nie da się tapnąć, zwolnić ani podmienić. Brak przycisku `✕`.
+  Dotyczy **trybu rundowego**. W dołożonym później **trybie swobodnym** nic nie jest
+  zatwierdzone aż do zamrożenia listy, więc każdy obsadzony rocznik ma obok `✕`,
+  który odsyła utwór na listę nieprzypisanych — bez tego pomyłka przy pełnej kolumnie
+  nie miałaby żadnej drogi odwrotu.
 - Duży przycisk `Zatwierdź` na dole, sticky. Po kliknięciu: blokada + przejście do
   kolejnego utworu.
 - Gracz **nie widzi tytułów ani wykonawców** aż do ekranu wyniku.
@@ -256,7 +265,7 @@ dostępu do kamery.
 
 | Co | Zawartość | Format |
 |---|---|---|
-| Kod pokoju | wersja, N, posortowane lata | bitmaska 52-bitowa → base32, ~11 znaków |
+| Kod pokoju | wersja, tryb, N, posortowane lata | numer kombinacji nad 1970–2026 → base32, 9–12 znaków |
 | Klucz odpowiedzi | permutacja: utwór *i* → indeks roku | ciąg N indeksów, base32; przy N=40 ~30 znaków → QR |
 
 Kod pokoju musi być krótki, bo ludzie go przepisują. Klucz odpowiedzi może być długi,
@@ -301,7 +310,7 @@ Po M1 i po M3 **zatrzymaj się i pokaż efekt** — to punkty, w których łatwo
 - [ ] Strona działa z `https://<user>.github.io/<repo>/` bez żadnej konfiguracji
 - [ ] Zakres 2024–2026 przy 10 utworach jest odrzucany z czytelnym komunikatem
 - [ ] Rok końcowy wcześniejszy niż początkowy jest odrzucany
-- [ ] Przy 10 utworach z 1975–2026 lata rozkładają się na całą epokę, nie na jedną dekadę
+- [ ] Przy 10 utworach z 1970–2026 lata rozkładają się na całą epokę, nie na jedną dekadę
 - [ ] Zajęty rocznik jest widoczny i wyszarzony, nie znika z listy
 - [ ] Wybór można zmieniać przed `Zatwierdź` i nie można po
 - [ ] `Zatwierdź` bez wyboru roku jest możliwe, po potwierdzeniu, i kosztuje punkt

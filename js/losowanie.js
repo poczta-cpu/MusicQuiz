@@ -3,7 +3,7 @@
  *
  * Sedno: rocznikami nie losujemy równomiernie po całej liście, tylko dzielimy ją
  * na N koszyków i bierzemy po jednym z każdego. Czysto losowy wybór 10 lat
- * z przedziału 1975–2026 regularnie daje 8 piosenek z jednej dekady.
+ * z przedziału 1970–2026 regularnie daje 8 piosenek z jednej dekady.
  */
 
 import { pogrupujPoRocznikach, sprawdzKonfiguracje } from './dane.js';
@@ -79,7 +79,7 @@ export function przygotujGre(baza, konfiguracja, rng = losujDomyslnie) {
 
 /**
  * Rozrzut wylosowanych lat po epoce — używane w teście akceptacyjnym
- * „przy 10 utworach z 1975–2026 lata nie skupiają się w jednej dekadzie".
+ * „przy 10 utworach z 1970–2026 lata nie skupiają się w jednej dekadzie".
  * Zwraca liczbę różnych dekad.
  */
 export function liczbaDekad(lata) {

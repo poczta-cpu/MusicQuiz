@@ -114,8 +114,22 @@ function odswiezGre() {
   rysujKolumne();
 }
 
+/**
+ * Czy dolny przycisk mrozi listę, zamiast przesuwać arkusz dalej.
+ *
+ * Głównym progiem jest wypełniona kolumna — przy ręcznym liczniku gracz może
+ * przypisać wszystko i nie doklikać „Dalej" do końca. Ostatni utwór zostaje jako
+ * zabezpieczenie: `przejdzDalej()` nic tam już nie zrobi, więc bez tego warunku
+ * dałoby się utknąć bez drogi do klucza odpowiedzi.
+ */
+function czasNaZamrozenie() {
+  return arkusz.nieprzypisane().length === 0 || arkusz.ostatniUtwor;
+}
+
 function odswiezRundowy() {
   $('nieprzypisane-blok').classList.add('ukryte');
+  $('pod-lista').classList.add('ukryte');
+  $('pasek-dolny').classList.remove('ukryte');
 
   $('podtytul-gry').textContent = arkusz.wybor === null
     ? `Wolnych roczników: ${arkusz.wolneIndeksy().length}`
@@ -130,15 +144,20 @@ function odswiezRundowy() {
 function odswiezSwobodny() {
   rysujNieprzypisane();
 
+  // Sticky pasek zasłaniałby przycisk stojący pod kolumną lat — w tym trybie
+  // schodzi z ekranu, a jego rolę przejmuje #pod-lista.
+  $('pasek-dolny').classList.add('ukryte');
+  $('pod-lista').classList.remove('ukryte');
+
   const wRece = arkusz.podniesiony;
   $('podtytul-gry').textContent = wRece === null
     ? `Bez rocznika: ${arkusz.nieprzypisane().length}`
     : `W ręce Utwór ${wRece + 1} — wskaż rocznik`;
   $('podpowiedz-gry').textContent = 'Przypisania możesz przestawiać aż do zamrożenia listy.';
 
-  // Jeden przycisk na dole: przez całą grę przesuwa dalej, przy ostatnim
-  // utworze zamyka listę. Zamrożenie jest jedyną drogą do klucza odpowiedzi.
-  $('btn-zatwierdz').textContent = arkusz.ostatniUtwor ? 'Zamroź listę' : 'Dalej';
+  // Jeden przycisk pod listą: przez całą grę przesuwa dalej, a gdy kolumna jest
+  // pełna — zamyka listę. Zamrożenie jest jedyną drogą do klucza odpowiedzi.
+  $('btn-dalej').textContent = czasNaZamrozenie() ? 'Zamroź listę' : 'Dalej';
 }
 
 /** Utwory czekające na rocznik. Tapnięcie bierze utwór do ręki albo go odkłada. */
@@ -172,6 +191,7 @@ function rysujKolumne() {
 
   for (const w of arkusz.wiersze()) {
     const li = document.createElement('li');
+    li.className = 'wiersz-rocznika';
     const przycisk = document.createElement('button');
     przycisk.type = 'button';
 
@@ -216,15 +236,33 @@ function rysujKolumne() {
     }
 
     li.appendChild(przycisk);
+
+    // „✕" odsyła utwór z powrotem do puli. Osobny przycisk obok, nie w środku —
+    // zagnieżdżony button jest niepoprawny i przeglądarka go rozpina.
+    if (w.odpinalny) {
+      const odepnij = document.createElement('button');
+      odepnij.type = 'button';
+      odepnij.className = 'odepnij';
+      odepnij.textContent = '✕';
+      odepnij.setAttribute('aria-label', `Zdejmij ${w.etykieta.toLowerCase()} z roku ${w.rok}`);
+      odepnij.addEventListener('click', () => {
+        arkusz.odepnij(w.indeks);
+        zapiszStanGracza(stan);
+        odswiezGre();
+      });
+      li.appendChild(odepnij);
+    }
+
     lista.appendChild(li);
   }
 }
 
+$('btn-dalej').addEventListener('click', () => zamknijSwobodny());
+
 $('btn-zatwierdz').addEventListener('click', () => {
-  if (arkusz.swobodny) {
-    zamknijSwobodny();
-    return;
-  }
+  // W trybie swobodnym ten przycisk jest ukryty razem z paskiem, ale ukrycie to
+  // wciąż tylko klasa CSS — `zatwierdz()` rzuca w tym trybie, więc wychodzimy tu.
+  if (arkusz.swobodny) return;
 
   if (arkusz.czyPominiecie()) {
     // Pominiecie to swiadoma decyzja strategiczna, nie blad - ale pytamy (4.4).
@@ -244,15 +282,18 @@ $('btn-zatwierdz').addEventListener('click', () => {
 });
 
 /**
- * Tryb swobodny: dolny przycisk przesuwa arkusz dalej, a przy ostatnim utworze
- * mrozi listę. Utwory bez rocznika zostają pominięte — pytamy o to wprost,
+ * Tryb swobodny: przycisk pod listą przesuwa arkusz dalej, a gdy kolumna jest
+ * pełna — mrozi listę. Utwory bez rocznika zostają pominięte, pytamy o to wprost,
  * bo po zamrożeniu nie da się już nic poprawić.
  */
 function zamknijSwobodny() {
-  if (!arkusz.ostatniUtwor) {
+  if (!czasNaZamrozenie()) {
     arkusz.przejdzDalej();
     zapiszStanGracza(stan);
     odswiezGre();
+    // Kolejny utwór jest już w ręce, a żetony i licznik stoją u góry — wracamy
+    // tam płynnie, żeby gracz nie szukał ich po długiej kolumnie lat.
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
 
